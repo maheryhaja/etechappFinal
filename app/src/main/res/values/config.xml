@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="sharedPreferencesName" translatable="false">etech_app_preferences</string>
+    <string name="defaultStringEmpty" translatable="false">empty</string>
+
+</resources>

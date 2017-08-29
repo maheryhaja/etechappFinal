@@ -1,0 +1,17 @@
+<resources>
+
+    <declare-styleable name="TypefaceTextView">
+        <attr name="customTypeface" format="string" />
+    </declare-styleable>
+    <declare-styleable name="TypefaceEditText">
+        <attr name="customEditTypeface" format="string" />
+    </declare-styleable>
+    <declare-styleable name="ClearableEditTextHint">
+        <attr name="hint" format="string" />
+        <attr name="inputType" format="integer" />
+        <attr name="imeOptions" format="integer" />
+        <attr name="textSize" format="dimension" />
+        <attr name="padding" format="dimension" />
+    </declare-styleable>
+
+</resources>
