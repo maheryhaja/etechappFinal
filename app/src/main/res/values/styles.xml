@@ -16,4 +16,9 @@
         <item name="android:textSize">@dimen/general_font_size</item>
     </style>
 
+    <style name="general_typed_button">
+        <item name="android:padding">@dimen/general_padding</item>
+        <item name="android:layout_margin">@dimen/general_margin</item>
+    </style>
+
 </resources>

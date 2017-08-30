@@ -64,21 +64,21 @@
                 android:id="@+id/progressBtnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rond_shape"
+                android:background="@drawable/rond_shape_blue"
                 android:text="Se connecter"
                 app:spinning_bar_width="4dp"
                 app:spinning_bar_color="#FFF"
                 app:spinning_bar_padding="6dp"
                 android:layout_gravity="center"
-                android:padding="@dimen/general_padding"
-            />
+                style="@style/general_typed_button" />
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/btnSinscrire"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="S'inscrire"
-                android:background=""
+                android:background="@drawable/rond_shape_green"
+                style="@style/general_typed_button"
                 />
         </LinearLayout>
 

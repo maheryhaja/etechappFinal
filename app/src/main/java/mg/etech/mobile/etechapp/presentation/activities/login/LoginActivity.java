@@ -1,7 +1,9 @@
 package mg.etech.mobile.etechapp.presentation.activities.login;
 
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -18,6 +20,10 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.progressBtnLogin)
     CircularProgressButton btnLogin;
 
+    @ViewById(R.id.btnSinscrire)
+    CircularProgressButton btnSinscrire;
+
+
     @AfterViews
     public void initAfterViews() {
     }
@@ -25,5 +31,11 @@ public class LoginActivity extends AppCompatActivity {
     @Click(R.id.progressBtnLogin)
     void onLoginClicked(){
         btnLogin.startAnimation();
+    }
+
+    @Click(R.id.btnSinscrire)
+    void onSinscrireClicked() {
+        GradientDrawable gradientDrawable = (GradientDrawable) btnSinscrire.getBackground();
+        gradientDrawable.setColor(getResources().getColor(R.color.darkGray));
     }
 }
