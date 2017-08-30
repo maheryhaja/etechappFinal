@@ -28,7 +28,7 @@ import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
 
-    public static final int TOTAL_DURATION = 7000;
+    public static final int TOTAL_DURATION = 1500;
     public static final int NUMBER_OF_TICK = 15;
     @Bean(PreferenceSAImpl.class)
     PreferenceSA preferenceSA;

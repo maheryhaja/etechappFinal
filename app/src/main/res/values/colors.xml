@@ -6,5 +6,7 @@
     <color name="etechBlue">#1da0cc</color>
     <color name="etechGreen">#9fc802</color>
     <color name="etechBlack">#2b2b2b</color>
-
+    <color name="white">#ffffff</color>
+    <color name="darkGray">#444444</color>
+    <color name="etechBlueDark">#33acd4</color>
 </resources>

@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cicrular_border_width">7dp</dimen>
+    <dimen name="general_padding">15dp</dimen>
+    <dimen name="general_padding1_5x">22dp</dimen>
+    <dimen name="general_padding2x">30dp</dimen>
+    <dimen name="general_font_size">21sp</dimen>
 </resources>

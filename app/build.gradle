@@ -72,8 +72,13 @@ dependencies {
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     //for drawing the splash screen
     compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
+    //rounded Image
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    //diagonal Layout
+    compile 'com.github.florent37:diagonallayout:1.0.7'
 
-
+    //LoadingButton
+    compile 'br.com.simplepass:loading-button-android:1.8.0'
 
 }
 
@@ -83,7 +88,5 @@ def AAVersion = '4.3.1'
 dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-
-
 
 }
