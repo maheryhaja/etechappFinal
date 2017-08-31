@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="base_url">https://42answers.000webhostapp.com</string>
+
+    <!--les urls se rapportants aux users -->
+
+    <!--Log user -->
+    <string name="url_log_user">/user/login</string>
+    <!-- creation d'un utilisateur -->
+    <string name="url_create_user">/user/create</string>
+
+
+</resources>

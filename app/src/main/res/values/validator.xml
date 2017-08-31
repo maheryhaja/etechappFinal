@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="mois">janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre</string>
+    <string name="ok">OK</string>
+
+</resources>

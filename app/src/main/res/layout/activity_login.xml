@@ -46,12 +46,15 @@
             android:orientation="vertical"
             >
             <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                android:id="@+id/edtLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Identifiant"
-                style="@style/edt_general_style" />
+                style="@style/edt_general_style"
+                />
 
             <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Mot de passe"
