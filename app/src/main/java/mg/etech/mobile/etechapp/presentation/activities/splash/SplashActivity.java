@@ -41,10 +41,7 @@ public class SplashActivity extends AppCompatActivity {
     public void initAfterViews() {
         initializeIntervalObservable();
 
-        if (preferenceSA.isUserConnected()) {
-            //   goToMainActivity();
-        } else {
-            //   goToLoginActivity();
+
             fiveSecondsObservable
                     .subscribe(new Consumer<Integer>() {
                                    @Override
@@ -61,13 +58,18 @@ public class SplashActivity extends AppCompatActivity {
                             new Action() {
                                 @Override
                                 public void run() throws Exception {
-                                    goToLoginActivity();
+                                    if (preferenceSA.isUserConnected()) {
+                                        goToMainActivity();
+                                    } else {
+                                        goToLoginActivity();
+                                    }
+
                                 }
                             }
                     );
         }
 
-    }
+
 
     private void initializeIntervalObservable() {
         fiveSecondsObservable = Observable
@@ -96,12 +98,14 @@ public class SplashActivity extends AppCompatActivity {
     // go to Login Activity
     private void goToLoginActivity() {
         LoginActivity_.intent(this).start();
+        finish();
     }
 
 
     //vers Main Activity
     private void goToMainActivity() {
         MainActivity_.intent(this).start();
+        finish();
     }
 
 }

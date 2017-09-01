@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity"
     android:background="@color/etechBlack"
+    android:id="@+id/layoutLoginRoot"
     >
 
     <com.github.florent37.diagonallayout.DiagonalLayout

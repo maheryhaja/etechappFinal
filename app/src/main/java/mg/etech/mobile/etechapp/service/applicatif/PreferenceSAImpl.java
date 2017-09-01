@@ -19,4 +19,10 @@ public class PreferenceSAImpl implements PreferenceSA {
     public boolean isUserConnected() {
         return preferences.getBool(Session.IS_CONNECTED_PREF);
     }
+
+    @Override
+    public void setUserConnected(boolean isConnected) {
+        preferences.setBool(Session.IS_CONNECTED_PREF, isConnected);
+    }
+
 }

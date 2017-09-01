@@ -1,6 +1,7 @@
 package mg.etech.mobile.etechapp.service.businessDelegate.user;
 
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
+import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.donnee.wsdto.UserWsDto;
 
 /**
@@ -8,4 +9,6 @@ import mg.etech.mobile.etechapp.donnee.wsdto.UserWsDto;
  */
 public interface Userbdl {
     UserWsDto logUser(String login, String password) throws LoginFailedException;
+
+    UserWsDto createUser(UserDto userDto);
 }

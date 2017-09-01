@@ -9,7 +9,7 @@ import mg.etech.mobile.etechapp.donnee.wsdto.UserWsDto;
  * Created by mahery.haja on 31/08/2017.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserCreateResponse {
+public class CreateUserResponse {
     @JsonProperty("success")
     private boolean success;
 

@@ -1,8 +1,9 @@
 package mg.etech.mobile.etechapp.presentation.activities.login;
 
-import android.graphics.drawable.GradientDrawable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -10,13 +11,23 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.concurrent.Callable;
+
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
 import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactoryImpl;
+import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.presentation.activities.AbstractActivity;
+import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
+import mg.etech.mobile.etechapp.service.applicatif.PreferenceSA;
+import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.UserSA;
 import mg.etech.mobile.etechapp.service.applicatif.UserSAImpl;
 
@@ -29,6 +40,12 @@ public class LoginActivity extends AbstractActivity {
     @ViewById(R.id.btnSinscrire)
     CircularProgressButton btnSinscrire;
 
+    @ViewById(R.id.layoutLoginRoot)
+    RelativeLayout layoutLoginRoot;
+
+
+    @Bean(PreferenceSAImpl.class)
+    PreferenceSA preferenceSA;
 
     @Required(order = 1, messageResId = R.string.required_mail)
     @ViewById(R.id.edtLogin)
@@ -60,41 +77,70 @@ public class LoginActivity extends AbstractActivity {
     void onSinscrireClicked() {
     }
 
-    private void setBtnSinscrireStat(boolean stat){
-        GradientDrawable gradientDrawable = (GradientDrawable) btnSinscrire.getBackground();
-        if (stat) {
-            gradientDrawable.setColor(getResources().getColor(R.color.darkGray));
-        } else {
-
-        }
-    }
-
     @Override
     public void validationSucceeded() {
         btnLogin.startAnimation();
 
-//        Observable
-//                .fromCallable(new Callable<UserDto>() {
-//                    @Override
-//                    public UserDto call() throws Exception {
-//                        UserDto resUserDto = userSA.logIn(edtLogin.getText().toString(), edtPassword.getText().toString());
-//                        return resUserDto;
-//                    }
-//                })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<UserDto>() {
-//                    @Override
-//                    public void accept(UserDto userDto) throws Exception {
-//                    Log.d("mahery-haja",userDto.getFirstName());
-//                    }
-//                });
+        Observable
+                .fromCallable(new Callable<UserDto>() {
+                    @Override
+                    public UserDto call() throws Exception {
+                        // userSA call
+                        UserDto resUserDto = userSA.logIn(edtLogin.getText().toString(), edtPassword.getText().toString());
+                        return resUserDto;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<UserDto>() {
+                               @Override
+                               public void accept(UserDto userDto) throws Exception {
+                                   Log.d("mahery-haja", userDto.getFirstName());
+                                   onLoginSuccessFull(userDto);
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                // on Some rerrors
+                                handleLoginErrors(throwable);
+                            }
+                        }
+                );
 
-        try {
-            Log.d("mahery-haja", userSA.logIn(edtLogin.getText().toString(), edtPassword.getText().toString()).getFirstName());
-        } catch (LoginFailedException e) {
-            e.printStackTrace();
+
+
+    }
+
+    private void handleLoginErrors(Throwable throwable) {
+
+        btnLogin.revertAnimation();
+        // handle error
+
+        if (throwable instanceof LoginFailedException) {
+            Snackbar
+                    .make(layoutLoginRoot, "Login failde sorry", Snackbar.LENGTH_LONG)
+                    .show();
+        } else {
+
         }
 
+    }
+
+    private void onLoginSuccessFull(UserDto userDto) {
+        //handle login successfull
+        preferenceSA.setUserConnected(true);
+        goToMainActivity();
+        finish();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    public void goToMainActivity() {
+        MainActivity_.intent(this).start();
     }
 }

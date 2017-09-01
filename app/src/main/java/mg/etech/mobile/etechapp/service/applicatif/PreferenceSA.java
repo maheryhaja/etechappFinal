@@ -5,4 +5,6 @@ package mg.etech.mobile.etechapp.service.applicatif;
  */
 public interface PreferenceSA {
     boolean isUserConnected();
+
+    void setUserConnected(boolean isConnected);
 }

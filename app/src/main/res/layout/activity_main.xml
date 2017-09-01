@@ -15,4 +15,13 @@
         android:text="Bienvenue dans activity main"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="logout"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:id="@+id/btnLogout"
+        />
+
 </RelativeLayout>

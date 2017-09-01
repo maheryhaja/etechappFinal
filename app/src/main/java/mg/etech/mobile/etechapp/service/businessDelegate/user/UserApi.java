@@ -2,30 +2,28 @@ package mg.etech.mobile.etechapp.service.businessDelegate.user;
 
 import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 import mg.etech.mobile.etechapp.service.businessDelegate.user.reponses.LoginUserResponse;
-import mg.etech.mobile.etechapp.service.businessDelegate.user.reponses.UserCreateResponse;
-import retrofit2.http.FormUrlEncoded;
+import mg.etech.mobile.etechapp.service.businessDelegate.user.reponses.CreateUserResponse;
+import mg.etech.mobile.etechapp.service.businessDelegate.user.request.CreateUserRequest;
+import mg.etech.mobile.etechapp.service.businessDelegate.user.request.LoginUserRequest;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /**
  * Created by mahery.haja on 31/08/2017.
  */
 public interface UserApi {
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @POST(ConfigUrl.User.CREATE_USER)
-    UserCreateResponse createUser(
-            @Query("firstname") String firstName,
-            @Query("lastname") String lastname,
-            @Query("login") String login,
-            @Query("password") String password,
-            @Query("encodedPhoto") String encodedPhoto
+    Call<CreateUserResponse> createUser(
+            @Body CreateUserRequest request
     );
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @POST(ConfigUrl.User.LOG_USER)
-    LoginUserResponse logUser(
-            @Query("login") String login,
-            @Query("password") String password
+    Call<LoginUserResponse> logUser(
+            @Body LoginUserRequest request
     );
 }

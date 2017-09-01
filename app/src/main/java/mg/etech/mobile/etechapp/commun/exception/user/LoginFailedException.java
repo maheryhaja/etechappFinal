@@ -6,4 +6,8 @@ package mg.etech.mobile.etechapp.commun.exception.user;
 
 public class LoginFailedException extends Exception{
 
+    @Override
+    public String getMessage() {
+        return "Login Failed exception";
+    }
 }
