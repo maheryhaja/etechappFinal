@@ -8,6 +8,7 @@ import org.androidannotations.annotations.EBean;
 
 import java.io.IOException;
 
+import mg.etech.mobile.etechapp.commun.exception.user.CreateUserFailedException;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingleton;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingletonImpl;
@@ -54,7 +55,7 @@ public class UserbdlImpl implements Userbdl{
     }
 
     @Override
-    public UserWsDto createUser(UserDto userDto) {
+    public UserWsDto createUser(UserDto userDto) throws CreateUserFailedException {
         CreateUserResponse createUserResponse = null;
         try {
             createUserResponse = userApi.createUser(
@@ -68,8 +69,12 @@ public class UserbdlImpl implements Userbdl{
             ).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
+            Log.d("mahery-haja","IO_EXCEPTION");
         }
 
+        if (!createUserResponse.isSuccess()) {
+            throw new CreateUserFailedException();
+        }
         return createUserResponse.getUser();
     }
 }

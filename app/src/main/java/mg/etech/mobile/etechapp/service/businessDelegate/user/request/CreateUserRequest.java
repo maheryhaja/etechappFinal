@@ -8,10 +8,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateUserRequest {
-    @JsonProperty("firstname")
+    @JsonProperty("firstName")
     private String firstname;
 
-    @JsonProperty("lastname")
+    @JsonProperty("lastName")
     private String lastname;
 
     @JsonProperty("password")

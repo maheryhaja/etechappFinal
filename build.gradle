@@ -19,7 +19,7 @@ allprojects {
         maven { url "http://maven.springframework.org/release" }
         maven { url "https://maven.fabric.io/public" }
         maven { url "https://maven.google.com" }
-
+        maven { url "https://jitpack.io" }
     }
 }
 

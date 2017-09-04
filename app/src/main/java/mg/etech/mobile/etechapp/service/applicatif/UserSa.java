@@ -1,5 +1,6 @@
 package mg.etech.mobile.etechapp.service.applicatif;
 
+import mg.etech.mobile.etechapp.commun.exception.user.CreateUserFailedException;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
 import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 
@@ -8,4 +9,6 @@ import mg.etech.mobile.etechapp.donnee.dto.UserDto;
  */
 public interface UserSA {
     UserDto logIn(String login, String password) throws LoginFailedException;
+
+    UserDto createUser(UserDto newUser) throws CreateUserFailedException;
 }

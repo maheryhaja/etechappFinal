@@ -25,6 +25,7 @@ import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
 import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactoryImpl;
 import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.presentation.activities.AbstractActivity;
+import mg.etech.mobile.etechapp.presentation.activities.inscription.InscriptionActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSA;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
@@ -75,6 +76,7 @@ public class LoginActivity extends AbstractActivity {
 
     @Click(R.id.btnSinscrire)
     void onSinscrireClicked() {
+        InscriptionActivity_.intent(this).start();
     }
 
     @Override

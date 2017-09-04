@@ -37,7 +37,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0-alpha2'
+    compile 'com.android.support:appcompat-v7:23.0.0'
 
     compile 'com.android.support:design:23+'
     compile 'de.greenrobot:eventbus:2.4.0'
@@ -87,6 +87,16 @@ dependencies {
     //for auto mapping
     compile 'org.modelmapper:modelmapper:1.1.0'
 
+    //image cropper
+    //compatible ave sdk 23
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.3.1'
+
+    //for activity register a la Rx
+    compile 'com.github.VictorAlbertos:RxActivityResult:0.4.5-2.x'
+
+    //for debugging request
+    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 }
 
 apply plugin: 'android-apt'
@@ -96,4 +106,10 @@ dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
 
+}
+dependencies {
+    compile 'com.android.support:support-v4:23.+'
+}
+dependencies {
+    compile 'com.android.support:support-v4:23.+'
 }

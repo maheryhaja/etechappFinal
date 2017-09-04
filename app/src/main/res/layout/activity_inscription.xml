@@ -7,6 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="mg.etech.mobile.etechapp.presentation.activities.inscription.InscriptionActivity">
+    tools:context="mg.etech.mobile.etechapp.presentation.activities.inscription.InscriptionActivity"
+    android:background="@color/etechBlack"
+    >
+
+    <fragment
+        android:id="@+id/fragmentInscrireUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:name="mg.etech.mobile.etechapp.presentation.fragments.user.InscrireUserFragment_"
+        tools:layout="@layout/fragment_inscrire_user">
+        </fragment>
+
 
 </RelativeLayout>

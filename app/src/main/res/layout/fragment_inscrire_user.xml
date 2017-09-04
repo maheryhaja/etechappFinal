@@ -1,0 +1,63 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mg.etech.mobile.etechapp.presentation.fragments.user.InscrireUserFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/general_padding"
+        >
+
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+            android:id="@+id/edtCreateUserIdentifaint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_votre_identifiant"
+            style="@style/edt_general_style"
+            />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_nom"
+            android:id="@+id/edtCreateUserNom"
+            style="@style/edt_general_style"
+            />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_prenom"
+            style="@style/edt_general_style"
+            android:id="@+id/edtCreateUserPrenom"
+            />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_password"
+            style="@style/edt_general_style"
+            android:id="@+id/edtCreateUserPassword"
+            android:inputType="textPassword"
+            />
+
+        <mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker_
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/b64Picker"
+            android:gravity="center"
+            ></mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker_>
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_btn_valider_inscription"
+            android:background="@drawable/rond_shape_blue"
+            android:id="@+id/btnValiderInscription"
+            />
+    </LinearLayout>
+
+</FrameLayout>
