@@ -1,18 +1,19 @@
 apply plugin: 'com.android.application'
-
+//devrai etre ignored
 android {
     compileSdkVersion 25
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "mg.etech.mobile.etechapp"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -96,6 +97,9 @@ dependencies {
     //for debugging request
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
+    //FLIPVIEW
+    compile 'eu.davidea:flipview:1.1.3'
 }
 
 apply plugin: 'android-apt'

@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.AttributeSet;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -16,8 +19,13 @@ import android.widget.Toast;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.StringArrayRes;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -36,6 +44,9 @@ public class Base64PhotoPicker extends LinearLayout {
 
     public static final int UPLOAD_PHOTO_REQUEST_CODE = 101;
     private boolean isSet = false;
+    private Uri photoTakenURI;
+    private Consumer<String> onSelectedPhotoSucceed;
+    private Consumer<Throwable> onNoPhotoSelected;
 
     public String getValue() {
         return value;
@@ -52,6 +63,41 @@ public class Base64PhotoPicker extends LinearLayout {
 
     public Base64PhotoPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        onSelectedPhotoSucceed = new Consumer<String>() {
+
+            @Override
+            public void accept(String s) throws Exception {
+                isSet = true;
+                value = s;
+            }
+        };
+        onNoPhotoSelected = new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                // aucun resultat
+            }
+        };
+    }
+
+
+
+
+    String mCurrentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
     public boolean isSet() {
@@ -86,31 +132,82 @@ public class Base64PhotoPicker extends LinearLayout {
                     @Override
                     public String apply(@NonNull Uri uri) throws Exception {
                         //convert uri to bitmap
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byte[] image = stream.toByteArray();
-
-                        String encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
+                        String encodedImage = convertToBase64(uri);
 
                         return encodedImage;
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
+                .subscribe(onSelectedPhotoSucceed,
+                        onNoPhotoSelected
+                );
+    }
 
-                    @Override
-                    public void accept(String s) throws Exception {
-                        isSet = true;
-                        value = s;
-                    }
-                });
+    private String convertToBase64(@NonNull Uri uri) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] image = stream.toByteArray();
+
+        return Base64.encodeToString(image, Base64.DEFAULT);
     }
 
     @Click(R.id.btnTakePhoto)
     void onTakePhotoClicked() {
         Toast.makeText(Base64PhotoPicker.this.getContext(), "vous voulez prendre une photo", Toast.LENGTH_SHORT).show();
+
+        //Create intent for taking photo
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                photoTakenURI = FileProvider.getUriForFile(getContext(),
+                        "mg.etech.mobile.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoTakenURI);
+
+                RxActivityResult
+                        .on((Activity) getContext())
+                        .startIntent(takePictureIntent)
+                        .map(new Function<Result<Activity>, Uri>() {
+                            @Override
+                            public Uri apply(@NonNull Result<Activity> activityResult) throws Exception {
+                                Intent data = activityResult.data();
+                                Uri uri = null;
+                                int resulCode = activityResult.resultCode();
+                                if (resulCode == Activity.RESULT_OK) {
+                                    uri = photoTakenURI;
+
+                                }
+                                return uri;
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .map(new Function<Uri, String>() {
+                            @Override
+                            public String apply(@NonNull Uri uri) throws Exception {
+                                return convertToBase64(uri);
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(onSelectedPhotoSucceed, onNoPhotoSelected);
+
+
+
+            }
+        }
+
+
     }
 
 }

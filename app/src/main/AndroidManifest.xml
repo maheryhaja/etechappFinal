@@ -34,6 +34,17 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             ></activity>
 
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="mg.etech.mobile.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>
