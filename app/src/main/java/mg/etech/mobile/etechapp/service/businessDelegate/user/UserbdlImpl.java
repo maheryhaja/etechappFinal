@@ -75,6 +75,7 @@ public class UserbdlImpl implements Userbdl{
         if (!createUserResponse.isSuccess()) {
             throw new CreateUserFailedException();
         }
+        Log.d("mahery-haja", "creation successfull");
         return createUserResponse.getUser();
     }
 }

@@ -6,7 +6,7 @@ import org.androidannotations.annotations.EBean;
 import mg.etech.mobile.etechapp.commun.exception.user.CreateUserFailedException;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
 import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactory;
-import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactoryImpl;
+import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactoryImpl2;
 import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.service.businessDelegate.user.Userbdl;
 import mg.etech.mobile.etechapp.service.businessDelegate.user.UserbdlImpl;
@@ -20,7 +20,7 @@ public class UserSAImpl implements UserSA {
     @Bean(UserbdlImpl.class)
     Userbdl userbdl;
 
-    @Bean(UserDtoFromWSFactoryImpl.class)
+    @Bean(UserDtoFromWSFactoryImpl2.class)
     UserDtoFromWSFactory userDtoFromWSFactory;
 
     @Override

@@ -1,8 +1,8 @@
 package mg.etech.mobile.etechapp.contrainte.factory;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.typetools.TypeResolver;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,27 +13,41 @@ import java.util.List;
 public class BaseFactory<SOURCE, DESTINATION> implements DtoFactory<SOURCE, DESTINATION> {
 
     private ModelMapper modelMapper = new ModelMapper();
+    protected Class<SOURCE> sourceClass;
+    protected Class<DESTINATION> destinationClass;
+
+    public BaseFactory() {
+        Class<?>[] typeArguments = TypeResolver.resolveRawArguments(BaseFactory.class, getClass());
+        this.sourceClass = (Class<SOURCE>) typeArguments[0];
+        this.destinationClass = (Class<DESTINATION>) typeArguments[1];
+    }
 
     @Override
-
     public DESTINATION getInstance() {
-        return null;
+        DESTINATION destination = null;
+        try {
+            destination = (DESTINATION) Class.forName(destinationClass.toString()).newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return destination;
     }
 
     @Override
     public DESTINATION getInstance(SOURCE dObj) {
-        return (DESTINATION) modelMapper.map(dObj, getClassName(1));
+        return modelMapper.map(dObj, destinationClass);
     }
 
     @Override
     public List<DESTINATION> getInstance(Collection<SOURCE> dObjs) {
         List<DESTINATION> reps = new ArrayList<>();
-        for(SOURCE elem: dObjs)
+        for (SOURCE elem : dObjs)
             reps.add(getInstance(elem));
         return reps;
     }
 
-    private Class getClassName(int i) {
-        return ((Class<DESTINATION>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[i]);
-    }
 }

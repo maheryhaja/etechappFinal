@@ -2,10 +2,12 @@ package mg.etech.mobile.etechapp.presentation.customviews;
 
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -14,12 +16,10 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringArrayRes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -121,9 +121,7 @@ public class Base64PhotoPicker extends LinearLayout {
                         int resulCode = activityResult.resultCode();
                         if (resulCode == Activity.RESULT_OK) {
                             uri = data.getData();
-
                         }
-
                         return uri;
                     }
                 })
@@ -133,7 +131,6 @@ public class Base64PhotoPicker extends LinearLayout {
                     public String apply(@NonNull Uri uri) throws Exception {
                         //convert uri to bitmap
                         String encodedImage = convertToBase64(uri);
-
                         return encodedImage;
                     }
                 })
@@ -145,7 +142,7 @@ public class Base64PhotoPicker extends LinearLayout {
 
     private String convertToBase64(@NonNull Uri uri) throws IOException {
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-
+        Log.d("mahery-haja", "concersion de " + uri);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] image = stream.toByteArray();
@@ -155,11 +152,11 @@ public class Base64PhotoPicker extends LinearLayout {
 
     @Click(R.id.btnTakePhoto)
     void onTakePhotoClicked() {
-        Toast.makeText(Base64PhotoPicker.this.getContext(), "vous voulez prendre une photo", Toast.LENGTH_SHORT).show();
 
         //Create intent for taking photo
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
+
         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
@@ -176,6 +173,15 @@ public class Base64PhotoPicker extends LinearLayout {
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoTakenURI);
 
+                if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.JELLY_BEAN) {
+                    ClipData clip=
+                            ClipData.newUri(getContext().getContentResolver(), "photo", photoTakenURI);
+
+                    takePictureIntent.setClipData(clip);
+                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                }
+
+
                 RxActivityResult
                         .on((Activity) getContext())
                         .startIntent(takePictureIntent)
@@ -188,6 +194,8 @@ public class Base64PhotoPicker extends LinearLayout {
                                 if (resulCode == Activity.RESULT_OK) {
                                     uri = photoTakenURI;
 
+                                } else {
+                                    Log.d("mahery-haja","erreur de la camera");
                                 }
                                 return uri;
                             }

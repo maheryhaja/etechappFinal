@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="mg.etech.mobile.etechapp.presentation.fragments.user.InscrireUserFragment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,13 +52,20 @@
             android:gravity="center"
             ></mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker_>
 
-        <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_btn_valider_inscription"
             android:background="@drawable/rond_shape_blue"
             android:id="@+id/btnValiderInscription"
+
+            app:spinning_bar_width="4dp"
+            app:spinning_bar_color="#FFF"
+            app:spinning_bar_padding="6dp"
+
+            android:layout_gravity="center"
             />
+
     </LinearLayout>
 
 </FrameLayout>

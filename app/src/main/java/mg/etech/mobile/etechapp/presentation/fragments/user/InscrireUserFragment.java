@@ -1,22 +1,28 @@
 package mg.etech.mobile.etechapp.presentation.fragments.user;
 
 
+import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.concurrent.Callable;
+
+import javax.net.ssl.SSLException;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.exception.HandleErrors;
@@ -56,6 +62,10 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
 
     @Bean(UserSAImpl.class)
     UserSA userSA;
+
+
+    @ViewById(R.id.btnValiderInscription)
+    CircularProgressButton btnValiderInscription;
 
 
     @AfterViews
@@ -101,21 +111,26 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
 
     public void inscrireUser(final UserDto userDto) {
 
+        btnValiderInscription.startAnimation();
+
         Observable
-                .just(userDto)
-                .subscribeOn(Schedulers.io())
-                .map(new Function<UserDto, UserDto>() {
+                .fromCallable(new Callable<UserDto>() {
+
                     @Override
-                    public UserDto apply(@NonNull UserDto userDto) throws Exception {
-                        Log.d("mahery-haja",userDto.getPhoto());
-                        return userSA.createUser(userDto);
+                    public UserDto call() throws Exception {
+                        UserDto user = userSA.createUser(userDto);
+                        Log.d("mahery-haja","creation success test "+user.getLogin());
+                        return user;
                     }
                 })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<UserDto>() {
                                @Override
                                public void accept(UserDto userDto) throws Exception {
                                    onCreateSuccess(userDto);
+
+
                                }
                            },
                         new Consumer<Throwable>() {
@@ -123,14 +138,22 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
                             public void accept(Throwable throwable) throws Exception {
                                 //on errors
                                 handleError(throwable);
+                                btnValiderInscription.revertAnimation();
                             }
                         }
 
                 );
     }
 
+    @Background(delay = 1000)
+    void gotoLoginActivity() {
+        ((Activity)getContext()).finish();
+    }
+
     private void onCreateSuccess(UserDto userDto) {
         Log.d("mahery-haja", userDto.getLastname());
+        btnValiderInscription.doneLoadingAnimation(getResources().getColor(R.color.etechGreen), BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_checked));
+        gotoLoginActivity();
     }
 
 
@@ -141,8 +164,12 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
 
             Log.d("mahery-haja","Create User Failed");
 
+        } else if (error instanceof SSLException) {
+            Toast.makeText(InscrireUserFragment.this.getContext(), "Probleme de connexion, veuillez reessayer", Toast.LENGTH_SHORT).show();
         } else {
-            Log.d("mahery-haja","Another exception");
+
+
+            Log.d("mahery-haja", "Another exception " + error.getMessage());
             error.printStackTrace();
         }
     }

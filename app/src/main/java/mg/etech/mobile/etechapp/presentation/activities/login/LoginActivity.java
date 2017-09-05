@@ -1,11 +1,13 @@
 package mg.etech.mobile.etechapp.presentation.activities.login;
 
+import android.graphics.BitmapFactory;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -132,8 +134,9 @@ public class LoginActivity extends AbstractActivity {
     private void onLoginSuccessFull(UserDto userDto) {
         //handle login successfull
         preferenceSA.setUserConnected(true);
+        btnSinscrire.doneLoadingAnimation(getResources().getColor(R.color.etechGreen), BitmapFactory.decodeResource(getResources(), R.drawable.ic_checked));
         goToMainActivity();
-        finish();
+
 
     }
 
@@ -142,7 +145,10 @@ public class LoginActivity extends AbstractActivity {
         finish();
     }
 
-    public void goToMainActivity() {
+
+    @Background(delay = 2000)
+    void goToMainActivity() {
         MainActivity_.intent(this).start();
+        finish();
     }
 }

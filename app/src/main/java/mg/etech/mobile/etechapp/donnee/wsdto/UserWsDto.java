@@ -15,7 +15,7 @@ public class UserWsDto {
     @JsonProperty("firstName")
     private String firstName;
 
-    @JsonProperty("lastname")
+    @JsonProperty("lastName")
     private String lastname;
 
     @JsonProperty("login")
