@@ -29,7 +29,7 @@ import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.presentation.activities.AbstractActivity;
 import mg.etech.mobile.etechapp.presentation.activities.inscription.InscriptionActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
-import mg.etech.mobile.etechapp.service.applicatif.PreferenceSA;
+import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.UserSA;
 import mg.etech.mobile.etechapp.service.applicatif.UserSAImpl;

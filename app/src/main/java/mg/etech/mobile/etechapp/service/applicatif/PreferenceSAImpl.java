@@ -5,6 +5,7 @@ import org.androidannotations.annotations.EBean;
 
 import mg.etech.mobile.etechapp.commun.constante.Session;
 import mg.etech.mobile.etechapp.commun.utils.preference.PreferencesSingleton;
+import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
 
 /**
  * Created by mahery.haja on 29/08/2017.

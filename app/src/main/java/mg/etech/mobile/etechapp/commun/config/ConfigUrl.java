@@ -11,4 +11,9 @@ public class ConfigUrl {
         public static final String LOG_USER = "/user/login";
         public static final String CREATE_USER = "/user/create";
     }
+
+    public static class Pole {
+        public static final String FIND_ALL = "/pole/getAll";
+    }
+
 }

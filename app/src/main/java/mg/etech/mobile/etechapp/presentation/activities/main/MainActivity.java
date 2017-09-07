@@ -14,7 +14,7 @@ import org.androidannotations.annotations.ViewById;
 
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
-import mg.etech.mobile.etechapp.service.applicatif.PreferenceSA;
+import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 
 @EActivity(R.layout.activity_main)
