@@ -4,7 +4,7 @@
 
     <!--les urls se rapportants aux users -->
 
-    <!--Log user -->
+    <!--Log User -->
     <string name="url_log_user">/user/login</string>
     <!-- creation d'un utilisateur -->
     <string name="url_create_user">/user/create</string>

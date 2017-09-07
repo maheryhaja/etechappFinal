@@ -1,7 +1,10 @@
 package mg.etech.mobile.etechapp.donnee.domainobject;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.Collection;
 
 /**
  * Created by mahery.haja on 05/09/2017.
@@ -17,6 +20,9 @@ public class Pole {
 
     @DatabaseField(columnName = "idServer")
     private String idServer;
+
+    @ForeignCollectionField(eager = true)
+    private Collection<Employe> employes;
 
     public Long getId() {
         return id;
