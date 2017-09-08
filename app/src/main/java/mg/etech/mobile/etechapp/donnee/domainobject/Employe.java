@@ -11,7 +11,7 @@ import java.util.Date;
 @DatabaseTable(tableName = "Employe")
 public class Employe {
 
-    @DatabaseField(generatedId = true, unique = true, columnName = "id")
+    @DatabaseField(unique = true, columnName = "id", id = true)
     private Long id;
 
     @DatabaseField(columnName = "firstName")

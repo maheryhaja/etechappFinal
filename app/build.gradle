@@ -103,6 +103,13 @@ dependencies {
 
     //using typetools XD
 //    compile 'net.jodah:typetools:0.5.0'
+
+    //flexible adapter for better recycleview
+    compile 'eu.davidea:flexible-adapter:5.0.0-b7'
+
+    //swipeable header [a utiliser temporairement] pour les view Pager
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+
 }
 
 apply plugin: 'android-apt'
@@ -112,6 +119,9 @@ dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
 
+}
+dependencies {
+    compile 'com.android.support:support-v4:23.+'
 }
 dependencies {
     compile 'com.android.support:support-v4:23.+'

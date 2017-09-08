@@ -9,6 +9,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import mg.etech.mobile.etechapp.commun.exception.TechnicalException;
+import mg.etech.mobile.etechapp.donnee.domainobject.Employe;
 import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
 
 
@@ -40,6 +41,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //		create tables here	TableUtils.createTable(connectionSource,Users.class);
 
 			TableUtils.createTable(connectionSource, Pole.class);
+			TableUtils.createTable(connectionSource, Employe.class);
 		}
 	catch (SQLException e) {
 		throw new TechnicalException(e);
@@ -56,6 +58,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 //			TableUtils.dropTable(connectionSource, Users.class, false); drop Table here
 
 			TableUtils.dropTable(connectionSource, Pole.class, false);
+			TableUtils.dropTable(connectionSource, Employe.class, false);
 			onCreate(db);
 		} catch(Exception ex) {
 			throw new TechnicalException(ex);

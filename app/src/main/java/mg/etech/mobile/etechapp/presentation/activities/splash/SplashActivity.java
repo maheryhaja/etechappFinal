@@ -22,8 +22,8 @@ import io.reactivex.functions.Predicate;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
-import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
 
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
@@ -36,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
     @ViewById(R.id.circularFillableSplash)
     CircularFillableLoaders fillableLoader;
     private Observable<Integer> fiveSecondsObservable;
+
 
     @AfterViews
     public void initAfterViews() {
@@ -63,7 +64,6 @@ public class SplashActivity extends AppCompatActivity {
                                     } else {
                                         goToLoginActivity();
                                     }
-
                                 }
                             }
                     );

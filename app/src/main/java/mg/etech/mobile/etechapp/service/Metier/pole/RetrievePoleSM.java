@@ -9,4 +9,6 @@ import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
  */
 public interface RetrievePoleSM {
     List<Pole> findAll();
+
+    Pole findById(Long id);
 }

@@ -12,6 +12,9 @@ public interface PoleSA {
 
     void create(PoleDto poleDto);
 
+    void create(List<PoleDto> poleDtos);
+
+
     void deleteAll();
 }
 

@@ -49,4 +49,9 @@ public class PoleSAImpl implements PoleSA {
     public void deleteAll() {
         createUpdateDeletePoleSM.deleteAll();
     }
+
+    @Override
+    public void create(List<PoleDto> poleDtos) {
+        createUpdateDeletePoleSM.create(poleFromDtoFactory.getInstance(poleDtos));
+    }
 }

@@ -12,7 +12,7 @@ import java.util.Collection;
 @DatabaseTable(tableName = "pole")
 public class Pole {
 
-    @DatabaseField(columnName = "id", generatedId = true, unique = true)
+    @DatabaseField(columnName = "id", unique = true, id = true)
     private Long id;
 
     @DatabaseField(columnName = "name")
@@ -47,4 +47,13 @@ public class Pole {
     public void setIdServer(String idServer) {
         this.idServer = idServer;
     }
+
+    public Collection<Employe> getEmployes() {
+        return employes;
+    }
+
+    public void setEmployes(Collection<Employe> employes) {
+        this.employes = employes;
+    }
 }
+

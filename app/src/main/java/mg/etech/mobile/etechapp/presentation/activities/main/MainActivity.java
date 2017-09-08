@@ -1,21 +1,32 @@
 package mg.etech.mobile.etechapp.presentation.activities.main;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
+import android.util.Log;
 
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
-import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
+import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapter;
+import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapterBuilder;
+import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapterBuilderImpl;
+import mg.etech.mobile.etechapp.presentation.fragments.employe.list.ListEmployeFragment_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
+import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSA;
+import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
@@ -24,8 +35,17 @@ public class MainActivity extends AppCompatActivity {
     @Bean(PreferenceSAImpl.class)
     PreferenceSA preferenceSA;
 
-    @ViewById(R.id.myImageView)
-    ImageView mImageView;
+    @ViewById(R.id.viewPagerMain)
+    ViewPager viewPager;
+
+    @ViewById(R.id.mainViewPagerTab)
+    SmartTabLayout viewPagerTab;
+
+    @Bean(PoleSAImpl.class)
+    PoleSA poleSA;
+
+    @Bean(EmployeSAImpl.class)
+    EmployeSA employeSA;
 
     @Click(R.id.btnLogout)
     void logoutClicked() {
@@ -35,20 +55,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Click(R.id.btnPrendrePhoto)
-    public void prendrePhoto() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+    @AfterViews
+    void initAfterViews() {
+        initViewPager();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(imageBitmap);
+    private void initViewPager() {
+        MainPagerAdapterBuilder mainPagerAdapterBuilder = new MainPagerAdapterBuilderImpl()
+                .withFragmentManager(getSupportFragmentManager());
+
+        List<PoleDto> poleDtoList = poleSA.findAll();
+
+        for (PoleDto poleDto : poleDtoList) {
+            ListEmployeFragment_ fragment = new ListEmployeFragment_();
+            fragment.setEmployeDtos(employeSA.findByPole(poleDto));
+            Log.d("mahery-haja", "another " + fragment.getEmployeDtos().size());
+            fragment.initFragment();
+            mainPagerAdapterBuilder = mainPagerAdapterBuilder.addFragment(fragment, poleDto.getName());
         }
+
+        MainPagerAdapter mainPagerAdapter = mainPagerAdapterBuilder.build();
+
+        viewPager.setAdapter(mainPagerAdapter);
+        viewPagerTab.setViewPager(viewPager);
+
     }
+
 }

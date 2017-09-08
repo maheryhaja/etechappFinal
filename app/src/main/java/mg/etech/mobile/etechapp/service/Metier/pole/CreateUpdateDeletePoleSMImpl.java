@@ -3,6 +3,8 @@ package mg.etech.mobile.etechapp.service.Metier.pole;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
+import java.util.List;
+
 import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
 import mg.etech.mobile.etechapp.repository.pole.PoleRepository;
 import mg.etech.mobile.etechapp.repository.pole.PoleRepositoryImpl;
@@ -19,6 +21,12 @@ public class CreateUpdateDeletePoleSMImpl implements CreateUpdateDeletePoleSM {
     @Override
     public void create(Pole pole) {
         poleRepository.insert(pole);
+    }
+
+    @Override
+    public void create(List<Pole> poleList) {
+        for (Pole pole : poleList)
+            create(pole);
     }
 
     @Override

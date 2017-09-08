@@ -23,4 +23,8 @@ public class RetrievePoleSMImpl implements RetrievePoleSM {
         return poleRepository.findAll();
     }
 
+    @Override
+    public Pole findById(Long id) {
+        return poleRepository.findById(id);
+    }
 }

@@ -25,18 +25,15 @@
         android:id="@+id/btnLogout"
         />
 
-    <Button
-        android:id="@+id/btnPrendrePhoto"
-        android:layout_width="wrap_content"
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Prendre une photo"
-        />
+        android:id="@+id/mainViewPagerTab"></com.ogaclejapan.smarttablayout.SmartTabLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/myImageView"
+        android:id="@+id/viewPagerMain">
 
-        />
-
+    </android.support.v4.view.ViewPager>
 </LinearLayout>
