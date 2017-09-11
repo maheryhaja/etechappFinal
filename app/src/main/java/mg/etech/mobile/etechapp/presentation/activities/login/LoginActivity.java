@@ -24,7 +24,7 @@ import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
-import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactoryImpl;
+import mg.etech.mobile.etechapp.contrainte.factory.dto.user.UserDtoFromWSFactoryImpl;
 import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.presentation.activities.AbstractActivity;
 import mg.etech.mobile.etechapp.presentation.activities.inscription.InscriptionActivity_;

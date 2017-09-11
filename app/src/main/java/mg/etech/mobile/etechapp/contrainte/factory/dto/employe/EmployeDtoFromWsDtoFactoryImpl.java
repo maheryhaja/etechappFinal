@@ -1,4 +1,4 @@
-package mg.etech.mobile.etechapp.contrainte.factory.dto;
+package mg.etech.mobile.etechapp.contrainte.factory.dto.employe;
 
 import org.androidannotations.annotations.EBean;
 

@@ -1,4 +1,4 @@
-package mg.etech.mobile.etechapp.contrainte.factory.dto;
+package mg.etech.mobile.etechapp.contrainte.factory.dto.pole;
 
 import mg.etech.mobile.etechapp.contrainte.factory.DtoFactory;
 import mg.etech.mobile.etechapp.donnee.domainobject.Pole;

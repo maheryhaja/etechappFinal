@@ -1,4 +1,4 @@
-package mg.etech.mobile.etechapp.contrainte.factory.dto;
+package mg.etech.mobile.etechapp.contrainte.factory.dto.user;
 
 import org.androidannotations.annotations.EBean;
 import org.modelmapper.ModelMapper;

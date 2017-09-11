@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -19,16 +20,26 @@ import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
+import mg.etech.mobile.etechapp.presentation.fragments.user.InscrireUserFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 @EFragment(R.layout.fragment_list_employe)
-public class ListEmployeFragment extends Fragment {
+public class ListEmployeFragment extends AbstractFragment {
 
     private List<EmployeDto> employeDtos = new ArrayList<>();
 
     private List<IFlexible> items = new ArrayList<>();
+
+    private FlexibleAdapter.OnItemClickListener onClickListener = new FlexibleAdapter.OnItemClickListener() {
+        @Override
+        public boolean onItemClick(int position) {
+            onItemClicked();
+            return false;
+        }
+    };
 
 
     @ViewById(R.id.RVListEmploye)
@@ -47,10 +58,14 @@ public class ListEmployeFragment extends Fragment {
 
     @AfterViews
     void initAfterViews() {
-        FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items);
+        FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items, onClickListener);
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.mItemClickListener = onClickListener;
         adapter.notifyDataSetChanged();
+
+
+
     }
 
     public void initFragment() {
@@ -74,6 +89,12 @@ public class ListEmployeFragment extends Fragment {
         this.employeDtos = employeDtos;
         populateAdapter();
     }
+
+    private void onItemClicked() {
+        Log.d("mahery-haja", "item clicked");
+        goToFragment(new InscrireUserFragment(), R.id.viewPagerMain, "");
+    }
+
 
 
 }

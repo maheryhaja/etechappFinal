@@ -1,15 +1,14 @@
-package mg.etech.mobile.etechapp.contrainte.factory.dto;
+package mg.etech.mobile.etechapp.contrainte.factory.domainobject.pole;
 
 import org.androidannotations.annotations.EBean;
 
 import mg.etech.mobile.etechapp.contrainte.factory.BaseFactory;
+import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
-import mg.etech.mobile.etechapp.donnee.wsdto.PoleWsDto;
 
 /**
  * Created by mahery.haja on 05/09/2017.
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class PoleDtoFromWSFactoryImpl extends BaseFactory<PoleWsDto, PoleDto> implements PoleDtoFromWSFactory {
-
+public class PoleFromDtoFactoryImpl extends BaseFactory<PoleDto, Pole> implements PoleFromDtoFactory {
 }

@@ -1,4 +1,4 @@
-package mg.etech.mobile.etechapp.contrainte.factory.domainobject;
+package mg.etech.mobile.etechapp.contrainte.factory.domainobject.pole;
 
 import org.androidannotations.annotations.EBean;
 

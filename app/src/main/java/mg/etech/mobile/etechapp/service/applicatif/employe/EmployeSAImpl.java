@@ -7,10 +7,10 @@ import org.androidannotations.annotations.EBean;
 
 import java.util.List;
 
-import mg.etech.mobile.etechapp.contrainte.factory.domainobject.EmployeFromDtoFactory;
-import mg.etech.mobile.etechapp.contrainte.factory.domainobject.EmployeFromDtoFactoryImpl;
-import mg.etech.mobile.etechapp.contrainte.factory.dto.EmployeDtoFromDOFactory;
-import mg.etech.mobile.etechapp.contrainte.factory.dto.EmployeDtoFromDOFactoryImpl;
+import mg.etech.mobile.etechapp.contrainte.factory.domainobject.employe.EmployeFromDtoFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.domainobject.employe.EmployeFromDtoFactoryImpl;
+import mg.etech.mobile.etechapp.contrainte.factory.dto.employe.EmployeDtoFromDOFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.dto.employe.EmployeDtoFromDOFactoryImpl;
 import mg.etech.mobile.etechapp.donnee.domainobject.Employe;
 import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;

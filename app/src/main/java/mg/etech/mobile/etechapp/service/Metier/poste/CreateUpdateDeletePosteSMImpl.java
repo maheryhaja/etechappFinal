@@ -5,22 +5,31 @@ import org.androidannotations.annotations.EBean;
 
 import java.util.List;
 
-import io.reactivex.Single;
 import mg.etech.mobile.etechapp.donnee.domainobject.Poste;
 import mg.etech.mobile.etechapp.repository.poste.PosteRepository;
 import mg.etech.mobile.etechapp.repository.poste.PosteRepositoryImpl;
 
 /**
- * Created by mahery.haja on 11/09/2017.
+ * Created by maheryHaja on 9/11/2017.
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class RetrievePosteSMImpl implements RetrievePosteSM {
+public class CreateUpdateDeletePosteSMImpl implements CreateUpdateDeletePosteSM {
 
     @Bean(PosteRepositoryImpl.class)
     PosteRepository posteRepository;
 
     @Override
-    public List<Poste> findAll() {
-        return posteRepository.findAll();
+    public void create(Poste poste) {
+        posteRepository.insert(poste);
+    }
+
+    @Override
+    public void deleteAll() {
+        posteRepository.deleteAll();
+    }
+
+    @Override
+    public void create(List<Poste> postes) {
+       posteRepository.insertBatch(postes);
     }
 }

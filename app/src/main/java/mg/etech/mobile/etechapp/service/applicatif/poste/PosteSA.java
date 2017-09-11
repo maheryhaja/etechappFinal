@@ -9,4 +9,11 @@ import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
  */
 public interface PosteSA {
     List<PosteDto> findAll();
+
+    void create(PosteDto posteDto);
+
+    void create(List<PosteDto> posteDtos);
+
+    void deleteAll();
+
 }

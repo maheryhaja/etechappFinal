@@ -5,8 +5,8 @@ import org.androidannotations.annotations.EBean;
 
 import mg.etech.mobile.etechapp.commun.exception.user.CreateUserFailedException;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
-import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactory;
-import mg.etech.mobile.etechapp.contrainte.factory.dto.UserDtoFromWSFactoryImpl2;
+import mg.etech.mobile.etechapp.contrainte.factory.dto.user.UserDtoFromWSFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.dto.user.UserDtoFromWSFactoryImpl2;
 import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.service.businessDelegate.user.Userbdl;
 import mg.etech.mobile.etechapp.service.businessDelegate.user.UserbdlImpl;

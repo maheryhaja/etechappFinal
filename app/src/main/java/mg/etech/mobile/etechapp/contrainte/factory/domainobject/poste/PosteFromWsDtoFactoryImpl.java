@@ -1,0 +1,15 @@
+package mg.etech.mobile.etechapp.contrainte.factory.domainobject.poste;
+
+import org.androidannotations.annotations.EBean;
+
+import mg.etech.mobile.etechapp.contrainte.factory.BaseFactory;
+import mg.etech.mobile.etechapp.donnee.domainobject.Poste;
+import mg.etech.mobile.etechapp.donnee.wsdto.PosteWsDto;
+
+/**
+ * Created by maheryHaja on 9/11/2017.
+ */
+@EBean(scope = EBean.Scope.Singleton)
+public class PosteFromWsDtoFactoryImpl extends BaseFactory<PosteWsDto, Poste> implements PosteFromWsDtoFactory {
+
+}

@@ -27,7 +27,7 @@ import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
-import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSA;
 
 @EActivity(R.layout.activity_splash)
@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
     CircularFillableLoaders fillableLoader;
     private Observable<Integer> fiveSecondsObservable;
 
-    @Bean(BackSynchronizerImpl.class)
+    @Bean(BackSynchronizerSAImpl.class)
     BackSynchronizerSA backSynchronizerSA;
 
 
@@ -50,6 +50,8 @@ public class SplashActivity extends AppCompatActivity {
     public void initAfterViews() {
         initializeIntervalObservable();
 
+
+//        backSynchronize();
 
 
         fiveSecondsObservable
@@ -78,6 +80,33 @@ public class SplashActivity extends AppCompatActivity {
                     );
         }
 
+    private void backSynchronize() {
+        Observable
+                .fromCallable(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+
+                        backSynchronizerSA.synch();
+
+                        return true;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                               @Override
+                               public void accept(Boolean aBoolean) throws Exception {
+                                   Log.d("mahery-haja", "synchronisation success");
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Log.d("mahery-haja", "synchronisation error");
+                            }
+                        }
+                );
+    }
 
 
     private void initializeIntervalObservable() {

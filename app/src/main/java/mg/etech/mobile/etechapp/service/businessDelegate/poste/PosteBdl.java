@@ -8,6 +8,6 @@ import mg.etech.mobile.etechapp.donnee.wsdto.PosteWsDto;
 /**
  * Created by mahery.haja on 11/09/2017.
  */
-public interface Postebdl {
+public interface PosteBdl {
     List<PosteWsDto> findAll() throws IOException;
 }

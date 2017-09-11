@@ -50,4 +50,12 @@ public class ListEmployeViewHolder extends FlexibleViewHolder {
                     .into(imageViewPhoto);
         }
     }
+
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        Log.d("mahery-haja", "a click was made");
+
+    }
 }

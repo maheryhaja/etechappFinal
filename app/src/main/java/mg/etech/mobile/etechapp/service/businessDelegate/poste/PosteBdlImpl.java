@@ -16,7 +16,7 @@ import mg.etech.mobile.etechapp.service.businessDelegate.poste.reponses.ListePos
  * Created by mahery.haja on 11/09/2017.
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class PostebdlImpl implements Postebdl {
+public class PosteBdlImpl implements PosteBdl {
 
     @Bean(RetrofitSingletonImpl.class)
     RetrofitSingleton retrofitSingleton;

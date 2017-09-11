@@ -1,9 +1,11 @@
-package mg.etech.mobile.etechapp.contrainte.factory.domainobject;
+package mg.etech.mobile.etechapp.contrainte.factory.domainobject.employe;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import mg.etech.mobile.etechapp.contrainte.factory.BaseFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.domainobject.pole.PoleFromDtoFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.domainobject.pole.PoleFromDtoFactoryImpl;
 import mg.etech.mobile.etechapp.donnee.domainobject.Employe;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 
