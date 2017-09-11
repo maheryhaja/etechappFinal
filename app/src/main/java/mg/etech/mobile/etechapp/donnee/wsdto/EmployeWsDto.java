@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by mahery.haja on 06/09/2017.
@@ -48,6 +49,8 @@ public class EmployeWsDto {
     @JsonProperty("photo")
     private String photo;
 
+    @JsonProperty("postes")
+    private List<HistoryPosteWsDto> postes;
 
     public static String getDateWsPattern() {
         return DATE_WS_PATTERN;
@@ -139,5 +142,13 @@ public class EmployeWsDto {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public List<HistoryPosteWsDto> getPostes() {
+        return postes;
+    }
+
+    public void setPostes(List<HistoryPosteWsDto> postes) {
+        this.postes = postes;
     }
 }

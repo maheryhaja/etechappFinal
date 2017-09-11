@@ -1,6 +1,7 @@
 package mg.etech.mobile.etechapp.presentation.activities.splash;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
@@ -9,6 +10,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -19,6 +21,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
@@ -42,9 +45,11 @@ public class SplashActivity extends AppCompatActivity {
     @Bean(BackSynchronizerImpl.class)
     BackSynchronizerSA backSynchronizerSA;
 
+
     @AfterViews
     public void initAfterViews() {
         initializeIntervalObservable();
+
 
 
         fiveSecondsObservable

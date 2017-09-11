@@ -6,3 +6,7 @@
 .DS_Store
 /build
 /captures
+/build.gradle
+/app/build.gradle
+/gradle/wrapper/gradle-wrapper.properties
+/gradle.properties

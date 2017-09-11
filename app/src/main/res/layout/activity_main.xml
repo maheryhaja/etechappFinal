@@ -60,7 +60,7 @@
         app:stl_distributeEvenly="false"
         app:stl_clickable="true"
         app:stl_titleOffset="24dp"
-        app:stl_drawDecorationAfterTab="false"
+        app:stl_drawDecorationAfterTab="true"
         android:layout_alignParentBottom="true"
 
 

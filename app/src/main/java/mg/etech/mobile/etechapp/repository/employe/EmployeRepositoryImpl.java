@@ -1,4 +1,4 @@
-package mg.etech.mobile.etechapp.repository.poste;
+package mg.etech.mobile.etechapp.repository.employe;
 
 import android.content.Context;
 
@@ -6,15 +6,15 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
+import mg.etech.mobile.etechapp.donnee.domainobject.Employe;
 import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
-import mg.etech.mobile.etechapp.donnee.domainobject.Poste;
 import mg.etech.mobile.etechapp.repository.commun.AbstractCommunRepository;
 
 /**
- * Created by mahery.haja on 11/09/2017.
+ * Created by maheryHaja on 9/11/2017.
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class PosteRepositoryImpl extends AbstractCommunRepository<Poste, Long> implements PosteRepository {
+public class EmployeRepositoryImpl extends AbstractCommunRepository<Employe, Long> implements EmployeRepository {
     @RootContext
     protected Context context;
 
@@ -24,8 +24,7 @@ public class PosteRepositoryImpl extends AbstractCommunRepository<Poste, Long> i
 
         if (abstractRunTimeExceptionDao == null) {
             abstractRunTimeExceptionDao = databaseHelper
-                    .getRuntimeExceptionDao(Poste.class);
+                    .getRuntimeExceptionDao(Employe.class);
         }
     }
-
 }
