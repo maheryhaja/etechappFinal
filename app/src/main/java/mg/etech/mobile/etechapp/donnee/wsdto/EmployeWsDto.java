@@ -48,6 +48,7 @@ public class EmployeWsDto {
     @JsonProperty("photo")
     private String photo;
 
+
     public static String getDateWsPattern() {
         return DATE_WS_PATTERN;
     }

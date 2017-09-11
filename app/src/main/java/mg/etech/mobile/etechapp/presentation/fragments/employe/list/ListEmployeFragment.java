@@ -47,8 +47,6 @@ public class ListEmployeFragment extends Fragment {
 
     @AfterViews
     void initAfterViews() {
-        Log.d("mahery-haja", "init after views");
-//        populateAdapter();
         FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items);
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -77,9 +75,5 @@ public class ListEmployeFragment extends Fragment {
         populateAdapter();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("mahery-haja", "destruction du fragment");
-    }
+
 }

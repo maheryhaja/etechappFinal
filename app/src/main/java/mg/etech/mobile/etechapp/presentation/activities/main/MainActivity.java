@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             fragment.setEmployeDtos(employeSA.findByPole(poleDto));
             Log.d("mahery-haja", "another " + fragment.getEmployeDtos().size());
             fragment.initFragment();
-            mainPagerAdapterBuilder = mainPagerAdapterBuilder.addFragment(fragment, poleDto.getName());
+            mainPagerAdapterBuilder = mainPagerAdapterBuilder.addFragment(fragment, poleDto.getIdServer());
         }
 
         MainPagerAdapter mainPagerAdapter = mainPagerAdapterBuilder.build();

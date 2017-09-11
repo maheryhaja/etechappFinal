@@ -1,5 +1,6 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.list;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -47,6 +48,14 @@ public class ListEmployeItem extends AbstractFlexibleItem<ListEmployeViewHolder>
     @Override
     public void bindViewHolder(FlexibleAdapter adapter, ListEmployeViewHolder holder, int position, List payloads) {
         holder.setTitre(employeDto.getFirstName() + " " + employeDto.getLastName());
+
+        try {
+            holder.setMatricule(employeDto.getMatricule());
+            holder.setPhoto(employeDto.getPhoto());
+        } catch (NullPointerException e) {
+            Log.d("mahery-haja", "pas de matricule");
+
+        }
     }
 
     @Override

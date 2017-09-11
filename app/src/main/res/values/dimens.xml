@@ -7,6 +7,7 @@
     <dimen name="general_padding1_5x">22dp</dimen>
     <dimen name="general_padding2x">30dp</dimen>
     <dimen name="general_font_size">21sp</dimen>
+    <dimen name="general_font_size1.5x">27sp</dimen>
     <dimen name="little_font_size">17sp</dimen>
     <dimen name="general_margin">15dp</dimen>
     <dimen name="image_button_dimens">64dp</dimen>

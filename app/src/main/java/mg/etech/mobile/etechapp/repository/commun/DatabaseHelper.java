@@ -11,6 +11,7 @@ import com.j256.ormlite.table.TableUtils;
 import mg.etech.mobile.etechapp.commun.exception.TechnicalException;
 import mg.etech.mobile.etechapp.donnee.domainobject.Employe;
 import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
+import mg.etech.mobile.etechapp.donnee.domainobject.Poste;
 
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -42,6 +43,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			TableUtils.createTable(connectionSource, Pole.class);
 			TableUtils.createTable(connectionSource, Employe.class);
+			TableUtils.createTable(connectionSource, Poste.class);
+
 		}
 	catch (SQLException e) {
 		throw new TechnicalException(e);
@@ -59,6 +62,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			TableUtils.dropTable(connectionSource, Pole.class, false);
 			TableUtils.dropTable(connectionSource, Employe.class, false);
+			TableUtils.dropTable(connectionSource, Poste.class, false);
+
 			onCreate(db);
 		} catch(Exception ex) {
 			throw new TechnicalException(ex);

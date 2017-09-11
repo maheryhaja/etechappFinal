@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+//        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -110,6 +111,12 @@ dependencies {
     //swipeable header [a utiliser temporairement] pour les view Pager
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
 
+    //glide for image downloading and caching
+//    compile 'com.github.bumptech.glide:glide:3.5.2'
+    //annotationProcessor 'com.github.bumptech.glide:compiler:3.8.0'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
 }
 
 apply plugin: 'android-apt'
@@ -118,7 +125,6 @@ def AAVersion = '4.3.1'
 dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-
 }
 dependencies {
     compile 'com.android.support:support-v4:23.+'

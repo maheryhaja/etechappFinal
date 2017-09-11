@@ -24,6 +24,8 @@ import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSA;
 
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
@@ -37,13 +39,15 @@ public class SplashActivity extends AppCompatActivity {
     CircularFillableLoaders fillableLoader;
     private Observable<Integer> fiveSecondsObservable;
 
+    @Bean(BackSynchronizerImpl.class)
+    BackSynchronizerSA backSynchronizerSA;
 
     @AfterViews
     public void initAfterViews() {
         initializeIntervalObservable();
 
 
-            fiveSecondsObservable
+        fiveSecondsObservable
                     .subscribe(new Consumer<Integer>() {
                                    @Override
                                    public void accept(Integer integer) throws Exception {

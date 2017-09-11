@@ -20,4 +20,9 @@ public class ConfigUrl {
         public static final String FIND_ALL = "/employe/getAll";
     }
 
+    public static class poste {
+        public static final String FIND_ALL = "/general/getConfig";
+    }
+
+
 }
