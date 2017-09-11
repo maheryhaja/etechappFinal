@@ -1,6 +1,8 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.list;
 
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,9 +39,16 @@ public class ListEmployeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(null);
+        Log.d("mahery-haja", "on create called, hihihi " + items.size());
+    }
+
     @AfterViews
     void initAfterViews() {
-        populateAdapter();
+        Log.d("mahery-haja", "init after views");
+//        populateAdapter();
         FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items);
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -65,5 +74,12 @@ public class ListEmployeFragment extends Fragment {
 
     public void setEmployeDtos(List<EmployeDto> employeDtos) {
         this.employeDtos = employeDtos;
+        populateAdapter();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("mahery-haja", "destruction du fragment");
     }
 }
