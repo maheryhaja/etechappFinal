@@ -1,0 +1,87 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="mg.etech.mobile.etechapp.presentation.fragments.employe.detail.DetailEmployeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="@dimen/detail_employe_photo_size"
+            android:layout_height="@dimen/detail_employe_photo_size"
+            android:src="@drawable/ic_default_icon"
+            app:riv_corner_radius="60dip" />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="matricule: 483"
+            android:padding="@dimen/little_padding"
+            android:id="@+id/txtDetailMatricule" />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/general_font_size1.5x"
+            android:text="NOM et prenom de l'employe"
+            android:id="@+id/txtDetailNom" />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDetailAlias"
+            android:text="(Alias)" />
+
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/general_font_size"
+            android:text="Poste de l'employé"
+            android:id="@+id/txtPosteActuel" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/little_padding">
+
+            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtDetailBirthDate"
+                android:text="30/04/1993" />
+
+            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtDetailAge"
+                android:text="24 ans" />
+        </LinearLayout>
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDetailHiringDate"
+            android:text="24/08/2017" />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ygunion@gmail.com"
+            android:id="@+id/txtDetailMail"
+
+            />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HISTORIQUE DES POSTES"
+            android:layout_margin="@dimen/little_margin" />
+
+    </LinearLayout>
+</FrameLayout>

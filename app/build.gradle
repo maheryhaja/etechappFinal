@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 23
     buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "mg.etech.mobile.etechapp"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 //        multiDexEnabled true
@@ -41,9 +41,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
 //    androidTestCompile 'com.android.support.test:runner:0.5'
 //    androidTestCompile 'com.android.support.test:rules:0.5'
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
 
-    compile 'com.android.support:design:25+'
+    compile 'com.android.support:design:23+'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
@@ -69,9 +69,6 @@ dependencies {
 //    compile 'commons-lang:commons-lang:2.6'
 //    compile 'org.apache.httpcomponents:httpcore:4.3.2'
 //    compile 'com.android.support:multidex:1.0.0'
-
-    compile 'com.fasterxml.jackson.core:jackson-core:1.9.9'
-
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.2'
     compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
@@ -122,16 +119,23 @@ dependencies {
 
 }
 
-//apply plugin: 'android-apt'
+
 def AAVersion = '4.3.1'
 
 dependencies {
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+
+    //parceler
+    compile 'org.parceler:parceler-api:1.1.9'
+    annotationProcessor 'org.parceler:parceler:1.1.9'
 }
 dependencies {
-    compile 'com.android.support:support-v4:25.+'
+    compile 'com.android.support:support-v4:23.+'
 }
 dependencies {
-    compile 'com.android.support:support-v4:25.+'
+    compile 'com.android.support:support-v4:23.+'
+}
+dependencies {
+    compile 'com.android.support:support-v4:23.+'
 }

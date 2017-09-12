@@ -36,4 +36,9 @@ public class RetrieveEmployeSMImpl implements RetrieveEmployeSM {
     public List<Employe> findByPole(Pole pole) {
         return new ArrayList<Employe>(pole.getEmployes());
     }
+
+    @Override
+    public Employe findById(Long id) {
+        return employeRepository.findById(id);
+    }
 }

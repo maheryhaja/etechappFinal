@@ -112,7 +112,6 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
     }
 
 
-
     public void populateBase() throws IOException, ApiCallException {
         List<PoleDto> poleDtos = retrieveAllPole();
         poleSA.create(poleDtos);

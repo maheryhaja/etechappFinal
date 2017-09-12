@@ -12,6 +12,8 @@ public interface EmployeSA {
 
     List<EmployeDto> findAll();
 
+    EmployeDto findById(Long id);
+
     void create(EmployeDto employeDto);
 
     void create(List<EmployeDto> employeDtos);

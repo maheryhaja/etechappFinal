@@ -1,5 +1,6 @@
 package mg.etech.mobile.etechapp.donnee.dto;
 
+
 import java.util.Date;
 
 /**
@@ -105,4 +106,6 @@ public class EmployeDto {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+
 }

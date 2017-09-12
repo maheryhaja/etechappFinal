@@ -76,4 +76,9 @@ public class EmployeSAImpl implements EmployeSA {
 
         return employeDtoFromDOFactory.getInstance(retrieveEmployeSM.findByPole(pole));
     }
+
+    @Override
+    public EmployeDto findById(Long id) {
+        return employeDtoFromDOFactory.getInstance(retrieveEmployeSM.findById(id));
+    }
 }

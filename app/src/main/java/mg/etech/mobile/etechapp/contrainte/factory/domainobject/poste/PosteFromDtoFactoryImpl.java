@@ -10,5 +10,5 @@ import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
  * Created by maheryHaja on 9/11/2017.
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class PosteFromDtoFactoryImpl extends BaseFactory<PosteDto, Poste> implements PosteFromDtoFactory{
+public class PosteFromDtoFactoryImpl extends BaseFactory<PosteDto, Poste> implements PosteFromDtoFactory {
 }

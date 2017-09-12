@@ -12,4 +12,6 @@ public interface RetrieveEmployeSM {
     List<Employe> findAll();
 
     List<Employe> findByPole(Pole pole);
+
+    Employe findById(Long id);
 }

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -20,8 +19,8 @@ import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.presentation.activities.detailemploye.DetailEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
-import mg.etech.mobile.etechapp.presentation.fragments.user.InscrireUserFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,10 +31,12 @@ public class ListEmployeFragment extends AbstractFragment {
     private List<EmployeDto> employeDtos = new ArrayList<>();
 
     private List<IFlexible> items = new ArrayList<>();
+    private EmployeDto selectedEmployeDto;
 
     private FlexibleAdapter.OnItemClickListener onClickListener = new FlexibleAdapter.OnItemClickListener() {
         @Override
         public boolean onItemClick(int position) {
+            selectedEmployeDto = employeDtos.get(position);
             onItemClicked();
             return false;
         }
@@ -65,7 +66,6 @@ public class ListEmployeFragment extends AbstractFragment {
         adapter.notifyDataSetChanged();
 
 
-
     }
 
     public void initFragment() {
@@ -91,9 +91,13 @@ public class ListEmployeFragment extends AbstractFragment {
     }
 
     private void onItemClicked() {
-        Log.d("mahery-haja", "item clicked");
-        goToFragment(new InscrireUserFragment(), R.id.viewPagerMain, "");
+        Log.d("mahery-haja", "item clicked once for all");
+
+        // go to detail activity
+        DetailEmployeActivity_.intent(getContext()).employeId(selectedEmployeDto.getId()).start();
+
     }
+
 
 
 

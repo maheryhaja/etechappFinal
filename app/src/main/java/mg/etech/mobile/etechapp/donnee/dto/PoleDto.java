@@ -32,4 +32,6 @@ public class PoleDto {
     public void setIdServer(String idServer) {
         this.idServer = idServer;
     }
+
+
 }

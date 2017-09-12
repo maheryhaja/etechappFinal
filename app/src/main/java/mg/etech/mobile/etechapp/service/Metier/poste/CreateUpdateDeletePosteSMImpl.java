@@ -30,6 +30,6 @@ public class CreateUpdateDeletePosteSMImpl implements CreateUpdateDeletePosteSM 
 
     @Override
     public void create(List<Poste> postes) {
-       posteRepository.insertBatch(postes);
+        posteRepository.insertBatch(postes);
     }
 }

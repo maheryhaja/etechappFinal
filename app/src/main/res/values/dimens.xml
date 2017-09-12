@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cicrular_border_width">7dp</dimen>
     <dimen name="general_padding">15dp</dimen>
+    <dimen name="little_padding">7dp</dimen>
     <dimen name="general_padding1_5x">22dp</dimen>
     <dimen name="general_padding2x">30dp</dimen>
     <dimen name="general_font_size">21sp</dimen>
@@ -11,5 +12,6 @@
     <dimen name="little_font_size">17sp</dimen>
     <dimen name="general_margin">15dp</dimen>
     <dimen name="image_button_dimens">64dp</dimen>
-    <dimen name="little_maring">3dp</dimen>
+    <dimen name="little_margin">3dp</dimen>
+    <dimen name="detail_employe_photo_size">150dp</dimen>
 </resources>
