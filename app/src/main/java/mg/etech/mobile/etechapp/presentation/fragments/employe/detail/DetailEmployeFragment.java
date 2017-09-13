@@ -104,6 +104,7 @@ public class DetailEmployeFragment extends Fragment {
     }
 
     private void setImage(String imageURL) {
+
         if (imageURL != null && !imageURL.equals("") && !imageURL.isEmpty()) {
             Picasso
                     .with(getContext())

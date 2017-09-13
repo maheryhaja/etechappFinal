@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 
 /**
@@ -14,6 +15,7 @@ import com.facebook.rebound.SpringSystem;
 public class SimpleReboundAnimator {
 
     private View view;
+    private Spring spring;
 
     public SimpleReboundAnimator(View view) {
         this.view = view;
@@ -22,7 +24,7 @@ public class SimpleReboundAnimator {
     public void bounce() {
         SpringSystem springSystem = SpringSystem.create();
 
-        Spring spring = springSystem.createSpring();
+        spring = springSystem.createSpring();
         spring.addListener(new SimpleSpringListener() {
 
             @Override
@@ -30,17 +32,20 @@ public class SimpleReboundAnimator {
                 super.onSpringUpdate(spring);
                 float value = (float) spring.getCurrentValue();
 
-                Log.d("mahery-haja", "Actual value:" + value);
+                if(value > 0.4f)
+                    view.setVisibility(View.VISIBLE);
 
-                float scale = 1f - (value * 0.5f);
+                float scale = value;
                 view.setScaleX(scale);
                 view.setScaleY(scale);
             }
         });
 
+        spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(55, 2));
         spring.setEndValue(1);
 
 
     }
+
 
 }

@@ -8,7 +8,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:background="#e2e2e2"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,97 +36,118 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/detail_employe_photo_size_half"
                     app:civ_border_color="@color/white"
-                    app:civ_border_width="5dp" />
+                    app:civ_border_width="5dp"
+                    android:visibility="invisible"
+                    />
 
 
             </RelativeLayout>
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/detail_matricule"
-                android:id="@+id/txtDetailMatricule"
-                android:padding="@dimen/little_padding" />
+                android:layout_margin="@dimen/general_padding"
+                >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/general_font_size"
-                    android:text="NOM et prenom de l'employe"
-                    android:id="@+id/txtDetailNom"
-                    android:padding="@dimen/little_padding" />
+                    android:orientation="vertical"
+                    android:padding="@dimen/general_padding"
+                    android:gravity="center_horizontal"
+                    >
 
-                <ImageView
-                    android:layout_width="@dimen/general_font_size2x"
-                    android:layout_height="@dimen/general_font_size2x"
-                    android:src="@drawable/ic_homme_backup"
-                    android:id="@+id/imageView_detailIsMale" />
-            </LinearLayout>
+                    <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/detail_matricule"
+                        android:id="@+id/txtDetailMatricule"
+                        android:padding="@dimen/little_padding" />
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtDetailAlias"
-                android:text="@string/detail_allias"
-                android:padding="@dimen/little_padding" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/general_font_size"
+                            android:text="NOM et prenom de l'employe"
+                            android:id="@+id/txtDetailNom"
+                            android:padding="@dimen/little_padding" />
+
+                        <ImageView
+                            android:layout_width="@dimen/general_font_size2x"
+                            android:layout_height="@dimen/general_font_size2x"
+                            android:src="@drawable/ic_homme_backup"
+                            android:id="@+id/imageView_detailIsMale" />
+                    </LinearLayout>
+
+                    <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtDetailAlias"
+                        android:text="@string/detail_allias"
+                        android:padding="@dimen/little_padding" />
 
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/general_font_size"
-                android:text="Poste de l'employé"
-                android:id="@+id/txtPosteActuel"
-                android:padding="@dimen/little_padding" />
+                    <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_font_size"
+                        android:text="Poste de l'employé"
+                        android:id="@+id/txtPosteActuel"
+                        android:padding="@dimen/little_padding" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/little_padding">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/little_padding">
 
-                <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtDetailBirthDate"
-                    android:text="@string/detail_birth_date"
-                    android:padding="@dimen/little_padding" />
+                        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtDetailBirthDate"
+                            android:text="@string/detail_birth_date"
+                            android:padding="@dimen/little_padding" />
 
-                <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtDetailAge"
-                    android:text="@string/detail_age"
-                    android:padding="@dimen/little_padding" />
+                        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtDetailAge"
+                            android:text="@string/detail_age"
+                            android:padding="@dimen/little_padding" />
 
-            </LinearLayout>
+                    </LinearLayout>
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtDetailHiringDate"
-                android:text="@string/detail_embauche"
-                android:padding="@dimen/little_padding" />
+                    <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtDetailHiringDate"
+                        android:text="@string/detail_embauche"
+                        android:padding="@dimen/little_padding" />
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/detail_mail"
-                android:id="@+id/txtDetailMail"
-                android:padding="@dimen/little_padding" />
+                    <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/detail_mail"
+                        android:id="@+id/txtDetailMail"
+                        android:padding="@dimen/little_padding" />
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="HISTORIQUE DES POSTES"
-                android:layout_margin="@dimen/little_margin"
-                android:padding="@dimen/little_padding" />
+                    <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HISTORIQUE DES POSTES"
+                        android:layout_margin="@dimen/little_margin"
+                        android:padding="@dimen/little_padding" />
 
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
         </LinearLayout>
 
     </ScrollView>
