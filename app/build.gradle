@@ -117,6 +117,14 @@ dependencies {
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    //for constraint layout
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    //circle image view
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    //rebound
+    compile 'com.facebook.rebound:rebound:0.3.8'
 }
 
 

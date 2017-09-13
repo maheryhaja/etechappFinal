@@ -6,12 +6,10 @@
     android:layout_height="match_parent"
     android:padding="@dimen/general_padding">
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/ic_default_icon"
-        app:riv_oval="true"
-        app:riv_corner_radius="50dp"
+        android:src="@drawable/ic_mahery"
         android:id="@+id/imageViewItemPhoto" />
 
     <LinearLayout
