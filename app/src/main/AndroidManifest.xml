@@ -50,8 +50,9 @@
         </provider>
 
         <activity
-            android:name=".presentation.activities.detailemploye.DetailEmployeActivity_"
-            android:label="@string/detail_employe_label"></activity>
+            android:name=".presentation.activities.employe.detailemploye.DetailEmployeActivity_"
+            android:label="@string/detail_employe_label" />
+        <activity android:name=".presentation.activities.employe.createEmloye.CreateEmployeActivity_"></activity>
     </application>
 
 </manifest>

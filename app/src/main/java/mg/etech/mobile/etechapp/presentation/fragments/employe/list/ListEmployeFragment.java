@@ -19,7 +19,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
-import mg.etech.mobile.etechapp.presentation.activities.detailemploye.DetailEmployeActivity_;
+import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.DetailEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
 
 /**

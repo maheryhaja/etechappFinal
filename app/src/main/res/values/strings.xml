@@ -23,4 +23,14 @@
     <!--le second parametre sert a differencier hiomme et femme-->
     <string name="detail_embauche">embauché%2$s le %1$s</string>
     <string name="detail_birth_date">né%2$s le %1$s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_prenom_employe">Prénom de l\'employe</string>
+    <string name="hint_nom_employe">Nom de l\'employé</string>
+    <string name="hint_allias">Allias</string>
+    <string name="hint_edt_date_de_naissance">Date de naissance</string>
+    <string name="hint_matricule">Matricule</string>
+    <string name="hint_date_embauche">Date d\'embauche</string>
+    <string name="hint_e_mail">e-mail</string>
 </resources>

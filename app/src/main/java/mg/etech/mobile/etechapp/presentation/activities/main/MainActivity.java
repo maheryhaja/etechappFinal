@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import org.androidannotations.annotations.AfterViews;
@@ -15,7 +16,9 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.commun.animation.SimpleReboundAnimator;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
+import mg.etech.mobile.etechapp.presentation.activities.employe.createEmloye.CreateEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapter;
 import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapterBuilder;
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     @ViewById(R.id.mainViewPagerTab)
     SmartTabLayout viewPagerTab;
 
+    @ViewById(R.id.btnAddEmploye)
+    FloatingActionButton addEmployeButton;
+
+
     @Bean(PoleSAImpl.class)
     PoleSA poleSA;
 
@@ -58,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
     @AfterViews
     void initAfterViews() {
         initViewPager();
+        showAddButton();
+    }
+
+    private void showAddButton() {
+        new SimpleReboundAnimator(addEmployeButton).bounce();
     }
 
     private void initViewPager() {
@@ -79,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(mainPagerAdapter);
         viewPagerTab.setViewPager(viewPager);
 
+    }
+
+    @Click(R.id.btnAddEmploye)
+    void onAddButtonClicked() {
+        CreateEmployeActivity_.intent(this).start();
     }
 
 }

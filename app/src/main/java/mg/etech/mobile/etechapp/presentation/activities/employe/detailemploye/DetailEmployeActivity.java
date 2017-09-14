@@ -1,4 +1,4 @@
-package mg.etech.mobile.etechapp.presentation.activities.detailemploye;
+package mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;

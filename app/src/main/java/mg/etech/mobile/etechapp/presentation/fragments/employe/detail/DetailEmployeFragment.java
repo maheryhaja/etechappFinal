@@ -133,7 +133,7 @@ public class DetailEmployeFragment extends Fragment {
     }
 
     private String getFormatedDate(Date date) {
-        return SimpleDateUtils.Format(date, SimpleDate.GENERAL_DATE_PATTERN);
+        return SimpleDateUtils.format(date, SimpleDate.GENERAL_DATE_PATTERN);
     }
 
     private String getFormatedMail(String mail) {

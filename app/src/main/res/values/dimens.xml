@@ -17,4 +17,5 @@
 
     <dimen name="detail_employe_photo_size">150dp</dimen>
     <dimen name="detail_employe_photo_size_half">75dp</dimen>
+    <dimen name="fab_button_size">40dp</dimen>
 </resources>

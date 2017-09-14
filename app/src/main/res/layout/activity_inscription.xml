@@ -20,5 +20,4 @@
         tools:layout="@layout/fragment_inscrire_user">
         </fragment>
 
-
 </RelativeLayout>
