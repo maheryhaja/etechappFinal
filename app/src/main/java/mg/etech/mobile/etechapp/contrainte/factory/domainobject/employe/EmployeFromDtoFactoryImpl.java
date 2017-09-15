@@ -20,9 +20,23 @@ public class EmployeFromDtoFactoryImpl extends BaseFactory<EmployeDto, Employe> 
     PoleFromDtoFactory poleFromDtoFactory;
 
     @Override
-    public Employe getInstance(EmployeDto dObj) {
-        Employe employe = super.getInstance(dObj);
-        employe.setPole(poleFromDtoFactory.getInstance(dObj.getPole()));
+    public Employe getInstance(EmployeDto employeDto) {
+        Employe employe = new Employe();
+        employe.setId(employeDto.getId());
+        employe.setLastName(employeDto.getLastName());
+        employe.setFirstName(employeDto.getFirstName());
+        employe.setAlias(employeDto.getAlias());
+        employe.setMatricule(employeDto.getMatricule());
+        employe.setMail(employeDto.getMail());
+        employe.setMale(employeDto.isMale());
+        employe.setPhoto(employeDto.getPhoto());
+        employe.setBirthDate(employeDto.getBirthDate());
+        employe.setHiringDate(employeDto.getHiringDate());
+        try {
+            employe.setPole(poleFromDtoFactory.getInstance(employeDto.getPole()));
+        } catch (IllegalArgumentException e) {
+            //pole qui n'existe pas
+        }
         return employe;
     }
 }

@@ -1,5 +1,7 @@
 package mg.etech.mobile.etechapp.service.applicatif.synchro.back;
 
+import android.util.Log;
+
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
@@ -18,6 +20,8 @@ import mg.etech.mobile.etechapp.contrainte.factory.dto.poste.PosteDtoFromDOFacto
 import mg.etech.mobile.etechapp.contrainte.factory.dto.poste.PosteDtoFromDOFactoryImpl;
 import mg.etech.mobile.etechapp.contrainte.factory.dto.poste.PosteDtoFromWsDtoFactory;
 import mg.etech.mobile.etechapp.contrainte.factory.dto.poste.PosteDtoFromWsDtoFactoryImpl;
+import mg.etech.mobile.etechapp.contrainte.factory.wsdto.employe.EmployeWsDtoFromDtoFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.wsdto.employe.EmployeWsDtoFromDtoFactoryImpl;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
@@ -73,17 +77,33 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
     @Bean(EmployeDtoFromWsDtoFactoryImpl.class)
     EmployeDtoFromWsDtoFactory employeDtoFromWsDtoFactory;
 
+    @Bean(EmployeWsDtoFromDtoFactoryImpl.class)
+    EmployeWsDtoFromDtoFactory employeWsDtoFromDtoFactory;
+
     @Override
     public void synch() throws IOException, ApiCallException {
         clearAllTable();
         populateBase();
     }
 
+    @Override
+    public EmployeDto createEmploye(EmployeDto nouveauEmployeDto) throws IOException, ApiCallException {
+        EmployeWsDto employeWsDto = employeBdl.create(employeWsDtoFromDtoFactory.getInstance(nouveauEmployeDto));
+        EmployeDto employeDto = employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDto, nouveauEmployeDto.getPole());
+        employeSA.create(employeDto);
+        return employeDto;
+    }
+
     // effacer: pole, employe
     public void clearAllTable() {
+        Log.d("mahery-haja", "synch: clear begin");
+        Log.d("mahery-haja", "synch: deletePoleSa");
         poleSA.deleteAll();
+        Log.d("mahery-haja", "synch: delete employe");
         employeSA.deleteAll();
-        posteSA.deleteAll();
+
+        //posteSA.deleteAll();
+        Log.d("mahery-haja", "synch: clear tables");
     }
 
 
@@ -106,7 +126,10 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
         List<EmployeDto> employeDtos = new ArrayList<>();
 
         for (EmployeWsDto employeWsDto : employeWsDtos) {
-            employeDtos.add(employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDto, poleDtoMap.get(employeWsDto.getId())));
+            if (employeWsDto.getPole() < poleDtos.size()) {
+                //pour eviter les erreurs de pole
+                employeDtos.add(employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDto, poleDtoMap.get(employeWsDto.getPole())));
+            }
         }
         return employeDtos;
     }
@@ -116,8 +139,8 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
         List<PoleDto> poleDtos = retrieveAllPole();
         poleSA.create(poleDtos);
 
-        List<PosteDto> posteDtos = retrieveAllPoste();
-        posteSA.create(posteDtos);
+        //List<PosteDto> posteDtos = retrieveAllPoste();
+        //posteSA.create(posteDtos);
 
 
         poleDtos = poleSA.findAll();

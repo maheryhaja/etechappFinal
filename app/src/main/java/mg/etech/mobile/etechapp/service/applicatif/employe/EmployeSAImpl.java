@@ -58,6 +58,7 @@ public class EmployeSAImpl implements EmployeSA {
 
     @Override
     public void create(List<EmployeDto> employeDtos) {
+        Log.d("mahery-haja", "create list");
         List<Employe> employes = employeFromDtoFactory.getInstance(employeDtos);
         for (Employe e : employes)
             Log.d("mahery-haja", e.getPole().getName() + " " + e.getFirstName());

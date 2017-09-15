@@ -83,6 +83,16 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
     public void validationSucceeded() {
         if (photoPicker.isSet()) {
 
+            UserDto userDto = new UserDto();
+            userDto.setFirstName(edtPrenom.getText().toString());
+            userDto.setLastname(edtNom.getText().toString());
+            userDto.setPassword(edtPassword.getText().toString());
+            userDto.setLogin(edtLogin.getText().toString());
+
+            //a revoir
+            userDto.setPhoto(photoPicker.getValue());
+            inscrireUser(userDto);
+
         } else {
             onPhotoPickerNotSet();
         }
@@ -96,16 +106,6 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
     @Click(R.id.btnValiderInscription)
     public void onValiderInscriptionClicked() {
         validator.validate();
-
-        UserDto userDto = new UserDto();
-        userDto.setFirstName(edtPrenom.getText().toString());
-        userDto.setLastname(edtNom.getText().toString());
-        userDto.setPassword(edtPassword.getText().toString());
-        userDto.setLogin(edtLogin.getText().toString());
-
-        //a revoir
-        userDto.setPhoto(photoPicker.getValue());
-        inscrireUser(userDto);
 
     }
 

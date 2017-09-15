@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="mg.etech.mobile.etechapp.presentation.fragments.employe.create.CreateEmployeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -21,13 +22,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/edtCreateEmployeNom"
                 style="@style/edt_general_style"
-                android:hint="@string/hint_prenom_employe" />
+                android:hint="@string/hint_nom_employe" />
 
             <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/edt_general_style"
-                android:hint="@string/hint_nom_employe"
+                android:hint="@string/hint_prenom_employe"
                 android:id="@+id/edtCreateEmployePrenom" />
 
             <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
@@ -41,7 +42,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/edt_general_style"
-                android:hint="@string/hint_matricule" />
+                android:hint="@string/hint_matricule"
+                android:id="@+id/edtCreateEmployeMatricule"
+                android:inputType="number" />
 
             <mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker
                 android:layout_width="match_parent"
@@ -59,11 +62,26 @@
                 android:id="@+id/edtCreateEmployeHiringDate"
                 android:hint="@string/hint_date_embauche" />
 
-            <Switch
+            <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/little_padding"
-                android:hint="Homme" />
+                android:orientation="horizontal"
+                android:id="@+id/rGroupMale"
+                android:layout_gravity="center">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rbutton_homme"
+                    android:id="@+id/rBtnCreateEmployeHomme"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rBtnCreateEmployeFemme"
+                    android:text="@string/rbutton_femme" />
+            </RadioGroup>
 
             <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
                 android:layout_width="match_parent"
@@ -83,6 +101,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_poleDto"></Spinner>
+
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rond_shape_blue"
+                android:text="@string/btn_text_create_employe"
+                android:id="@+id/btnCreaterEmploye"
+                app:spinning_bar_width="4dp"
+                app:spinning_bar_color="#FFF"
+                app:spinning_bar_padding="6dp"
+                android:layout_gravity="center_horizontal"
+
+                />
         </LinearLayout>
 
     </ScrollView>

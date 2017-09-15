@@ -1,5 +1,7 @@
 package mg.etech.mobile.etechapp.service.businessDelegate.employe;
 
+import android.util.Log;
+
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -11,6 +13,7 @@ import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingleton;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingletonImpl;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.CreateEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.ListEmployeResponse;
 
 /**
@@ -32,16 +35,40 @@ public class EmployeBdlImpl implements EmployeBdl {
 
     @Override
     public List<EmployeWsDto> findAll() throws IOException, ApiCallException {
-
-        ListEmployeResponse listEmployeResponse = employeApi.findAll().execute().body();
-
+        Log.d("mahery-haja", "retrieve employe begin");
         List<EmployeWsDto> employeWsDtos = null;
+        try {
+            ListEmployeResponse listEmployeResponse = null;
+            listEmployeResponse = employeApi.findAll().execute().body();
 
-        if (!listEmployeResponse.isSuccess()) {
+            if (!listEmployeResponse.isSuccess()) {
+                throw new ApiCallException();
+            } else {
+                employeWsDtos = listEmployeResponse.getDatas();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("mahery-haja", "une exception dans creation des employés");
+        }
+
+        Log.d("mahery-haja", "bug point " + employeWsDtos.size());
+        return employeWsDtos;
+    }
+
+    @Override
+    public EmployeWsDto create(EmployeWsDto employeWsDto) throws IOException, ApiCallException {
+        CreateEmployeResponse createEmployeResponse = employeApi.create(employeWsDto).execute().body();
+        EmployeWsDto employeWsDto1 = null;
+
+        if (!createEmployeResponse.isSuccess()) {
             throw new ApiCallException();
         } else {
-            employeWsDtos = listEmployeResponse.getDatas();
+            // success case
+            employeWsDto = createEmployeResponse.getEmploye();
         }
-        return employeWsDtos;
+        return employeWsDto;
+
+
     }
 }

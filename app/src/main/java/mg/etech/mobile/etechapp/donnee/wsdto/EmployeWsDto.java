@@ -13,7 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmployeWsDto {
 
-    public static final String DATE_WS_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_WS_PATTERN = "yyyy-MM-dd";
     @JsonProperty("id")
     private Long id;
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 
 /**
@@ -51,6 +52,7 @@ public class PoleSpinnerAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         TextView textView = new TextView(context);
         textView.setText(poleDtos.get(position).getName());
+        textView.setTextColor(context.getResources().getColor(R.color.white));
         return textView;
     }
 

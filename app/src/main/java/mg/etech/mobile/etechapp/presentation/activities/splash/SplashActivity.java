@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         initializeIntervalObservable();
 
 
-//        backSynchronize();
+        backSynchronize();
 
 
         fiveSecondsObservable
@@ -71,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
                                 @Override
                                 public void run() throws Exception {
                                     if (preferenceSA.isUserConnected()) {
-                                        goToMainActivity();
+//                                        goToMainActivity();
                                     } else {
                                         goToLoginActivity();
                                     }
@@ -97,12 +97,14 @@ public class SplashActivity extends AppCompatActivity {
                                @Override
                                public void accept(Boolean aBoolean) throws Exception {
                                    Log.d("mahery-haja", "synchronisation success");
+                                   goToMainActivity();
                                }
                            },
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
                                 Log.d("mahery-haja", "synchronisation error");
+                                throwable.printStackTrace();
                             }
                         }
                 );

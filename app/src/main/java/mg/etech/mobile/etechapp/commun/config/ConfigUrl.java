@@ -18,6 +18,7 @@ public class ConfigUrl {
 
     public static class employe {
         public static final String FIND_ALL = "/employe/getAll";
+        public static final String CREATE_EMPLOYE = "/employe/create";
     }
 
     public static class poste {

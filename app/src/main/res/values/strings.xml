@@ -4,6 +4,15 @@
     <string name="required_mail">e-mail nécessaire</string>
     <string name="required_password">Mot de passe nécessaire</string>
 
+    <!-- message d'erreur creer employe-->
+    <string name="required_create_employe_nom">Nom nécessaire</string>
+    <string name="required_create_employe_prenom">Nom nécessaire</string>
+    <string name="required_create_employe_matricule">Matricule nécessaire</string>
+    <string name="required_create_employe_birthdate">Date de naissance nécessaire</string>
+    <string name="required_create_employe_hiringdate">Date d\'embauche nécessaire</string>
+    <string name="required_create_employe_mail">e-mail nécessaire</string>
+
+
     <string name="required_prenom">Prénom nécessaire</string>
     <string name="required_nom">nom nécessaire</string>
 
@@ -33,4 +42,7 @@
     <string name="hint_matricule">Matricule</string>
     <string name="hint_date_embauche">Date d\'embauche</string>
     <string name="hint_e_mail">e-mail</string>
+    <string name="rbutton_homme">Homme</string>
+    <string name="rbutton_femme">Femme</string>
+    <string name="btn_text_create_employe">Creer employe</string>
 </resources>

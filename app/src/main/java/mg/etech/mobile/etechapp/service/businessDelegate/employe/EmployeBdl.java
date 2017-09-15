@@ -11,4 +11,6 @@ import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
  */
 public interface EmployeBdl {
     List<EmployeWsDto> findAll() throws IOException, ApiCallException;
+
+    EmployeWsDto create(EmployeWsDto employeWsDto) throws IOException, ApiCallException;
 }
