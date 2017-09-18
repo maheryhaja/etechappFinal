@@ -28,10 +28,13 @@ import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
+import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
 import mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragmentWithValidator;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSA;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.poste.PosteSA;
+import mg.etech.mobile.etechapp.service.applicatif.poste.PosteSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSAImpl;
 
@@ -76,6 +79,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     Base64PhotoPicker base64PhotoPicker;
 
     private List<PoleDto> poleDtos;
+    private List<PosteDto> posteDtos;
 
     private boolean isMale = true;
 
@@ -83,6 +87,9 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @Bean(PoleSAImpl.class)
     PoleSA poleSA;
+
+    @Bean(PosteSAImpl.class)
+    PosteSA posteSA;
 
     @Bean(BackSynchronizerSAImpl.class)
     BackSynchronizerSA backSynchronizerSA;
@@ -170,6 +177,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     @AfterViews
     public void initAfterView() {
         poleDtos = poleSA.findAll();
+        posteDtos = posteSA.findAll();
         spinnerAdapter = new PoleSpinnerAdapter(getContext(), android.R.layout.simple_list_item_1, poleDtos);
         spinnerPoleDto.setAdapter(spinnerAdapter);
         validator = new Validator(this);
@@ -196,4 +204,11 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     public void handleError(Throwable error) {
         Toast.makeText(pActivity, "Une erreur vient de survenir", Toast.LENGTH_SHORT).show();
     }
+
+    @Click(R.id.btnCreateEmployeAddPoste)
+    void onAddPosteClicked() {
+        AddPosteDialog addPosteDialog = new AddPosteDialog(getContext(), getLayoutInflater(), posteDtos);
+        addPosteDialog.show();
+    }
+
 }
