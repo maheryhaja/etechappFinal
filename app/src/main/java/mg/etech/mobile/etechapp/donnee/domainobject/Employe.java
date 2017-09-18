@@ -44,6 +44,8 @@ public class Employe {
     @DatabaseField(columnName = "photo")
     private String photo;
 
+    @DatabaseField(columnName = "postes")
+    private String postes;
 
     public Long getId() {
         return id;
@@ -131,5 +133,13 @@ public class Employe {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getPostes() {
+        return postes;
+    }
+
+    public void setPostes(String postes) {
+        this.postes = postes;
     }
 }

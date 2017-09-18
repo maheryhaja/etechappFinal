@@ -1,5 +1,8 @@
 package mg.etech.mobile.etechapp.contrainte.factory.domainobject.employe;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
@@ -37,6 +40,15 @@ public class EmployeFromDtoFactoryImpl extends BaseFactory<EmployeDto, Employe> 
         } catch (IllegalArgumentException e) {
             //pole qui n'existe pas
         }
+
+        //convertion de l'historique des postes en String
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            employe.setPostes(objectMapper.writeValueAsString(employeDto.getPostes()));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         return employe;
     }
 }

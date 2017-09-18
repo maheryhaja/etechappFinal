@@ -1,7 +1,12 @@
 package mg.etech.mobile.etechapp.contrainte.factory.dto.employe;
 
+import android.util.Log;
+
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
+import mg.etech.mobile.etechapp.contrainte.factory.dto.poste.HistoryPosteDtoFromWsDtoFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.dto.poste.HistoryPosteDtoFromWsDtoFactoryImpl;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
@@ -11,6 +16,10 @@ import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
  */
 @EBean(scope = EBean.Scope.Singleton)
 public class EmployeDtoFromWsDtoFactoryImpl implements EmployeDtoFromWsDtoFactory {
+
+    @Bean(HistoryPosteDtoFromWsDtoFactoryImpl.class)
+    HistoryPosteDtoFromWsDtoFactory factory;
+
     @Override
     public EmployeDto getInstanceWithPoleDto(EmployeWsDto employeWsDto, PoleDto poleDto) {
 
@@ -27,6 +36,10 @@ public class EmployeDtoFromWsDtoFactoryImpl implements EmployeDtoFromWsDtoFactor
         employeDto.setMale(employeWsDto.isMale());
         employeDto.setPhoto(employeWsDto.getPhoto());
         employeDto.setPole(poleDto);
+
+        Log.d("mahery-haja", "appel conversion history");
+        employeDto.setPostes(factory.getInstance(employeWsDto.getPostes()));
+
         return employeDto;
     }
 }

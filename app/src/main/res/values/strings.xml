@@ -45,4 +45,5 @@
     <string name="rbutton_homme">Homme</string>
     <string name="rbutton_femme">Femme</string>
     <string name="btn_text_create_employe">Creer employe</string>
+    <string name="txt_aucun_poste">Aucun poste n\'a été affecté a cet employé</string>
 </resources>

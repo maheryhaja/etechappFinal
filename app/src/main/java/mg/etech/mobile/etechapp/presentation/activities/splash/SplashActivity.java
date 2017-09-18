@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         initializeIntervalObservable();
 
 
-        backSynchronize();
+//        backSynchronize();
 
 
         fiveSecondsObservable
@@ -71,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
                                 @Override
                                 public void run() throws Exception {
                                     if (preferenceSA.isUserConnected()) {
-//                                        goToMainActivity();
+                                        goToMainActivity();
                                     } else {
                                         goToLoginActivity();
                                     }

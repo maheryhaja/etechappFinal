@@ -2,21 +2,31 @@ package mg.etech.mobile.etechapp.presentation.fragments.employe.detail;
 
 
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Callable;
 
+import eu.davidea.flexibleadapter.FlexibleAdapter;
+import eu.davidea.flexibleadapter.items.IFlexible;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -27,6 +37,7 @@ import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 import mg.etech.mobile.etechapp.commun.constante.SimpleDate;
 import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
 
@@ -70,6 +81,19 @@ public class DetailEmployeFragment extends Fragment {
     EmployeSA employeSA;
 
 
+    @ViewById(R.id.flipViewDetailEmploye)
+    EasyFlipView easyFlipView;
+
+
+    @ViewById(R.id.cardDetailBack)
+    CardView backCardView;
+
+    @ViewById(R.id.recyclerView_detailHistoryPoste)
+    RecyclerView recyclerView;
+
+    @ViewById(R.id.txtHistoryNoPoste)
+    TextView txtHistoryNoPoste;
+
     private EmployeDto employeDto;
 
     public DetailEmployeFragment() {
@@ -78,7 +102,34 @@ public class DetailEmployeFragment extends Fragment {
 
     @AfterViews
     void initAfterViews() {
+
+        //initialize flipview
         retrieveEmploye();
+        easyFlipView.setVisibility(View.VISIBLE);
+
+
+    }
+
+    private void initializePosteHistoryDetail() {
+        List<IFlexible> items = new ArrayList<>();
+
+        List<HistoryPosteDto> historyPosteDtos = employeDto.getPostes();
+
+        if (historyPosteDtos != null) {
+            for (HistoryPosteDto historyPosteDto : employeDto.getPostes()) {
+                Log.d("mahery-haja", "initialisation poste " + historyPosteDto.getName());
+                items.add(new PosteHistoryFlexibleItem(historyPosteDto));
+            }
+        }
+
+        if (historyPosteDtos.size() == 0) {
+            txtHistoryNoPoste.setVisibility(View.VISIBLE);
+        }
+
+
+        FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
     }
 
     private void actualiserAffichage() {
@@ -99,6 +150,8 @@ public class DetailEmployeFragment extends Fragment {
 
         // set Age
         txtAge.setText(getFormatedAge(employeDto.getBirthDate()));
+
+        initializePosteHistoryDetail();
 
         setImage(employeDto.getPhoto());
     }
@@ -181,6 +234,12 @@ public class DetailEmployeFragment extends Fragment {
                             }
                         }
                 );
+    }
+
+    @Click(R.id.btnDetailEmployeFlipToHistorique)
+    void onShowHistoryClicked() {
+        easyFlipView.flipTheView();
+
     }
 
 }

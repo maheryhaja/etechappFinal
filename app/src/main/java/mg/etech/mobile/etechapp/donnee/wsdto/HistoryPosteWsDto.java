@@ -25,4 +25,27 @@ public class HistoryPosteWsDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_WS_PATTERN)
     private Date datePromotion;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getDatePromotion() {
+        return datePromotion;
+    }
+
+    public void setDatePromotion(Date datePromotion) {
+        this.datePromotion = datePromotion;
+    }
 }

@@ -1,5 +1,7 @@
 package mg.etech.mobile.etechapp.donnee.wsdto;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -145,6 +147,8 @@ public class EmployeWsDto {
     }
 
     public List<HistoryPosteWsDto> getPostes() {
+        for (HistoryPosteWsDto historyPosteWsDto : postes)
+            Log.d("mahery-haja", "a post found " + historyPosteWsDto.getName());
         return postes;
     }
 

@@ -2,6 +2,7 @@ package mg.etech.mobile.etechapp.donnee.dto;
 
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by mahery.haja on 06/09/2017.
@@ -18,6 +19,7 @@ public class EmployeDto {
     private PoleDto pole;
     boolean male;
     private String photo;
+    private List<HistoryPosteDto> postes;
 
     public Long getId() {
         return id;
@@ -107,5 +109,11 @@ public class EmployeDto {
         this.photo = photo;
     }
 
+    public List<HistoryPosteDto> getPostes() {
+        return postes;
+    }
 
+    public void setPostes(List<HistoryPosteDto> postes) {
+        this.postes = postes;
+    }
 }

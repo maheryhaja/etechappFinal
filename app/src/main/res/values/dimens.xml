@@ -14,7 +14,6 @@
     <dimen name="general_margin">15dp</dimen>
     <dimen name="image_button_dimens">64dp</dimen>
     <dimen name="little_margin">2dp</dimen>
-
     <dimen name="detail_employe_photo_size">150dp</dimen>
     <dimen name="detail_employe_photo_size_half">75dp</dimen>
     <dimen name="fab_button_size">40dp</dimen>

@@ -102,7 +102,7 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
         Log.d("mahery-haja", "synch: delete employe");
         employeSA.deleteAll();
 
-        //posteSA.deleteAll();
+        posteSA.deleteAll();
         Log.d("mahery-haja", "synch: clear tables");
     }
 
@@ -139,8 +139,8 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
         List<PoleDto> poleDtos = retrieveAllPole();
         poleSA.create(poleDtos);
 
-        //List<PosteDto> posteDtos = retrieveAllPoste();
-        //posteSA.create(posteDtos);
+        List<PosteDto> posteDtos = retrieveAllPoste();
+        posteSA.create(posteDtos);
 
 
         poleDtos = poleSA.findAll();

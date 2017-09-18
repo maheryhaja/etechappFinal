@@ -129,6 +129,8 @@ dependencies {
     //date picker
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
 
+    //flip view pager for employe detail
+    compile 'com.wajahatkarim3.EasyFlipView:EasyFlipView:1.0.2'
 }
 
 def AAVersion = '4.3.1'
