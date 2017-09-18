@@ -131,6 +131,11 @@ dependencies {
 
     //flip view pager for employe detail
     compile 'com.wajahatkarim3.EasyFlipView:EasyFlipView:1.0.2'
+
+    //chipcloud
+    compile 'com.github.maheryhaja:ChipCloud:3.0.6'
+
+
 }
 
 def AAVersion = '4.3.1'

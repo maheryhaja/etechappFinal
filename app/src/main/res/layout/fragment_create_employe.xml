@@ -102,6 +102,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_poleDto"></Spinner>
 
+
+            <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ajouter_un_poste"
+                android:id="@+id/btnCreateEmployeAddPoste" />
+
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
