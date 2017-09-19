@@ -3,9 +3,13 @@ package mg.etech.mobile.etechapp.presentation.fragments.employe.create;
 
 
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.flexbox.FlexboxLayout;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -13,20 +17,26 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+import fisk.chipcloud.ChipCloud;
+import fisk.chipcloud.ChipCloudConfig;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.commun.constante.SimpleDate;
 import mg.etech.mobile.etechapp.commun.exception.HandleErrors;
+import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
 import mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
 import mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker;
@@ -78,6 +88,14 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     @ViewById(R.id.b64CreateEmployePicker)
     Base64PhotoPicker base64PhotoPicker;
 
+    @ViewById(R.id.chipFlexBoxLayout)
+    FlexboxLayout chipFlexBoxLayout;
+
+    private AddPosteDialog addPosteDialog;
+
+    private List<HistoryPosteDto> historyPosteDtos = new ArrayList<>();
+    private ChipCloud chipCloud;
+
     private List<PoleDto> poleDtos;
     private List<PosteDto> posteDtos;
 
@@ -111,8 +129,15 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
             onPhotoPickerNotSet();
         } else {
             // start animation
-            btnCreateEmploye.startAnimation();
-            getEmployeDtofromForm();
+
+            if (historyPosteDtos.size() == 0) {
+                Toast.makeText(getContext(), "Veuillez choisir au moins un poste", Toast.LENGTH_LONG).show();
+            } else {
+
+                btnCreateEmploye.startAnimation();
+                getEmployeDtofromForm();
+
+            }
         }
     }
 
@@ -136,6 +161,10 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
         employeDto.setMail(edtMail.getText().toString());
         employeDto.setPhoto(base64PhotoPicker.getValue());
         employeDto.setPole(poleDtos.get(spinnerPoleDto.getSelectedItemPosition()));
+        employeDto.setPostes(historyPosteDtos);
+
+        for (HistoryPosteDto historyPosteDto : historyPosteDtos)
+            Log.d("mahery-haja", "poste found " + historyPosteDto.getName());
 
         createEmploye(employeDto);
     }
@@ -182,6 +211,48 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
         spinnerPoleDto.setAdapter(spinnerAdapter);
         validator = new Validator(this);
         validator.setValidationListener(this);
+
+
+        initializeDialog();
+
+        initialiseChipCloud();
+
+    }
+
+    private void initializeDialog() {
+        addPosteDialog = new AddPosteDialog(getContext(), getLayoutInflater(null), posteDtos);
+
+        addPosteDialog
+                .getHistoryPosteDtoObservable()
+                .subscribe(new Consumer<HistoryPosteDto>() {
+                               @Override
+                               public void accept(HistoryPosteDto historyPosteDto) throws Exception {
+                                   historyPosteDto.setId((long) (historyPosteDtos.size() + 1));
+                                   historyPosteDtos.add(historyPosteDto);
+                                   chipCloud.addChip(historyPosteDto.getName() + " [ " + SimpleDateUtils.format(historyPosteDto.getDatePromotion(), SimpleDate.GENERAL_DATE_PATTERN) + " ]");
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Log.d("mahery-haja", "erreur observable");
+                                throwable.printStackTrace();
+                            }
+                        }
+                );
+    }
+
+    private void initialiseChipCloud() {
+        ChipCloudConfig config = new ChipCloudConfig()
+                .selectMode(ChipCloud.SelectMode.none)
+                .checkedChipColor(Color.parseColor("#ddaa00"))
+                .checkedTextColor(Color.parseColor("#ffffff"))
+                .uncheckedChipColor(Color.parseColor("#efefef"))
+                .uncheckedTextColor(Color.parseColor("#666666"))
+                .useInsetPadding(true);
+        chipCloud = new ChipCloud(getContext(), chipFlexBoxLayout, config);
+
+
     }
 
 
@@ -203,11 +274,12 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     @Override
     public void handleError(Throwable error) {
         Toast.makeText(pActivity, "Une erreur vient de survenir", Toast.LENGTH_SHORT).show();
+        error.printStackTrace();
     }
 
     @Click(R.id.btnCreateEmployeAddPoste)
     void onAddPosteClicked() {
-        AddPosteDialog addPosteDialog = new AddPosteDialog(getContext(), getLayoutInflater(), posteDtos);
+
         addPosteDialog.show();
     }
 

@@ -102,6 +102,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_poleDto"></Spinner>
 
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/chipFlexBoxLayout"
+                app:flexWrap="wrap"
+                app:alignItems="stretch"
+                app:alignContent="stretch"></com.google.android.flexbox.FlexboxLayout>
+
 
             <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
                 android:layout_width="wrap_content"

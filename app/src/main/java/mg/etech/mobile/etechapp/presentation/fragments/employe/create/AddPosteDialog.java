@@ -1,6 +1,7 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.create;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -9,6 +10,7 @@ import android.widget.Spinner;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.dialog.BaseDialog;
 import mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker;
@@ -30,6 +32,8 @@ public class AddPosteDialog extends BaseDialog {
     private HistoryPosteDto historyPosteDto;
 
     private LinearLayout contenu;
+
+    private PublishSubject<HistoryPosteDto> publishSubject = PublishSubject.create();
 
     public AddPosteDialog(Context ctx, LayoutInflater inf) {
         super(ctx, inf);
@@ -63,6 +67,9 @@ public class AddPosteDialog extends BaseDialog {
         historyPosteDto = new HistoryPosteDto();
         historyPosteDto.setName(posteDtos.get(posteSpinner.getSelectedItemPosition()).getName());
         historyPosteDto.setDatePromotion(datePromotionPicker.getDate());
+
+        Log.d("mahery-haja", "publication");
+        publishSubject.onNext(historyPosteDto);
         return true;
     }
 
@@ -74,5 +81,9 @@ public class AddPosteDialog extends BaseDialog {
     @Override
     protected String getTitle() {
         return "Ajout de Poste";
+    }
+
+    public PublishSubject<HistoryPosteDto> getHistoryPosteDtoObservable() {
+        return publishSubject;
     }
 }

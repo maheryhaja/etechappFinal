@@ -2,9 +2,12 @@ package mg.etech.mobile.etechapp.contrainte.factory.wsdto.employe;
 
 import android.util.Log;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import mg.etech.mobile.etechapp.contrainte.factory.BaseFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.wsdto.poste.HistoryPosteWsDtoFromDtoFactory;
+import mg.etech.mobile.etechapp.contrainte.factory.wsdto.poste.HistoryPosteWsDtoFromDtoFactoryImpl;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 
@@ -13,6 +16,10 @@ import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
  */
 @EBean(scope = EBean.Scope.Singleton)
 public class EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, EmployeWsDto> implements EmployeWsDtoFromDtoFactory {
+
+    @Bean(HistoryPosteWsDtoFromDtoFactoryImpl.class)
+    HistoryPosteWsDtoFromDtoFactory historyPosteWsDtoFromDtoFactory;
+
     @Override
     public EmployeWsDto getInstance(EmployeDto employeDto) {
 
@@ -27,7 +34,7 @@ public class EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, Empl
         employeWsDto.setPhoto(employeDto.getPhoto());
         employeWsDto.setBirthDate(employeDto.getBirthDate());
         employeWsDto.setHiringDate(employeDto.getHiringDate());
-
+        employeWsDto.setPostes(historyPosteWsDtoFromDtoFactory.getInstance(employeDto.getPostes()));
         employeWsDto.setPole(employeDto.getPole().getId());
         Log.d("mahery-haja", "transformation " + employeWsDto.getPole());
         return employeWsDto;
