@@ -126,10 +126,16 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
         List<EmployeDto> employeDtos = new ArrayList<>();
 
         for (EmployeWsDto employeWsDto : employeWsDtos) {
-            if (employeWsDto.getPole() < poleDtos.size()) {
-                //pour eviter les erreurs de pole
-                employeDtos.add(employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDto, poleDtoMap.get(employeWsDto.getPole())));
+
+            try {
+                if (employeWsDto.getPole() < poleDtos.size()) {
+                    //pour eviter les erreurs de pole
+                    employeDtos.add(employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDto, poleDtoMap.get(employeWsDto.getPole())));
+                }
+            } catch (NullPointerException e) {
+                //pole null
             }
+
         }
         return employeDtos;
     }

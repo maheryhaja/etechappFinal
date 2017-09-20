@@ -31,6 +31,7 @@ import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.constante.SimpleDate;
 import mg.etech.mobile.etechapp.commun.exception.HandleErrors;
+import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
 import mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
@@ -41,6 +42,9 @@ import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
 import mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragmentWithValidator;
+import mg.etech.mobile.etechapp.service.applicatif.operation.commands.CreateEmployeCommand;
+import mg.etech.mobile.etechapp.service.applicatif.operation.commands.factory.OperationCommandFactory;
+import mg.etech.mobile.etechapp.service.applicatif.operation.commands.factory.OperationCommandFactoryImpl;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSA;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.poste.PosteSA;
@@ -73,6 +77,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @Required(order = 5, messageResId = R.string.required_create_employe_hiringdate)
     @ViewById(R.id.edtCreateEmployeHiringDate)
+
     SimpleDatePicker edtHiringDate;
 
     @Required(order = 6, messageResId = R.string.required_mail)
@@ -90,6 +95,9 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @ViewById(R.id.chipFlexBoxLayout)
     FlexboxLayout chipFlexBoxLayout;
+
+    @Bean(OperationCommandFactoryImpl.class)
+    OperationCommandFactory operationCommandFactory;
 
     private AddPosteDialog addPosteDialog;
 
@@ -174,7 +182,12 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                 .fromCallable(new Callable<EmployeDto>() {
                     @Override
                     public EmployeDto call() throws Exception {
-                        return backSynchronizerSA.createEmploye(employeDto);
+                        CreateEmployeCommand command;
+                        Log.d("mahery-haja", "set operation begin");
+                        command = (CreateEmployeCommand) operationCommandFactory.create(OperationType.CREATE, employeDto, null);
+                        Log.d("mahery-haja", "set operation end");
+                        return employeDto;
+//                        return backSynchronizerSA.createEmploye(employeDto);
                     }
                 })
                 .subscribeOn(Schedulers.io())

@@ -1,12 +1,21 @@
 package mg.etech.mobile.etechapp.donnee.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by mahery.haja on 05/09/2017.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PoleDto {
 
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("idServer")
     private String idServer;
 
     public Long getId() {

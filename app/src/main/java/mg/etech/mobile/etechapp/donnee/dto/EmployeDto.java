@@ -1,24 +1,52 @@
 package mg.etech.mobile.etechapp.donnee.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by mahery.haja on 06/09/2017.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EmployeDto {
+
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("firstname")
     private String firstName;
+
+    @JsonProperty("lastname")
     private String lastName;
+
+    @JsonProperty("allias")
     private String alias;
+
+    @JsonProperty("birthDate")
     private Date birthDate;
+
+    @JsonProperty("hiringDate")
     private Date hiringDate;
+
+    @JsonProperty("mail")
     private String mail;
+
+    @JsonProperty("matricule")
     private Long matricule;
+
+    @JsonProperty("pole")
     private PoleDto pole;
+
+    @JsonProperty("male")
     boolean male;
+
+    @JsonProperty("photo")
     private String photo;
+
+    @JsonProperty("postes")
     private List<HistoryPosteDto> postes;
 
     public Long getId() {

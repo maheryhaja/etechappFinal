@@ -10,6 +10,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import mg.etech.mobile.etechapp.commun.exception.TechnicalException;
 import mg.etech.mobile.etechapp.donnee.domainobject.Employe;
+import mg.etech.mobile.etechapp.donnee.domainobject.Operation;
 import mg.etech.mobile.etechapp.donnee.domainobject.Pole;
 import mg.etech.mobile.etechapp.donnee.domainobject.Poste;
 
@@ -20,7 +21,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	
 	// any time you make changes to your database objects, you may have to
 	// increase the database version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
 	protected Context context;
 
@@ -44,8 +45,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, Pole.class);
 			TableUtils.createTable(connectionSource, Employe.class);
 			TableUtils.createTable(connectionSource, Poste.class);
-
-		}
+            TableUtils.createTable(connectionSource, Operation.class);
+        }
 	catch (SQLException e) {
 		throw new TechnicalException(e);
 	} catch (java.sql.SQLException e) {
@@ -63,8 +64,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.dropTable(connectionSource, Pole.class, false);
 			TableUtils.dropTable(connectionSource, Employe.class, false);
 			TableUtils.dropTable(connectionSource, Poste.class, false);
-
-			onCreate(db);
+            TableUtils.dropTable(connectionSource, Operation.class, false);
+            onCreate(db);
 		} catch(Exception ex) {
 			throw new TechnicalException(ex);
 		}

@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
         List<PoleDto> poleDtoList = poleSA.findAll();
 
+
+        /***
+         * TODO mettre ici le recepteur venant de la base de donnees
+         */
         for (PoleDto poleDto : poleDtoList) {
             ListEmployeFragment_ fragment = new ListEmployeFragment_();
             fragment.setEmployeDtos(employeSA.findByPole(poleDto));

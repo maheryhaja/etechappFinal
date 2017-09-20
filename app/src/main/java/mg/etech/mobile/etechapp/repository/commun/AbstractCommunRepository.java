@@ -90,6 +90,21 @@ public class AbstractCommunRepository<C, K> implements CommunRepository<C, K> {
 		}
 	}
 
+	//insert and return created Id
+	@Override
+	public int insertAndReturn(C entity) {
+		if (entity != null) {
+			int newid = abstractRunTimeExceptionDao.create(entity);
+			if (newid == 0) {
+				throw new TechnicalException(INSERT_ERROR_MESSAGE
+						+ entity.toString());
+			}
+			return newid;
+		} else
+
+			return 0;
+	}
+
 	/**
 	 * {@link CommunRepository#update(Object)}
 	 */

@@ -71,8 +71,12 @@ public interface CommunRepository<C, K> {
 	 */
 	void insertBatch(final List<C> listeObjectToInsert);
 
-	/**
-	 * Generic method to update an object.
+    //insert and return created Id
+    //only use in case of id is derived from int
+    int insertAndReturn(C entity);
+
+    /**
+     * Generic method to update an object.
 	 * 
 	 * @param entity
 	 *            the object to save
