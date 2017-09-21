@@ -9,4 +9,5 @@ import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationC
 
 public interface OperationCommandFactory {
     OperationCommand create(String operationType, EmployeDto employeDtoData, EmployeDto target);
+
 }

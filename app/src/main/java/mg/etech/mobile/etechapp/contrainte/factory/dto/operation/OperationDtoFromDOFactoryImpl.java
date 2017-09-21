@@ -1,5 +1,7 @@
 package mg.etech.mobile.etechapp.contrainte.factory.dto.operation;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.androidannotations.annotations.EBean;
@@ -28,10 +30,11 @@ public class OperationDtoFromDOFactoryImpl implements OperationDtoFromDOFactory 
         //need to be polpulated as needed
         String classname = operation.getClassName();
         ObjectMapper objectMapper = new ObjectMapper();
-        if (classname.equals(EmployeDto.class)) {
+        if (classname.contains(EmployeDto.class.getName())) {
             OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<>();
             employeDtoOperationDto.setId(operation.getId());
             employeDtoOperationDto.setOperationName(operation.getOperationName());
+            employeDtoOperationDto.setClassName(classname);
             try {
                 employeDtoOperationDto.setData(objectMapper.readValue(operation.getData(), EmployeDto.class));
                 employeDtoOperationDto.setTarget(objectMapper.readValue(operation.getTarget(), EmployeDto.class));
@@ -39,8 +42,10 @@ public class OperationDtoFromDOFactoryImpl implements OperationDtoFromDOFactory 
                 e.printStackTrace();
             }
             return employeDtoOperationDto;
-        } else
+        } else {
+            Log.d("mahery-haja", "no classname that match " + EmployeDto.class.getName());
             return null;
+        }
     }
 
     @Override

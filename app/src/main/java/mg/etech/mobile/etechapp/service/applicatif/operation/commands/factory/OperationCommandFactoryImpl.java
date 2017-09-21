@@ -28,6 +28,7 @@ public class OperationCommandFactoryImpl implements OperationCommandFactory {
     @Bean(OperationFromDtoFactoryImpl.class)
     OperationFromDtoFactory operationFromDtoFactory;
 
+    //pour les employes
     @Override
     public OperationCommand create(String operationType, EmployeDto employeDtoData, EmployeDto target) {
 
@@ -35,15 +36,6 @@ public class OperationCommandFactoryImpl implements OperationCommandFactory {
         employeDtoOperationDto.setOperationName(operationType);
         employeDtoOperationDto.setData(employeDtoData);
         employeDtoOperationDto.setTarget(target);
-
-        Operation op = operationFromDtoFactory.getInstance(employeDtoOperationDto);
-
-        Log.d("mahery-haja", "creation de op " + op.getData());
-        operationSM.create(op);
-
-        if (op.getId() != 0) {
-            employeDtoOperationDto.setId(op.getId());
-
 
             // reagard type of command
             if (operationType.equals(OperationType.CREATE)) {
@@ -53,8 +45,6 @@ public class OperationCommandFactoryImpl implements OperationCommandFactory {
                 return command;
             }
 
-            // throw exeption in case of not implemented
-        }
 
         Log.d("mahery-haja", "creation failed");
 

@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -17,10 +19,17 @@ import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.internal.util.AppendOnlyLinkedArrayList;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
+import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.DetailEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +41,8 @@ public class ListEmployeFragment extends AbstractFragment {
 
     private List<IFlexible> items = new ArrayList<>();
     private EmployeDto selectedEmployeDto;
+    private PoleDto poleDto;
+    private FlexibleAdapter<IFlexible> adapter;
 
     private FlexibleAdapter.OnItemClickListener onClickListener = new FlexibleAdapter.OnItemClickListener() {
         @Override
@@ -46,6 +57,9 @@ public class ListEmployeFragment extends AbstractFragment {
     @ViewById(R.id.RVListEmploye)
     RecyclerView listEmployeView;
 
+    @Bean(OperationStackSynchroSAImpl.class)
+    OperationStackSynchroSA operationStackSynchroSA;
+
 
     public ListEmployeFragment() {
         // Required empty public constructor
@@ -59,7 +73,7 @@ public class ListEmployeFragment extends AbstractFragment {
 
     @AfterViews
     void initAfterViews() {
-        FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items, onClickListener);
+        adapter = new FlexibleAdapter<IFlexible>(items, onClickListener);
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.mItemClickListener = onClickListener;
@@ -68,18 +82,15 @@ public class ListEmployeFragment extends AbstractFragment {
 
     }
 
+    @AfterInject
+    void initAfterInject() {
+
+    }
+
     public void initFragment() {
 
-
     }
 
-    public void populateAdapter() {
-        Log.d("mahery-haja", "dtos size " + employeDtos.size());
-        for (EmployeDto employeDto : employeDtos) {
-            Log.d("mahery-haja", "populate");
-            items.add(new ListEmployeItem(employeDto));
-        }
-    }
 
     public List<EmployeDto> getEmployeDtos() {
         return employeDtos;
@@ -87,7 +98,6 @@ public class ListEmployeFragment extends AbstractFragment {
 
     public void setEmployeDtos(List<EmployeDto> employeDtos) {
         this.employeDtos = employeDtos;
-        populateAdapter();
     }
 
     private void onItemClicked() {
@@ -98,7 +108,50 @@ public class ListEmployeFragment extends AbstractFragment {
 
     }
 
+    public void setListInitialEmployeObservable(Observable<EmployeDto> listEmployeObservable, Observable<OperationDto<EmployeDto>> operationDtoObservable, PoleDto poleDtoIn) {
+        this.poleDto = poleDtoIn;
+        listEmployeObservable
+                .filter(new AppendOnlyLinkedArrayList.NonThrowingPredicate<EmployeDto>() {
+                    @Override
+                    public boolean test(EmployeDto employeDto) {
+                        return employeDto.getPole().getId() == poleDto.getId();
+                    }
+                })
+                .subscribe(new Consumer<EmployeDto>() {
+                    @Override
+                    public void accept(EmployeDto employeDto) throws Exception {
+//                        Log.d("mahery-haja", "Filter "+poleDto.getName()+" :"+employeDto.getLastName()+" "+employeDto.getLastName());
+                        items.add(new ListEmployeItem(employeDto));
+                        employeDtos.add(employeDto);
+                    }
+                });
 
+        subscribeForEmployeOperation(operationDtoObservable);
+
+
+    }
+
+
+    private void subscribeForEmployeOperation(Observable<OperationDto<EmployeDto>> observable) {
+
+
+        observable
+                .filter(new AppendOnlyLinkedArrayList.NonThrowingPredicate<OperationDto<EmployeDto>>() {
+                    @Override
+                    public boolean test(OperationDto<EmployeDto> employeDtoOperationDto) {
+                        return employeDtoOperationDto.getData().getPole().getId() == poleDto.getId();
+                    }
+                })
+                .subscribe(new Consumer<OperationDto<EmployeDto>>() {
+                    @Override
+                    public void accept(OperationDto<EmployeDto> employeDtoOperationDto) throws Exception {
+
+
+                        items.add(new ListEmployeItemTemp(employeDtoOperationDto.getData()));
+                        employeDtos.add(employeDtoOperationDto.getData());
+                    }
+                });
+    }
 
 
 }

@@ -2,7 +2,6 @@ package mg.etech.mobile.etechapp.presentation.activities.main;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -15,8 +14,10 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.animation.SimpleReboundAnimator;
+import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.employe.createEmloye.CreateEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
@@ -30,6 +31,10 @@ import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSA;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSynchroSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
@@ -54,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
     @Bean(EmployeSAImpl.class)
     EmployeSA employeSA;
 
+    @Bean(DataBaseSynchroSAImpl.class)
+    DataBaseSynchroSA dataBaseSynchroSA;
+
+    @Bean(OperationStackSynchroSAImpl.class)
+    OperationStackSynchroSA operationStackSynchroSA;
+
+
     @Click(R.id.btnLogout)
     void logoutClicked() {
         preferenceSA.setUserConnected(false);
@@ -66,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     void initAfterViews() {
         initViewPager();
         showAddButton();
+
+
     }
 
     private void showAddButton() {
@@ -78,14 +92,12 @@ public class MainActivity extends AppCompatActivity {
 
         List<PoleDto> poleDtoList = poleSA.findAll();
 
-
         /***
          * TODO mettre ici le recepteur venant de la base de donnees
          */
         for (PoleDto poleDto : poleDtoList) {
             ListEmployeFragment_ fragment = new ListEmployeFragment_();
-            fragment.setEmployeDtos(employeSA.findByPole(poleDto));
-            Log.d("mahery-haja", "another " + fragment.getEmployeDtos().size());
+            fragment.setListInitialEmployeObservable(dataBaseSynchroSA.getInitialEmployeList(), operationStackSynchroSA.getInitialOperationListForEmploye(), poleDto);
             fragment.initFragment();
             mainPagerAdapterBuilder = mainPagerAdapterBuilder.addFragment(fragment, poleDto.getIdServer());
         }
@@ -100,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
     @Click(R.id.btnAddEmploye)
     void onAddButtonClicked() {
         CreateEmployeActivity_.intent(this).start();
+    }
+
+    public Observable<EmployeDto> subscribeForEmployeList() {
+        return dataBaseSynchroSA
+                .getInitialEmployeList();
     }
 
 }

@@ -38,6 +38,7 @@ import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
+import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
 import mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker;
@@ -51,6 +52,8 @@ import mg.etech.mobile.etechapp.service.applicatif.poste.PosteSA;
 import mg.etech.mobile.etechapp.service.applicatif.poste.PosteSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
 
 
 @EFragment(R.layout.fragment_create_employe)
@@ -120,6 +123,9 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     @Bean(BackSynchronizerSAImpl.class)
     BackSynchronizerSA backSynchronizerSA;
 
+    @Bean(OperationStackSynchroSAImpl.class)
+    OperationStackSynchroSA operationStackSynchroSA;
+
     private PoleSpinnerAdapter spinnerAdapter;
 
     public CreateEmployeFragment() {
@@ -185,6 +191,12 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                         CreateEmployeCommand command;
                         Log.d("mahery-haja", "set operation begin");
                         command = (CreateEmployeCommand) operationCommandFactory.create(OperationType.CREATE, employeDto, null);
+
+                        OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
+                        employeDtoOperationDto.setOperationName(OperationType.CREATE);
+                        employeDtoOperationDto.setData(employeDto);
+                        operationStackSynchroSA.addOperation(employeDtoOperationDto);
+
                         Log.d("mahery-haja", "set operation end");
                         return employeDto;
 //                        return backSynchronizerSA.createEmploye(employeDto);
