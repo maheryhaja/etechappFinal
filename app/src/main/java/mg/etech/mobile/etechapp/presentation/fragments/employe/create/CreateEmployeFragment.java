@@ -189,17 +189,14 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                     @Override
                     public EmployeDto call() throws Exception {
                         CreateEmployeCommand command;
-                        Log.d("mahery-haja", "set operation begin");
-                        command = (CreateEmployeCommand) operationCommandFactory.create(OperationType.CREATE, employeDto, null);
 
                         OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
                         employeDtoOperationDto.setOperationName(OperationType.CREATE);
                         employeDtoOperationDto.setData(employeDto);
                         operationStackSynchroSA.addOperation(employeDtoOperationDto);
 
-                        Log.d("mahery-haja", "set operation end");
                         return employeDto;
-//                        return backSynchronizerSA.createEmploye(employeDto);
+
                     }
                 })
                 .subscribeOn(Schedulers.io())

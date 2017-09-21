@@ -30,6 +30,7 @@ public class OperationFromDtoFactoryImpl implements OperationFromDtoFactory {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
+
         Operation operation = new Operation();
         operation.setId(operationDto.getId());
         operation.setOperationName(operationDto.getOperationName());
@@ -37,7 +38,9 @@ public class OperationFromDtoFactoryImpl implements OperationFromDtoFactory {
         operation.setClassName(className);
         Log.d("mahery-haja", "className found " + className + " id" + operation.getId());
         try {
-            operation.setData(objectMapper.writeValueAsString(operationDto.getData()));
+            String dataString = objectMapper.writeValueAsString(operationDto.getData());
+            Log.d("mahery-haja", "String value of " + dataString);
+            operation.setData(dataString);
             operation.setTarget(objectMapper.writeValueAsString(operationDto.getTarget()));
         } catch (JsonProcessingException e) {
             e.printStackTrace();

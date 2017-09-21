@@ -31,7 +31,6 @@
             android:id="@+id/txtItemNom"
             android:text="Randrianarisaona Mahery Haja" />
 
-
     </LinearLayout>
 
 
