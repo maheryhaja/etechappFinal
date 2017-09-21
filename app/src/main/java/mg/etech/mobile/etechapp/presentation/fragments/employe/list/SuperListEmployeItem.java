@@ -43,7 +43,7 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
 
     @Override
     public int getLayoutRes() {
-        return R.layout.itemview_list_employe;
+        return R.layout.itemview_list_employe_inside;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
 
     @Override
     public T createViewHolder(FlexibleAdapter adapter, LayoutInflater inflater, ViewGroup parent) {
-        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.itemview_list_employe, null);
+        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.itemview_list_employe_inside, parent, false);
         return (T) new ListEmployeViewHolder(linearLayout, adapter);
     }
 }

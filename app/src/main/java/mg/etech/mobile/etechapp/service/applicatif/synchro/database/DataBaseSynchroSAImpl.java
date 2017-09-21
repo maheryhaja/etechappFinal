@@ -33,6 +33,8 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
     //se souvenir de la liste synchronisé des employé tout au long de l'application
     List<EmployeDto> employeDtoList = new ArrayList<>();
 
+
+
     ReplaySubject<EmployeDto> initialEmployeSubject = ReplaySubject.create();
 
     @Override

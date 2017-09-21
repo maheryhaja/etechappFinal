@@ -20,6 +20,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import fisk.chipcloud.ChipCloud;
@@ -222,8 +223,21 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     private void onCreateEmplyeSuccess() {
         btnCreateEmploye.doneLoadingAnimation(getResources().getColor(R.color.etechGreen), BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_checked));
-        pActivity.finish();
+
+//        pActivity.finish();
+
+
+        Observable
+                .timer(1000, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        pActivity.finish();
+                    }
+                });
     }
+
+
 
     @AfterViews
     public void initAfterView() {

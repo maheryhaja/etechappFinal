@@ -23,7 +23,7 @@ public class ListEmployeItemTemp extends SuperListEmployeItem<ListEmployeTempVie
     @Override
     public ListEmployeTempViewHolder createViewHolder(FlexibleAdapter adapter, LayoutInflater inflater, ViewGroup parent) {
 
-        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.itemview_liste_employe_temp, null);
+        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.itemview_liste_employe_temp, parent, false);
 
         return new ListEmployeTempViewHolder(linearLayout, adapter);
     }
@@ -36,7 +36,5 @@ public class ListEmployeItemTemp extends SuperListEmployeItem<ListEmployeTempVie
     @Override
     public void bindViewHolder(FlexibleAdapter adapter, ListEmployeTempViewHolder holder, int position, List payloads) {
         super.bindViewHolder(adapter, holder, position, payloads);
-        Log.d("mahery-haja", "bond view holder");
-        holder.setMatricule(278);
     }
 }

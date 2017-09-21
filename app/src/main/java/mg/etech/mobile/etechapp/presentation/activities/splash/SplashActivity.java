@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         initializeIntervalObservable();
 
 
-        //backSynchronize();
+//        backSynchronize();
 
 
         fiveSecondsObservable

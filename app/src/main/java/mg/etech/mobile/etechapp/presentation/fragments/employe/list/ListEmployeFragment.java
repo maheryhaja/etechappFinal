@@ -105,7 +105,6 @@ public class ListEmployeFragment extends AbstractFragment {
 
         // go to detail activity
         DetailEmployeActivity_.intent(getContext()).employeId(selectedEmployeDto.getId()).start();
-
     }
 
     public void setListInitialEmployeObservable(Observable<EmployeDto> listEmployeObservable, Observable<OperationDto<EmployeDto>> operationDtoObservable, PoleDto poleDtoIn) {
@@ -146,8 +145,10 @@ public class ListEmployeFragment extends AbstractFragment {
                     @Override
                     public void accept(OperationDto<EmployeDto> employeDtoOperationDto) throws Exception {
 
+                        EmployeDto employeDto = employeDtoOperationDto.getData();
+                        items.add(new ListEmployeItemTemp(employeDto));
 
-                        items.add(new ListEmployeItemTemp(employeDtoOperationDto.getData()));
+                        Log.d("mahery-haja", "matricule retrieved " + employeDto.getMatricule());
                         employeDtos.add(employeDtoOperationDto.getData());
                     }
                 });
