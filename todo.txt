@@ -1,0 +1,5 @@
+- ordonner les items de la liste
+- ameliorer le rendu des operation Dto
+- terminer l'ajout apres succes
+- mettre en place un system de pull
+- commencer la modification
