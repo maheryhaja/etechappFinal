@@ -29,8 +29,9 @@ public class OperationSMImpl implements OperationSM {
     }
 
     @Override
-    public void create(Operation operation) {
+    public Long create(Operation operation) {
         operationRepository.insert(operation);
+        return operation.getId();
     }
 
     @Override

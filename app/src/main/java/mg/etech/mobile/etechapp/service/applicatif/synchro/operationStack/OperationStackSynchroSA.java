@@ -17,5 +17,20 @@ public interface OperationStackSynchroSA {
 
     void addOperation(OperationDto operationDto);
 
+    void deleteOperation(OperationDto operationDto);
+
+
+    Observable<OperationDto> getActualList();
+
+    Observable<OperationDto> onAddObservable();
+
+    Observable<OperationDto> onDeleteObservable();
+
+
+    void notifySuccess(OperationDto operationDto);
+
+    void notifyError(OperationDto operationDto);
+
+
     void initialize();
 }

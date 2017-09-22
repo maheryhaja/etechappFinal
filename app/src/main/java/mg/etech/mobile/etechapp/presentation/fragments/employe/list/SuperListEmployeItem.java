@@ -19,6 +19,15 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
 
 
     protected EmployeDto employeDto;
+    protected int itemId;
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
 
     public SuperListEmployeItem(EmployeDto employeDto) {
         this.employeDto = employeDto;
@@ -28,7 +37,7 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
     public boolean equals(Object o) {
 
         if (o instanceof SuperListEmployeItem) {
-            return ((SuperListEmployeItem) o).getEmployeDto().getId() == employeDto.getId();
+            return ((SuperListEmployeItem) o).getItemId() == this.getItemId();
         }
         return false;
     }

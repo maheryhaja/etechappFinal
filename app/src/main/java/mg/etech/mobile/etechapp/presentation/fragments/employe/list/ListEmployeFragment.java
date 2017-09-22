@@ -19,15 +19,15 @@ import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
-import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import io.reactivex.internal.util.AppendOnlyLinkedArrayList;
+import io.reactivex.functions.Predicate;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
-import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.DetailEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
 
@@ -42,16 +42,19 @@ public class ListEmployeFragment extends AbstractFragment {
     private List<IFlexible> items = new ArrayList<>();
     private EmployeDto selectedEmployeDto;
     private PoleDto poleDto;
-    private FlexibleAdapter<IFlexible> adapter;
+    private int selectedId;
 
     private FlexibleAdapter.OnItemClickListener onClickListener = new FlexibleAdapter.OnItemClickListener() {
         @Override
         public boolean onItemClick(int position) {
-            selectedEmployeDto = employeDtos.get(position);
+            selectedEmployeDto = (((SuperListEmployeItem) items.get(position)).getEmployeDto());
+            selectedId = (((SuperListEmployeItem) items.get(position)).getItemId());
             onItemClicked();
             return false;
         }
     };
+    private FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items, onClickListener);
+    ;
 
 
     @ViewById(R.id.RVListEmploye)
@@ -61,6 +64,9 @@ public class ListEmployeFragment extends AbstractFragment {
     OperationStackSynchroSA operationStackSynchroSA;
 
 
+    private CentralEmployeSynchroSA centralEmployeSynchroSA;
+    private Predicate<SuperListEmployeItem> poleDtoFiltre;
+
     public ListEmployeFragment() {
         // Required empty public constructor
     }
@@ -68,7 +74,6 @@ public class ListEmployeFragment extends AbstractFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(null);
-        Log.d("mahery-haja", "on create called, hihihi " + items.size());
     }
 
     @AfterViews
@@ -104,54 +109,73 @@ public class ListEmployeFragment extends AbstractFragment {
         Log.d("mahery-haja", "item clicked once for all");
 
         // go to detail activity
-        DetailEmployeActivity_.intent(getContext()).employeId(selectedEmployeDto.getId()).start();
+        DetailEmployeActivity_.intent(getContext()).employeId(selectedEmployeDto.getId()).itemId(selectedId).start();
     }
 
-    public void setListInitialEmployeObservable(Observable<EmployeDto> listEmployeObservable, Observable<OperationDto<EmployeDto>> operationDtoObservable, PoleDto poleDtoIn) {
+    public void setListInitialEmployeObservable(CentralEmployeSynchroSA centralEmployeSynchroSA, PoleDto poleDtoIn) {
+        this.centralEmployeSynchroSA = centralEmployeSynchroSA;
         this.poleDto = poleDtoIn;
-        listEmployeObservable
-                .filter(new AppendOnlyLinkedArrayList.NonThrowingPredicate<EmployeDto>() {
+
+        //get actual list
+        poleDtoFiltre = new Predicate<SuperListEmployeItem>() {
+            @Override
+            public boolean test(@NonNull SuperListEmployeItem superListEmployeItem) throws Exception {
+                return superListEmployeItem.getEmployeDto().getPole().getId() == poleDto.getId();
+            }
+        };
+        centralEmployeSynchroSA
+                .getActualList()
+                .filter(poleDtoFiltre)
+                .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
-                    public boolean test(EmployeDto employeDto) {
-                        return employeDto.getPole().getId() == poleDto.getId();
+                    public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
+                        items.add(superListEmployeItem);
+                        adapter.notifyDataSetChanged();
                     }
-                })
-                .subscribe(new Consumer<EmployeDto>() {
+                });
+
+
+        //subscribe for add
+
+        centralEmployeSynchroSA
+                .onAddObservable()
+                .filter(poleDtoFiltre)
+                .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
-                    public void accept(EmployeDto employeDto) throws Exception {
-//                        Log.d("mahery-haja", "Filter "+poleDto.getName()+" :"+employeDto.getLastName()+" "+employeDto.getLastName());
-                        items.add(new ListEmployeItem(employeDto));
-                        employeDtos.add(employeDto);
+                    public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
+                        Log.d("mahery-haja", "created id from List " + superListEmployeItem.getItemId());
+                        items.add(superListEmployeItem);
+                        adapter.notifyDataSetChanged();
                     }
                 });
 
-        subscribeForEmployeOperation(operationDtoObservable);
-
-
-    }
-
-
-    private void subscribeForEmployeOperation(Observable<OperationDto<EmployeDto>> observable) {
-
-
-        observable
-                .filter(new AppendOnlyLinkedArrayList.NonThrowingPredicate<OperationDto<EmployeDto>>() {
+        //subscribe for update
+        centralEmployeSynchroSA
+                .onUpdateObservable()
+                .filter(poleDtoFiltre)
+                .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
-                    public boolean test(OperationDto<EmployeDto> employeDtoOperationDto) {
-                        return employeDtoOperationDto.getData().getPole().getId() == poleDto.getId();
-                    }
-                })
-                .subscribe(new Consumer<OperationDto<EmployeDto>>() {
-                    @Override
-                    public void accept(OperationDto<EmployeDto> employeDtoOperationDto) throws Exception {
-
-                        EmployeDto employeDto = employeDtoOperationDto.getData();
-                        items.add(new ListEmployeItemTemp(employeDto));
-
-                        Log.d("mahery-haja", "matricule retrieved " + employeDto.getMatricule());
-                        employeDtos.add(employeDtoOperationDto.getData());
+                    public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
+                        int position = items.indexOf(superListEmployeItem);
+                        items.set(position, superListEmployeItem);
+                        adapter.notifyDataSetChanged();
                     }
                 });
+
+        //subscribe for delete
+        centralEmployeSynchroSA
+                .onDeleteObservable()
+                .filter(poleDtoFiltre)
+                .subscribe(new Consumer<SuperListEmployeItem>() {
+                    @Override
+                    public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
+                        int position = items.indexOf(superListEmployeItem);
+                        items.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+
     }
 
 

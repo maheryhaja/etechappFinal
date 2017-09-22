@@ -194,6 +194,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                         OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
                         employeDtoOperationDto.setOperationName(OperationType.CREATE);
                         employeDtoOperationDto.setData(employeDto);
+                        employeDtoOperationDto.setClassName(EmployeDto.class.getName());
                         operationStackSynchroSA.addOperation(employeDtoOperationDto);
 
                         return employeDto;

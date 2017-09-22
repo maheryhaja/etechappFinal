@@ -80,4 +80,11 @@
         android:id="@+id/btnAddEmploye"
         android:visibility="invisible" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="launch synchro"
+        android:id="@+id/btnSynchro"
+        android:layout_alignParentRight="true" />
+
 </RelativeLayout>

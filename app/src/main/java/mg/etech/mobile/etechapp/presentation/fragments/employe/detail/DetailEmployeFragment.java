@@ -1,10 +1,13 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.detail;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,6 +43,8 @@ import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSAImpl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +54,9 @@ public class DetailEmployeFragment extends Fragment {
 
     @FragmentArg("emloyeId")
     Long employeId;
+
+    @FragmentArg("itemId")
+    int itemId;
 
     @ViewById(R.id.txtDetailAge)
     TextView txtAge;
@@ -80,6 +88,8 @@ public class DetailEmployeFragment extends Fragment {
     @Bean(EmployeSAImpl.class)
     EmployeSA employeSA;
 
+    @Bean(CentralEmployeSynchroSAImpl.class)
+    CentralEmployeSynchroSA centralEmployeSynchroSA;
 
     @ViewById(R.id.flipViewDetailEmploye)
     EasyFlipView easyFlipView;
@@ -104,8 +114,11 @@ public class DetailEmployeFragment extends Fragment {
     void initAfterViews() {
 
         //initialize flipview
-        retrieveEmploye();
+        //retrieveEmploye();
+
         easyFlipView.setVisibility(View.VISIBLE);
+        retrieveEmployeFromItemId();
+        actualiserAffichage();
 
 
     }
@@ -159,11 +172,27 @@ public class DetailEmployeFragment extends Fragment {
     private void setImage(String imageURL) {
 
         if (imageURL != null && !imageURL.equals("") && !imageURL.isEmpty()) {
-            Picasso
-                    .with(getContext())
-                    .load(ConfigUrl.BASE_URL + imageURL)
-                    .into(photoImageView);
+
+            if (itemId > 0) {
+
+                Picasso
+                        .with(getContext())
+                        .load(ConfigUrl.BASE_URL + imageURL)
+                        .into(photoImageView);
+            } else {
+
+                // case from temp
+                byte[] decodeString = Base64.decode(imageURL, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+
+                if (bitmap != null) {
+                    this.photoImageView.setImageBitmap(bitmap);
+                } else {
+                    Log.d("mahery-haja", "erreur de transformation bitmap");
+                }
+            }
         }
+
 
         new SimpleReboundAnimator(photoImageView).bounce();
 
@@ -234,6 +263,12 @@ public class DetailEmployeFragment extends Fragment {
                             }
                         }
                 );
+    }
+
+    private void retrieveEmployeFromItemId() {
+        employeDto = centralEmployeSynchroSA
+                .findByitemId(itemId);
+
     }
 
     @Click(R.id.btnDetailEmployeFlipToHistorique)

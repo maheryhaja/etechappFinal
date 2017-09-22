@@ -31,6 +31,10 @@ import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSA;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.commandInvoker.CommandInvoker;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.commandInvoker.CommandInvokerImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSynchroSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
@@ -65,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
     @Bean(OperationStackSynchroSAImpl.class)
     OperationStackSynchroSA operationStackSynchroSA;
 
+    @Bean(CentralEmployeSynchroSAImpl.class)
+    CentralEmployeSynchroSA centralEmployeSynchroSA;
+
+    @Bean(CommandInvokerImpl.class)
+    CommandInvoker commandInvoker;
 
     @Click(R.id.btnLogout)
     void logoutClicked() {
@@ -97,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
          */
         for (PoleDto poleDto : poleDtoList) {
             ListEmployeFragment_ fragment = new ListEmployeFragment_();
-            fragment.setListInitialEmployeObservable(dataBaseSynchroSA.getInitialEmployeList(), operationStackSynchroSA.getInitialOperationListForEmploye(), poleDto);
+            fragment.setListInitialEmployeObservable(centralEmployeSynchroSA, poleDto);
             fragment.initFragment();
             mainPagerAdapterBuilder = mainPagerAdapterBuilder.addFragment(fragment, poleDto.getIdServer());
         }
@@ -117,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
     public Observable<EmployeDto> subscribeForEmployeList() {
         return dataBaseSynchroSA
                 .getInitialEmployeList();
+    }
+
+    @Click(R.id.btnSynchro)
+    void onSynchroClicked() {
+        commandInvoker.processStack();
     }
 
 }

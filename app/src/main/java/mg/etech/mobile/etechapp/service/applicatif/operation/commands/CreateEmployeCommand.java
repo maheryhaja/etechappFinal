@@ -1,37 +1,42 @@
 package mg.etech.mobile.etechapp.service.applicatif.operation.commands;
 
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EBean;
+import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.contrainte.factory.wsdto.employe.EmployeWsDtoFromDtoFactory;
-import mg.etech.mobile.etechapp.contrainte.factory.wsdto.employe.EmployeWsDtoFromDtoFactoryImpl;
+import mg.etech.mobile.etechapp.contrainte.factory.wsdto.employe.EmployeWsDtoFromDtoFactoryImpl_;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
+import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
-import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl_;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.EmployeBdl;
-import mg.etech.mobile.etechapp.service.businessDelegate.employe.EmployeBdlImpl;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.EmployeBdlImpl_;
 
 /**
  * Created by mahery.haja on 20/09/2017.
  */
-@EBean
 public class CreateEmployeCommand implements OperationCommand {
 
-    @Bean(EmployeSAImpl.class)
-    EmployeSA employeSA;
+    private EmployeSA employeSA;
 
-    @Bean(EmployeBdlImpl.class)
-    EmployeBdl employeBdl;
+    private EmployeBdl employeBdl;
 
-    @Bean(EmployeWsDtoFromDtoFactoryImpl.class)
-    EmployeWsDtoFromDtoFactory employeWsDtoFromDtoFactory;
+    private EmployeWsDtoFromDtoFactory employeWsDtoFromDtoFactory;
+
+    private Context context;
 
     private OperationDto<EmployeDto> employeDtoOperationDto;
 
+    public CreateEmployeCommand(Context context) {
+        this.context = context;
+        employeSA = EmployeSAImpl_.getInstance_(context);
+        employeBdl = EmployeBdlImpl_.getInstance_(context);
+        employeWsDtoFromDtoFactory = EmployeWsDtoFromDtoFactoryImpl_.getInstance_(context);
+    }
 
     public void setOperation(OperationDto<EmployeDto> employeDtoOperationDto) {
         this.employeDtoOperationDto = employeDtoOperationDto;
@@ -39,7 +44,14 @@ public class CreateEmployeCommand implements OperationCommand {
 
     @Override
     public void execute() throws IOException, ApiCallException {
-        employeBdl.create(employeWsDtoFromDtoFactory.getInstance(employeDtoOperationDto.getData()));
+        EmployeDto data = employeDtoOperationDto.getData();
+
+        Log.d("mahery-haja", "employe wsdto factory " + (employeWsDtoFromDtoFactory == null));
+
+        EmployeWsDto employeWsDto = employeWsDtoFromDtoFactory.getInstance(data);
+
+
+        employeBdl.create(employeWsDto);
     }
 
     @Override

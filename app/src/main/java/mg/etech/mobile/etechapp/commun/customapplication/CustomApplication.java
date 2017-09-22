@@ -9,6 +9,10 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.commandInvoker.CommandInvoker;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.commandInvoker.CommandInvokerImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSynchroSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
@@ -27,6 +31,12 @@ public class CustomApplication extends Application {
     @Bean(OperationStackSynchroSAImpl.class)
     OperationStackSynchroSA operationStackSynchroSA;
 
+    @Bean(CentralEmployeSynchroSAImpl.class)
+    CentralEmployeSynchroSA centralEmployeSynchroSA;
+
+    @Bean(CommandInvokerImpl.class)
+    CommandInvoker commandInvoker;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,5 +50,7 @@ public class CustomApplication extends Application {
         Log.d("mahery-haja", "After inject application called");
         dataBaseSynchroSA.initialize();
         operationStackSynchroSA.initialize();
+        centralEmployeSynchroSA.initialize();
+        commandInvoker.initialize();
     }
 }

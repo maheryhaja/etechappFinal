@@ -5,8 +5,9 @@ import android.util.Log;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
@@ -30,8 +31,9 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
     @Bean(EmployeSAImpl.class)
     EmployeSA employeSA;
 
+
     //se souvenir de la liste synchronisé des employé tout au long de l'application
-    List<EmployeDto> employeDtoList = new ArrayList<>();
+    private Map<Integer, EmployeDto> employeDtomap = new HashMap<>();
 
 
 
@@ -57,6 +59,7 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
                 .subscribe(new Consumer<EmployeDto>() {
                     @Override
                     public void accept(EmployeDto employeDto) throws Exception {
+                        employeDtomap.put(employeDto.getId().intValue(), employeDto);
                         initialEmployeSubject.onNext(employeDto);
                     }
                 });

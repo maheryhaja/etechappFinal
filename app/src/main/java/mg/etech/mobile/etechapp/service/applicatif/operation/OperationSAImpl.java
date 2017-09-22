@@ -35,7 +35,8 @@ public class OperationSAImpl implements OperationSA {
 
     @Override
     public void create(OperationDto operationDto) {
-        operationSM.create(operationFromDtoFactory.getInstance(operationDto));
+        Long idCreated = operationSM.create(operationFromDtoFactory.getInstance(operationDto));
+        operationDto.setId(idCreated);
     }
 
     @Override
@@ -48,5 +49,10 @@ public class OperationSAImpl implements OperationSA {
             Log.d("mahery-haja", "operation size " + operationDtoFromDOFactory.getInstance(operation).getOperationName());
         }
         return operationDtos;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        operationSM.deleteById(id);
     }
 }

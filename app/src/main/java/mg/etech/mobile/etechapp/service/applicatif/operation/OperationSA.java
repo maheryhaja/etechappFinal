@@ -12,4 +12,6 @@ public interface OperationSA {
     void create(OperationDto operationDto);
 
     List<OperationDto> findAll();
+
+    void deleteById(Long id);
 }

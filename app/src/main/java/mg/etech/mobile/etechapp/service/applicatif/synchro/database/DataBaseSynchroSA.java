@@ -12,4 +12,5 @@ public interface DataBaseSynchroSA {
     ReplaySubject<EmployeDto> getInitialEmployeList();
 
     void initialize();
+
 }

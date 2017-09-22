@@ -1,6 +1,7 @@
 package mg.etech.mobile.etechapp.service.applicatif.operation.commands.factory;
 
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationCommand;
 
 /**
@@ -8,6 +9,7 @@ import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationC
  */
 
 public interface OperationCommandFactory {
-    OperationCommand create(String operationType, EmployeDto employeDtoData, EmployeDto target);
+    OperationCommand createFromEmployeDto(String operationType, EmployeDto employeDtoData, EmployeDto target);
 
+    OperationCommand create(OperationDto operationDto);
 }

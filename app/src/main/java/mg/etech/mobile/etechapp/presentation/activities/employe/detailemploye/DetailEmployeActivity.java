@@ -17,6 +17,8 @@ public class DetailEmployeActivity extends AppCompatActivity {
     @Extra("employeId")
     Long employeId;
 
+    @Extra("itemId")
+    int itemId;
 
     @AfterViews
     void initAfterView() {
@@ -26,6 +28,7 @@ public class DetailEmployeActivity extends AppCompatActivity {
         DetailEmployeFragment detailEmployeFragment = DetailEmployeFragment_
                 .builder()
                 .employeId(employeId)
+                .itemId(itemId)
                 .build();
 
         getSupportFragmentManager()

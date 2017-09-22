@@ -13,7 +13,7 @@ public interface OperationSM {
 
     Operation findById(Long idOperation);
 
-    void create(Operation operation);
+    Long create(Operation operation);
 
     Long createWithIdReturned(Operation operation);
 
