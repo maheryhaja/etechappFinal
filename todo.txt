@@ -3,3 +3,4 @@
 - terminer l'ajout apres succes
 - mettre en place un system de pull
 - commencer la modification
+- ajout page de setting
