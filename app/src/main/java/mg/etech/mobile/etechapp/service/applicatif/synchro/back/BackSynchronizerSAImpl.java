@@ -149,11 +149,11 @@ public class BackSynchronizerSAImpl implements BackSynchronizerSA {
         posteSA.create(posteDtos);
 
 
-        poleDtos = poleSA.findAll();
-        List<EmployeDto> employeDtos = retrieveAllEmploye(poleDtos);
-
-
-        employeSA.create(employeDtos);
+//        poleDtos = poleSA.findAll();
+//        List<EmployeDto> employeDtos = retrieveAllEmploye(poleDtos);
+//
+//
+//        employeSA.create(employeDtos);
     }
 
 }
