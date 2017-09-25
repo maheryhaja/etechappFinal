@@ -166,12 +166,16 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
                     public void accept(EmployeDto employeDto) throws Exception {
                         employeDtomap.put(employeDto.getId().intValue(), employeDto);
 
-                        if (data.getPole().getId() == target.getPole().getId()) {
-                            updateSubject.onNext(employeDto);
-                        } else {
-                            // changement de pole: supprimer puis creer pour permettre le bon affichage :)
-                            deleteSubject.onNext(data);
-                            addSubject.onNext(employeDto);
+                        if (data.getPole() != null && target.getPole() != null) {
+
+
+                            if (data.getPole().getId() == target.getPole().getId()) {
+                                updateSubject.onNext(employeDto);
+                            } else {
+                                // changement de pole: supprimer puis creer pour permettre le bon affichage :)
+                                deleteSubject.onNext(data);
+                                addSubject.onNext(employeDto);
+                            }
                         }
                     }
                 });
