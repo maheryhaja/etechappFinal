@@ -44,4 +44,20 @@ public class HistoryPosteDto {
     public void setDatePromotion(Date datePromotion) {
         this.datePromotion = datePromotion;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HistoryPosteDto that = (HistoryPosteDto) o;
+
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null)
+            return false;
+        return getDatePromotion() != null ? getDatePromotion().equals(that.getDatePromotion()) : that.getDatePromotion() == null;
+
+    }
+
 }

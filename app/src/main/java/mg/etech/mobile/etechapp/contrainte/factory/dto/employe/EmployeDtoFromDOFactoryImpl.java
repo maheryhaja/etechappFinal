@@ -28,6 +28,7 @@ public class EmployeDtoFromDOFactoryImpl extends BaseFactory<Employe, EmployeDto
     @Override
     public EmployeDto getInstance(Employe employe) {
         EmployeDto employeDto = super.getInstance(employe);
+        if (employe.getPole() != null)
         employeDto.setPole(poleDtoFromDOFactory.getInstance(employe.getPole()));
         ObjectMapper objectMapper = new ObjectMapper();
         try {

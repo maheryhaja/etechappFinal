@@ -1,5 +1,7 @@
 package mg.etech.mobile.etechapp.service.applicatif.synchro.database;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.ReplaySubject;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
@@ -14,13 +16,15 @@ public interface DataBaseSynchroSA {
 
     void initialize();
 
-    Observable<EmployeDto> getActualEmployeList();
+    Observable<EmployeDto> getActualEmployeListObservable();
+
+    List<EmployeDto> getActualList();
 
     void addEmploye(EmployeDto employeDto);
 
     void deleteEmploye(EmployeDto employeDto);
 
-    void updateEmploye(EmployeDto data);
+    void updateEmploye(EmployeDto data, EmployeDto target);
 
     Observable<EmployeDto> onAddObservable();
 

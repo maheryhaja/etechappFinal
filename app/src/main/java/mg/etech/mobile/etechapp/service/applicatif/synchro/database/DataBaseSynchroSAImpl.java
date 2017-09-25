@@ -5,6 +5,7 @@ import android.util.Log;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,12 +62,21 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
                     }
                 })
                 .subscribe(new Consumer<EmployeDto>() {
-                    @Override
-                    public void accept(EmployeDto employeDto) throws Exception {
-                        employeDtomap.put(employeDto.getId().intValue(), employeDto);
-                        initialEmployeSubject.onNext(employeDto);
-                    }
-                });
+                               @Override
+                               public void accept(EmployeDto employeDto) throws Exception {
+                                   employeDtomap.put(employeDto.getId().intValue(), employeDto);
+                                   initialEmployeSubject.onNext(employeDto);
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Log.d("mahery-haja", "retrieve error");
+                                throwable.printStackTrace();
+                            }
+                        }
+
+                );
     }
 
 
@@ -75,6 +85,7 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
                 .fromCallable(new Callable<List<EmployeDto>>() {
                     @Override
                     public List<EmployeDto> call() throws Exception {
+
                         return employeSA.findAll();
                     }
                 })
@@ -84,10 +95,15 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
 
 
     @Override
-    public Observable<EmployeDto> getActualEmployeList() {
+    public Observable<EmployeDto> getActualEmployeListObservable() {
         return Observable
                 .fromIterable(this.employeDtomap.values())
                 ;
+    }
+
+    @Override
+    public List<EmployeDto> getActualList() {
+        return new ArrayList<>(employeDtomap.values());
     }
 
     @Override
@@ -133,13 +149,14 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
     }
 
     @Override
-    public void updateEmploye(EmployeDto data) {
+    public void updateEmploye(final EmployeDto data, final EmployeDto target) {
         Observable
                 .just(data)
                 .map(new Function<EmployeDto, EmployeDto>() {
                     @Override
                     public EmployeDto apply(@NonNull EmployeDto employeDto) throws Exception {
                         employeSA.update(employeDto);
+                        Log.d("mahery-haja", "update done");
                         return employeDto;
                     }
                 })
@@ -148,7 +165,14 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
                     @Override
                     public void accept(EmployeDto employeDto) throws Exception {
                         employeDtomap.put(employeDto.getId().intValue(), employeDto);
-                        updateSubject.onNext(employeDto);
+
+                        if (data.getPole().getId() == target.getPole().getId()) {
+                            updateSubject.onNext(employeDto);
+                        } else {
+                            // changement de pole: supprimer puis creer pour permettre le bon affichage :)
+                            deleteSubject.onNext(data);
+                            addSubject.onNext(employeDto);
+                        }
                     }
                 });
     }

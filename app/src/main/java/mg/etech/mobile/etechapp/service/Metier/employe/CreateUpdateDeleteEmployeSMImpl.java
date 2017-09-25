@@ -43,6 +43,5 @@ public class CreateUpdateDeleteEmployeSMImpl implements CreateUpdateDeleteEmploy
     @Override
     public void update(Employe employe) {
         employeRepository.update(employe);
-
     }
 }

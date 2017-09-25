@@ -39,6 +39,8 @@ import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSync
 import mg.etech.mobile.etechapp.service.applicatif.synchro.database.DataBaseSynchroSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.pull.PullSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.pull.PullSynchroSAImpl;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
@@ -74,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Bean(CommandInvokerImpl.class)
     CommandInvoker commandInvoker;
+
+    @Bean(PullSynchroSAImpl.class)
+    PullSynchroSA pullSynchroSA;
 
     @Click(R.id.btnLogout)
     void logoutClicked() {
@@ -130,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Click(R.id.btnSynchro)
     void onSynchroClicked() {
-        commandInvoker.processStack();
+        //commandInvoker.processStack();
+        pullSynchroSA.launch();
     }
 
 }

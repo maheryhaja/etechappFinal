@@ -35,11 +35,12 @@ public class EmployeDtoFromWsDtoFactoryImpl implements EmployeDtoFromWsDtoFactor
         employeDto.setMatricule(employeWsDto.getMatricule());
         employeDto.setMale(employeWsDto.isMale());
         employeDto.setPhoto(employeWsDto.getPhoto());
+
+        //set pole
         employeDto.setPole(poleDto);
 
         Log.d("mahery-haja", "appel conversion history");
         employeDto.setPostes(factory.getInstance(employeWsDto.getPostes()));
-
         return employeDto;
     }
 }

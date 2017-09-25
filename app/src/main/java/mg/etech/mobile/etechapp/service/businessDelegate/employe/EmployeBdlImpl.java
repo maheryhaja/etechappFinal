@@ -7,6 +7,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
@@ -36,7 +37,7 @@ public class EmployeBdlImpl implements EmployeBdl {
     @Override
     public List<EmployeWsDto> findAll() throws IOException, ApiCallException {
         Log.d("mahery-haja", "retrieve employe begin");
-        List<EmployeWsDto> employeWsDtos = null;
+        List<EmployeWsDto> employeWsDtos = new ArrayList<>();
         try {
             ListEmployeResponse listEmployeResponse = null;
             listEmployeResponse = employeApi.findAll().execute().body();

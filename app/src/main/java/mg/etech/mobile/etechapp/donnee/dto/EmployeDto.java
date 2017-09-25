@@ -144,4 +144,76 @@ public class EmployeDto {
     public void setPostes(List<HistoryPosteDto> postes) {
         this.postes = postes;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+
+
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EmployeDto that = (EmployeDto) o;
+
+
+        // for is Male ok
+        if (isMale() != that.isMale()) return false;
+
+        // for id ok
+        if (!getId().equals(that.getId())) return false;
+
+        //for first Name ok
+
+        if (getLastName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
+            return false;
+
+        // for Last Name ok
+        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null)
+            return false;
+
+
+        // for allias ok
+        if (getAlias() != null ? !getAlias().equals(that.getAlias()) : that.getAlias() != null)
+            return false;
+
+        // for birthDate ok
+        if (getBirthDate() != null ? !getBirthDate().equals(that.getBirthDate()) : that.getBirthDate() != null)
+            return false;
+
+        // for hiring date okey
+        if (getHiringDate() != null ? !getHiringDate().equals(that.getHiringDate()) : that.getHiringDate() != null)
+            return false;
+
+        // for mail
+        if (getMail() != null ? !getMail().equals(that.getMail()) : that.getMail() != null)
+            return false;
+
+        // for matricule ok
+        if (getMatricule() != null ? !getMatricule().equals(that.getMatricule()) : that.getMatricule() != null)
+            return false;
+
+
+        // for pole not ok
+        if (getPole() != null ? !getPole().equals(that.getPole()) : that.getPole() != null)
+            return false;
+
+
+        // for photo ok
+        if (getPhoto() != null ? !getPhoto().equals(that.getPhoto()) : that.getPhoto() != null)
+            return false;
+
+        // for postes not sure ---> a verifier
+        if (getPostes() != null ? !(getPostes().size() == that.getPostes().size()) : that.getPostes() != null) {
+            return false;
+        } else {
+            boolean posteEquals = true;
+
+            for (int i = 0; i < getPostes().size() && posteEquals; i++) {
+                posteEquals = (getPostes().get(i).equals(that.getPostes().get(i)));
+            }
+            return posteEquals;
+        }
+    }
+
 }

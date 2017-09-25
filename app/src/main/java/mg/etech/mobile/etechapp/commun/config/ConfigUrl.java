@@ -6,6 +6,7 @@ package mg.etech.mobile.etechapp.commun.config;
 public class ConfigUrl {
 
     public static final String BASE_URL = "https://42answers.000webhostapp.com";
+//    public static final String BASE_URL = "http://10.0.2.2:4000";
 
     public static class User {
         public static final String LOG_USER = "/user/login";
@@ -18,6 +19,7 @@ public class ConfigUrl {
 
     public static class employe {
         public static final String FIND_ALL = "/employe/getAll";
+        //        public static final String FIND_ALL = "/static/employe.json";
         public static final String CREATE_EMPLOYE = "/employe/create";
     }
 

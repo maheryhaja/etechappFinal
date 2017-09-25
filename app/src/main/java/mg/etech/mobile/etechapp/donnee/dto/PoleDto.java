@@ -42,5 +42,19 @@ public class PoleDto {
         this.idServer = idServer;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PoleDto poleDto = (PoleDto) o;
+
+        if (getId() != null ? !getId().equals(poleDto.getId()) : poleDto.getId() != null)
+            return false;
+        if (getName() != null ? !getName().equals(poleDto.getName()) : poleDto.getName() != null)
+            return false;
+        return getIdServer() != null ? getIdServer().equals(poleDto.getIdServer()) : poleDto.getIdServer() == null;
+
+    }
 
 }

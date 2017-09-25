@@ -15,7 +15,8 @@ import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
  * Created by mahery.haja on 15/09/2017.
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, EmployeWsDto> implements EmployeWsDtoFromDtoFactory {
+public class
+EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, EmployeWsDto> implements EmployeWsDtoFromDtoFactory {
 
     @Bean(HistoryPosteWsDtoFromDtoFactoryImpl.class)
     HistoryPosteWsDtoFromDtoFactory historyPosteWsDtoFromDtoFactory;

@@ -120,7 +120,7 @@ public class ListEmployeFragment extends AbstractFragment {
         poleDtoFiltre = new Predicate<SuperListEmployeItem>() {
             @Override
             public boolean test(@NonNull SuperListEmployeItem superListEmployeItem) throws Exception {
-                return superListEmployeItem.getEmployeDto().getPole().getId() == poleDto.getId();
+                return superListEmployeItem.getEmployeDto().getPole() != null ? superListEmployeItem.getEmployeDto().getPole().getId() == poleDto.getId() : false;
             }
         };
         centralEmployeSynchroSA
@@ -156,9 +156,18 @@ public class ListEmployeFragment extends AbstractFragment {
                 .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
                     public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
-                        int position = items.indexOf(superListEmployeItem);
-                        items.set(position, superListEmployeItem);
-                        adapter.notifyDataSetChanged();
+
+                        Log.d("mahery-haja", "update observed");
+                        try {
+                            int position = items.indexOf(superListEmployeItem);
+                            items.set(position, superListEmployeItem);
+                            adapter.notifyDataSetChanged();
+                        } catch (IndexOutOfBoundsException e) {
+                            //changement de pole
+                            items.add(superListEmployeItem);
+                            adapter.notifyDataSetChanged();
+                        }
+
                     }
                 });
 

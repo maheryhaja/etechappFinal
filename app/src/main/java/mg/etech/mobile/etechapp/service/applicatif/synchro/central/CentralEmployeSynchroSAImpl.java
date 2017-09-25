@@ -71,6 +71,35 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                     }
                 });
 
+        dataBaseSynchroSA
+                .onAddObservable()
+                .subscribe(new Consumer<EmployeDto>() {
+                    @Override
+                    public void accept(EmployeDto employeDto) throws Exception {
+                        addSubject.onNext(createListEmployeItem(employeDto));
+                    }
+                });
+
+        dataBaseSynchroSA
+                .onUpdateObservable()
+                .subscribe(new Consumer<EmployeDto>() {
+                    @Override
+                    public void accept(EmployeDto employeDto) throws Exception {
+                        updateSubject.onNext(createListEmployeItem(employeDto));
+                    }
+                });
+
+        dataBaseSynchroSA
+                .onDeleteObservable()
+                .subscribe(new Consumer<EmployeDto>() {
+                    @Override
+                    public void accept(EmployeDto employeDto) throws Exception {
+                        int id = employeDto.getId().intValue();
+                        deleteSubject.onNext(itemMap.get(id));
+                        itemMap.remove(id);
+                    }
+                });
+
         operationStackSynchroSA
                 .getInitialOperationListForEmploye()
                 .subscribe(new Consumer<OperationDto<EmployeDto>>() {
