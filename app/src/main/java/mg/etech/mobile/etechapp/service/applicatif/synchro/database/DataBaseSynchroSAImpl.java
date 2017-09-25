@@ -17,6 +17,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
@@ -35,6 +36,9 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
     //se souvenir de la liste synchronisé des employé tout au long de l'application
     private Map<Integer, EmployeDto> employeDtomap = new HashMap<>();
 
+    private PublishSubject<EmployeDto> addSubject = PublishSubject.create();
+    private PublishSubject<EmployeDto> updateSubject = PublishSubject.create();
+    private PublishSubject<EmployeDto> deleteSubject = PublishSubject.create();
 
 
     ReplaySubject<EmployeDto> initialEmployeSubject = ReplaySubject.create();
@@ -78,4 +82,89 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    @Override
+    public Observable<EmployeDto> getActualEmployeList() {
+        return Observable
+                .fromIterable(this.employeDtomap.values())
+                ;
+    }
+
+    @Override
+    public void addEmploye(EmployeDto employeDtoToCreate) {
+        Observable
+                .just(employeDtoToCreate)
+                .map(new Function<EmployeDto, EmployeDto>() {
+                    @Override
+                    public EmployeDto apply(@NonNull EmployeDto empDto) throws Exception {
+                        employeSA.create(empDto);
+                        return empDto;
+                    }
+                })
+                .subscribe(new Consumer<EmployeDto>() {
+
+                    @Override
+                    public void accept(EmployeDto employeDto) throws Exception {
+                        // on success
+                        employeDtomap.put(employeDto.getId().intValue(), employeDto);
+                        addSubject.onNext(employeDto);
+                    }
+                });
+    }
+
+    @Override
+    public void deleteEmploye(EmployeDto employeDtoToDelete) {
+        Observable
+                .just(employeDtoToDelete)
+                .map(new Function<EmployeDto, EmployeDto>() {
+                    @Override
+                    public EmployeDto apply(@NonNull EmployeDto employeDto) throws Exception {
+                        employeSA.deleteById(employeDto.getId());
+                        return employeDto;
+                    }
+                })
+                .subscribe(new Consumer<EmployeDto>() {
+                    @Override
+                    public void accept(EmployeDto employeDto) throws Exception {
+                        employeDtomap.remove(employeDto.getId().intValue());
+                        deleteSubject.onNext(employeDto);
+                    }
+                });
+    }
+
+    @Override
+    public void updateEmploye(EmployeDto data) {
+        Observable
+                .just(data)
+                .map(new Function<EmployeDto, EmployeDto>() {
+                    @Override
+                    public EmployeDto apply(@NonNull EmployeDto employeDto) throws Exception {
+                        employeSA.update(employeDto);
+                        return employeDto;
+                    }
+                })
+                .subscribe(new Consumer<EmployeDto>() {
+                    // on delete success
+                    @Override
+                    public void accept(EmployeDto employeDto) throws Exception {
+                        employeDtomap.put(employeDto.getId().intValue(), employeDto);
+                        updateSubject.onNext(employeDto);
+                    }
+                });
+    }
+
+    @Override
+    public Observable<EmployeDto> onAddObservable() {
+        return addSubject;
+    }
+
+    @Override
+    public Observable<EmployeDto> onDeleteObservable() {
+        return deleteSubject;
+    }
+
+    @Override
+    public Observable<EmployeDto> onUpdateObservable() {
+        return updateSubject;
+    }
 }

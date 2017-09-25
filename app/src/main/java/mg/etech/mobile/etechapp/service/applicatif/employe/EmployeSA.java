@@ -18,8 +18,11 @@ public interface EmployeSA {
 
     void create(List<EmployeDto> employeDtos);
 
+    void deleteById(Long id);
+
     List<EmployeDto> findByPole(PoleDto poleDto);
 
     void deleteAll();
 
+    void update(EmployeDto employeDto);
 }

@@ -34,4 +34,15 @@ public class CreateUpdateDeleteEmployeSMImpl implements CreateUpdateDeleteEmploy
             create(employe);
         }
     }
+
+    @Override
+    public void deleteById(Long id) {
+        employeRepository.delete(id);
+    }
+
+    @Override
+    public void update(Employe employe) {
+        employeRepository.update(employe);
+
+    }
 }

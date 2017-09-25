@@ -10,7 +10,12 @@ import mg.etech.mobile.etechapp.donnee.domainobject.Employe;
 public interface CreateUpdateDeleteEmployeSM {
     void create(Employe employe);
 
+
     void create(List<Employe> employes);
+
+    void deleteById(Long id);
+
+    void update(Employe employe);
 
     void deleteAll();
 }

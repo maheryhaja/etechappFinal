@@ -53,7 +53,9 @@ public class EmployeSAImpl implements EmployeSA {
 
     @Override
     public void create(EmployeDto employeDto) {
-        createUpdateDeleteEmployeSM.create(employeFromDtoFactory.getInstance(employeDto));
+        Employe employe = employeFromDtoFactory.getInstance(employeDto);
+        createUpdateDeleteEmployeSM.create(employe);
+        employeDto.setId(employe.getId());
     }
 
     @Override
@@ -81,5 +83,16 @@ public class EmployeSAImpl implements EmployeSA {
     @Override
     public EmployeDto findById(Long id) {
         return employeDtoFromDOFactory.getInstance(retrieveEmployeSM.findById(id));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        createUpdateDeleteEmployeSM.deleteById(id);
+    }
+
+    @Override
+    public void update(EmployeDto employeDto) {
+        createUpdateDeleteEmployeSM.update(employeFromDtoFactory.getInstance(employeDto));
+
     }
 }
