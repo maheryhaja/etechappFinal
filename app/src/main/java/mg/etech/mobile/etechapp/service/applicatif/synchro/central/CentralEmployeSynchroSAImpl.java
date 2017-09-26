@@ -161,30 +161,9 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
             // element deja present
             if (itemMap.containsKey(employeId)) {
 
-                if (employeDtoOperationDto.getOperationName().equals(OperationType.UPDATE)) {
-                    // cas update operation
-
-                    //verifiaction des pole
-                    PoleDto dataPole = employeDtoOperationDto.getData().getPole();
-                    PoleDto targetPole = employeDtoOperationDto.getTarget().getPole();
-
-                    if (dataPole != null && targetPole != null) {
-                        // changement de pole
-                        if (dataPole.getId() != targetPole.getId()) {
                             deleteSubject.onNext(itemMap.get(employeId));
                             addSubject.onNext(listEmployeItemTemp);
-                        } else {
-                            // pas de changement de pole
-                            updateSubject.onNext(listEmployeItemTemp);
-                        }
-                        updateSubject.onNext(listEmployeItemTemp);
-                    }
 
-
-                } else {
-
-                    updateSubject.onNext(listEmployeItemTemp);
-                }
 
             } else {
                 addSubject.onNext(listEmployeItemTemp);

@@ -73,22 +73,26 @@ public class ListEmployeFragment extends AbstractFragment {
             if (selectedItem instanceof ListEmployeItem) {
                 //case ListEmployeItem
 
+                contextMenuDialog
+                        .onUpdateSelected()
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                UpdateEmployeActivity_
+                                        .intent(pActivity)
+                                        .itemId(selectedItem.getItemId())
+                                        .start();
+                            }
+                        });
             } else {
                 //Case ListEmployeTempItem
 
+                ListEmployeItemTemp listEmployeItemTemp = (ListEmployeItemTemp) selectedItem;
+
+
             }
 
-            contextMenuDialog
-                    .onUpdateSelected()
-                    .subscribe(new Consumer<Boolean>() {
-                        @Override
-                        public void accept(Boolean aBoolean) throws Exception {
-                            UpdateEmployeActivity_
-                                    .intent(pActivity)
-                                    .itemId(selectedItem.getItemId())
-                                    .start();
-                        }
-                    });
+
 
         }
     };
