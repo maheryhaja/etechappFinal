@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/general_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layoutContextModifier"
+        android:padding="@dimen/little_padding">
+
+        <ImageView
+            android:layout_width="@dimen/average_icon_size"
+            android:layout_height="@dimen/average_icon_size"
+            android:src="@drawable/ic_modifier" />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/modifier"
+            android:textSize="@dimen/general_font_size"
+            android:layout_margin="@dimen/little_margin" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layoutContextSupprimer"
+        android:padding="@dimen/little_padding">
+
+        <ImageView
+            android:layout_width="@dimen/average_icon_size"
+            android:layout_height="@dimen/average_icon_size"
+            android:src="@drawable/ic_supprimer" />
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/supprimer"
+            android:textSize="@dimen/general_font_size"
+            android:layout_margin="@dimen/little_margin" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -4,3 +4,10 @@
 - mettre en place un system de pull
 - commencer la modification
 - ajout page de setting
+
+2- Creer une interface pour : Modifier, Supprimer
+3- Creer une classe de modification
+4- Reperer les modifications necessaire depuis la classe Create
+5- Creer une commande Modifier
+6- Verifier back-end
+7- trouver une solution pour afficher la modification

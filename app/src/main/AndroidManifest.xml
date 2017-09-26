@@ -52,7 +52,8 @@
         <activity
             android:name=".presentation.activities.employe.detailemploye.DetailEmployeActivity_"
             android:label="@string/detail_employe_label" />
-        <activity android:name=".presentation.activities.employe.createEmloye.CreateEmployeActivity_"></activity>
+        <activity android:name=".presentation.activities.employe.createEmloye.CreateEmployeActivity_" />
+        <activity android:name=".presentation.activities.employe.updateEmploye.UpdateEmployeActivity_"></activity>
     </application>
 
 </manifest>

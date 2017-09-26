@@ -26,7 +26,10 @@ import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.DetailEmployeActivity_;
+import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
+import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialog;
+import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialogImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
@@ -53,6 +56,40 @@ public class ListEmployeFragment extends AbstractFragment {
             return false;
         }
     };
+
+    private FlexibleAdapter.OnItemLongClickListener onItemLongClickListener = new FlexibleAdapter.OnItemLongClickListener() {
+
+        @Override
+        public void onItemLongClick(int position) {
+
+            //differencier operation et affichage normal
+            final SuperListEmployeItem selectedItem = (SuperListEmployeItem) items.get(position);
+            ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(pActivity);
+            contextMenuDialog.show();
+            if (selectedItem instanceof ListEmployeItem) {
+                //case ListEmployeItem
+
+            } else {
+                //Case ListEmployeTempItem
+
+            }
+
+            contextMenuDialog
+                    .onUpdateSelected()
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            UpdateEmployeActivity_
+                                    .intent(pActivity)
+                                    .itemId(selectedItem.getItemId())
+                                    .start();
+                        }
+                    });
+
+        }
+    };
+
+
     private FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items, onClickListener);
     ;
 
@@ -82,6 +119,7 @@ public class ListEmployeFragment extends AbstractFragment {
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.mItemClickListener = onClickListener;
+        adapter.mItemLongClickListener = onItemLongClickListener;
         adapter.notifyDataSetChanged();
 
 

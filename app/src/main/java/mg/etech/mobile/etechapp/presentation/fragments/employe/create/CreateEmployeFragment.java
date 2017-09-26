@@ -62,72 +62,72 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @Required(order = 1, messageResId = R.string.required_create_employe_nom)
     @ViewById(R.id.edtCreateEmployeNom)
-    EditText edtNom;
+    protected EditText edtNom;
 
     @Required(order = 2, messageResId = R.string.required_create_employe_prenom)
     @ViewById(R.id.edtCreateEmployePrenom)
-    EditText edtPrenom;
+    protected EditText edtPrenom;
 
     @ViewById(R.id.edtCreateEmployeAllias)
-    EditText edtAllias;
+    protected EditText edtAllias;
 
     @Required(order = 3, messageResId = R.string.required_create_employe_matricule)
     @ViewById(R.id.edtCreateEmployeMatricule)
-    EditText edtMatricule;
+    protected EditText edtMatricule;
 
     @Required(order = 4, messageResId = R.string.required_create_employe_birthdate)
     @ViewById(R.id.edtCreateEmployeBirthDate)
-    SimpleDatePicker edtBirthDate;
+    protected SimpleDatePicker edtBirthDate;
 
     @Required(order = 5, messageResId = R.string.required_create_employe_hiringdate)
     @ViewById(R.id.edtCreateEmployeHiringDate)
 
-    SimpleDatePicker edtHiringDate;
+    protected SimpleDatePicker edtHiringDate;
 
     @Required(order = 6, messageResId = R.string.required_mail)
     @ViewById(R.id.edtCreateEmployeMail)
-    EditText edtMail;
+    protected EditText edtMail;
 
     @ViewById(R.id.spinner_poleDto)
-    Spinner spinnerPoleDto;
+    protected Spinner spinnerPoleDto;
 
     @ViewById(R.id.btnCreaterEmploye)
-    CircularProgressButton btnCreateEmploye;
+    protected CircularProgressButton btnCreateEmploye;
 
     @ViewById(R.id.b64CreateEmployePicker)
-    Base64PhotoPicker base64PhotoPicker;
+    protected Base64PhotoPicker base64PhotoPicker;
 
     @ViewById(R.id.chipFlexBoxLayout)
-    FlexboxLayout chipFlexBoxLayout;
+    protected FlexboxLayout chipFlexBoxLayout;
 
     @Bean(OperationCommandFactoryImpl.class)
-    OperationCommandFactory operationCommandFactory;
+    protected OperationCommandFactory operationCommandFactory;
 
-    private AddPosteDialog addPosteDialog;
+    protected AddPosteDialog addPosteDialog;
 
-    private List<HistoryPosteDto> historyPosteDtos = new ArrayList<>();
-    private ChipCloud chipCloud;
+    protected List<HistoryPosteDto> historyPosteDtos = new ArrayList<>();
+    protected ChipCloud chipCloud;
 
-    private List<PoleDto> poleDtos;
-    private List<PosteDto> posteDtos;
+    protected List<PoleDto> poleDtos;
+    protected List<PosteDto> posteDtos;
 
-    private boolean isMale = true;
+    protected boolean isMale = true;
 
 
 
     @Bean(PoleSAImpl.class)
-    PoleSA poleSA;
+    protected PoleSA poleSA;
 
     @Bean(PosteSAImpl.class)
-    PosteSA posteSA;
+    protected PosteSA posteSA;
 
     @Bean(BackSynchronizerSAImpl.class)
-    BackSynchronizerSA backSynchronizerSA;
+    protected BackSynchronizerSA backSynchronizerSA;
 
     @Bean(OperationStackSynchroSAImpl.class)
-    OperationStackSynchroSA operationStackSynchroSA;
+    protected OperationStackSynchroSA operationStackSynchroSA;
 
-    private PoleSpinnerAdapter spinnerAdapter;
+    protected PoleSpinnerAdapter spinnerAdapter;
 
     public CreateEmployeFragment() {
         // Required empty public constructor
@@ -156,11 +156,11 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
         }
     }
 
-    private void onPhotoPickerNotSet() {
+    protected void onPhotoPickerNotSet() {
         Toast.makeText(pActivity, "Veuillez choisir une photo", Toast.LENGTH_SHORT).show();
     }
 
-    private void getEmployeDtofromForm() {
+    protected void getEmployeDtofromForm() {
 
 
         EmployeDto employeDto = new EmployeDto();
@@ -184,7 +184,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
         createEmploye(employeDto);
     }
 
-    private void createEmploye(final EmployeDto employeDto) {
+    protected void createEmploye(final EmployeDto employeDto) {
         Observable
                 .fromCallable(new Callable<EmployeDto>() {
                     @Override
@@ -208,7 +208,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                                public void accept(EmployeDto employeDto) throws Exception {
                                    // on success
                                    Toast.makeText(pActivity, "success " + employeDto.getId(), Toast.LENGTH_SHORT).show();
-                                   onCreateEmplyeSuccess();
+                                   onCreateEmployeSuccess();
                                }
                            },
                         new Consumer<Throwable>() {
@@ -222,7 +222,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                 );
     }
 
-    private void onCreateEmplyeSuccess() {
+    protected void onCreateEmployeSuccess() {
         btnCreateEmploye.doneLoadingAnimation(getResources().getColor(R.color.etechGreen), BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_checked));
 
 //        pActivity.finish();
@@ -256,7 +256,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     }
 
-    private void initializeDialog() {
+    protected void initializeDialog() {
         addPosteDialog = new AddPosteDialog(getContext(), getLayoutInflater(null), posteDtos);
 
         addPosteDialog
@@ -279,7 +279,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                 );
     }
 
-    private void initialiseChipCloud() {
+    protected void initialiseChipCloud() {
         ChipCloudConfig config = new ChipCloudConfig()
                 .selectMode(ChipCloud.SelectMode.none)
                 .checkedChipColor(Color.parseColor("#ddaa00"))
@@ -294,17 +294,17 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
 
     @Click(R.id.rBtnCreateEmployeHomme)
-    void hommeClicked() {
+    protected void hommeClicked() {
         isMale = true;
     }
 
     @Click(R.id.rBtnCreateEmployeFemme)
-    void femmeClicked() {
+    protected void femmeClicked() {
         isMale = false;
     }
 
     @Click(R.id.btnCreaterEmploye)
-    void onCreateEmployeClicked() {
+    protected void onCreateEmployeClicked() {
         validator.validate();
     }
 
@@ -315,7 +315,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     }
 
     @Click(R.id.btnCreateEmployeAddPoste)
-    void onAddPosteClicked() {
+    protected void onAddPosteClicked() {
 
         addPosteDialog.show();
     }
