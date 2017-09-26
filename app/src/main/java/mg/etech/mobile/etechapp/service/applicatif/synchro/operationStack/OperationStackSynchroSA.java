@@ -17,6 +17,8 @@ public interface OperationStackSynchroSA {
 
     void addOperation(OperationDto operationDto);
 
+    void updateOperation(OperationDto operationDto);
+
     void deleteOperation(OperationDto operationDto);
 
 
@@ -33,4 +35,6 @@ public interface OperationStackSynchroSA {
 
 
     void initialize();
+
+    Observable<OperationDto> onUpdateObservable();
 }

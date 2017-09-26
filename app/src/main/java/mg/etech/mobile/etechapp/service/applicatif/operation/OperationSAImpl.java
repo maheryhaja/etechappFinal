@@ -60,4 +60,10 @@ public class OperationSAImpl implements OperationSA {
     public void deleteAll() {
         operationSM.deleteAll();
     }
+
+    @Override
+    public void update(OperationDto operationDto) {
+        operationSM.update(operationFromDtoFactory.getInstance(operationDto));
+
+    }
 }

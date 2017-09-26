@@ -13,6 +13,7 @@ public interface OperationSA {
 
     List<OperationDto> findAll();
 
+    void update(OperationDto operationDto);
     void deleteById(Long id);
 
     void deleteAll();

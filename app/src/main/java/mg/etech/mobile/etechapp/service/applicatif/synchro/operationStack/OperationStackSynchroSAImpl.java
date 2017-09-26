@@ -42,6 +42,7 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
 
     private PublishSubject<OperationDto> addSubject = PublishSubject.create();
     private PublishSubject<OperationDto> removeSubject = PublishSubject.create();
+    private PublishSubject<OperationDto> updateSubject = PublishSubject.create();
 
     ReplaySubject<OperationDto> initialPublishSubject = ReplaySubject.create();
 
@@ -78,6 +79,13 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
         Log.d("mahery-haja", "add operation called");
         addSubject.onNext(operationDto);
 
+    }
+
+
+    @Override
+    public void updateOperation(OperationDto operationDto) {
+        operationSA.update(operationDto);
+        operationDtoMap.put((int) operationDto.getId(), operationDto);
     }
 
     @Override
@@ -144,5 +152,10 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
     @Override
     public Observable<OperationDto> onDeleteObservable() {
         return removeSubject;
+    }
+
+    @Override
+    public Observable<OperationDto> onUpdateObservable() {
+        return updateSubject;
     }
 }

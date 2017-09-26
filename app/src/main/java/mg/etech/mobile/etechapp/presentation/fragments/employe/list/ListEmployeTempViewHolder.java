@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
+import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 
 /**
  * Created by mahery.haja on 21/09/2017.
@@ -15,8 +16,14 @@ import eu.davidea.flexibleadapter.FlexibleAdapter;
 public class ListEmployeTempViewHolder extends ListEmployeViewHolder {
 
 
+    protected String operationName = OperationType.CREATE;
     public ListEmployeTempViewHolder(View view, FlexibleAdapter adapter) {
         super(view, adapter);
+    }
+
+    public ListEmployeTempViewHolder(View view, FlexibleAdapter adapter, String operationName) {
+        super(view, adapter);
+        this.operationName = operationName;
     }
 
     @Override

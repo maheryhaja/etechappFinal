@@ -128,6 +128,16 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                 });
 
         operationStackSynchroSA
+                .onUpdateObservable()
+                .filter(filtre)
+                .subscribe(new Consumer<OperationDto>() {
+                    @Override
+                    public void accept(OperationDto operationDto) throws Exception {
+
+                    }
+                });
+
+        operationStackSynchroSA
                 .onDeleteObservable()
                 .filter(filtre)
                 .subscribe(new Consumer<OperationDto>() {
@@ -144,7 +154,7 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
 
     @android.support.annotation.NonNull
     private ListEmployeItemTemp createListEmployeItemTemp(OperationDto<EmployeDto> employeDtoOperationDto) {
-        ListEmployeItemTemp listEmployeItemTemp = new ListEmployeItemTemp(employeDtoOperationDto.getData());
+        ListEmployeItemTemp listEmployeItemTemp = new ListEmployeItemTemp(employeDtoOperationDto.getData(), employeDtoOperationDto.getOperationName());
         int id = (int) employeDtoOperationDto.getId();
         id = id * -1;
         listEmployeItemTemp.setItemId(id);
@@ -182,6 +192,13 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
     @android.support.annotation.NonNull
     private ListEmployeItem createListEmployeItem(EmployeDto employeDto) {
         ListEmployeItem listEmployeItem = new ListEmployeItem(employeDto);
+
+
+        /***
+         * A mettre dans une factory
+         */
+
+
         int id = employeDto.getId().intValue();
         listEmployeItem.setItemId(employeDto.getId().intValue());
         if (!getEmployeIdSet().contains(employeDto.getId())) {
@@ -231,4 +248,18 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
 
         return longHashSet;
     }
+
+    @Override
+    public String findOperationNameById(int id) {
+        if (id < 0) {
+
+            ListEmployeItemTemp superListEmployeItem = (ListEmployeItemTemp) itemMap.get(id);
+            return superListEmployeItem.getOperationName();
+
+
+        } else {
+            return null;
+        }
+    }
+
 }

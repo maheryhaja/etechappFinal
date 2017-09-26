@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:name="mg.etech.mobile.etechapp.presentation.fragments.employe.update.UpdateEmployeTempFragment_"
         tools:layout="@layout/fragment_create_employe"
-        android:id="@+id/fragmentUpdateEmploye"></fragment>
+        android:id="@+id/fragmentUpdateEmployeTemp"></fragment>
 
 
 </LinearLayout>

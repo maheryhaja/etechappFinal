@@ -25,4 +25,5 @@ public interface CentralEmployeSynchroSA {
 
     Observable<SuperListEmployeItem> onUpdateObservable();
 
+    String findOperationNameById(int id);
 }

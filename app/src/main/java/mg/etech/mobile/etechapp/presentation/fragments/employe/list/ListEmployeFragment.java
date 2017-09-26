@@ -27,10 +27,12 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.DetailEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeActivity_;
+import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeTempActivity_;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialog;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialogImpl;
@@ -69,10 +71,10 @@ public class ListEmployeFragment extends AbstractFragment {
             //differencier operation et affichage normal
             final SuperListEmployeItem selectedItem = (SuperListEmployeItem) items.get(position);
             ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(pActivity);
-            contextMenuDialog.show();
+
             if (selectedItem instanceof ListEmployeItem) {
                 //case ListEmployeItem
-
+                contextMenuDialog.show();
                 contextMenuDialog
                         .onUpdateSelected()
                         .subscribe(new Consumer<Boolean>() {
@@ -87,8 +89,33 @@ public class ListEmployeFragment extends AbstractFragment {
             } else {
                 //Case ListEmployeTempItem
 
+
                 ListEmployeItemTemp listEmployeItemTemp = (ListEmployeItemTemp) selectedItem;
 
+                if (listEmployeItemTemp.getOperationName().equals(OperationType.CREATE)) {
+                    // create operation
+
+
+                } else if (listEmployeItemTemp.getOperationName().equals(OperationType.UPDATE)) {
+                    // update operation
+                    contextMenuDialog.show();
+
+                    contextMenuDialog
+                            .onUpdateSelected()
+                            .subscribe(new Consumer<Boolean>() {
+                                @Override
+                                public void accept(Boolean aBoolean) throws Exception {
+                                    UpdateEmployeTempActivity_
+                                            .intent(pActivity)
+                                            .itemId(selectedItem.getItemId())
+                                            .start();
+                                }
+                            });
+
+                } else {
+                    // delete operation
+                    // cacher ici un context item
+                }
 
             }
 

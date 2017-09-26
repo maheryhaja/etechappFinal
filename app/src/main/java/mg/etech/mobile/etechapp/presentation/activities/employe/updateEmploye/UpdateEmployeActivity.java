@@ -27,7 +27,7 @@ public class UpdateEmployeActivity extends AppCompatActivity {
     CentralEmployeSynchroSA centralEmployeSynchroSA;
 
     @AfterViews
-    void initAfterViews() {
+    protected void initAfterViews() {
         EmployeDto employeDto = centralEmployeSynchroSA.findByitemId(itemId);
         updateEmployeFragment.initEmployeDto(employeDto);
     }
