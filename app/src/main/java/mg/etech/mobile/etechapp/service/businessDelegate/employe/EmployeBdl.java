@@ -13,4 +13,6 @@ public interface EmployeBdl {
     List<EmployeWsDto> findAll() throws IOException, ApiCallException;
 
     EmployeWsDto create(EmployeWsDto employeWsDto) throws IOException, ApiCallException;
+
+    EmployeWsDto update(EmployeWsDto employeWsDto) throws IOException, ApiCallException;
 }

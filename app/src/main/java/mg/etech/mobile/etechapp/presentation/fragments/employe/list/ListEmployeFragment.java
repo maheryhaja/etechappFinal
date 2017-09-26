@@ -15,13 +15,17 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
@@ -163,12 +167,13 @@ public class ListEmployeFragment extends AbstractFragment {
         };
         centralEmployeSynchroSA
                 .getActualList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .filter(poleDtoFiltre)
                 .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
                     public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
-                        items.add(superListEmployeItem);
-                        adapter.notifyDataSetChanged();
+                        ajouterItem(superListEmployeItem);
                     }
                 });
 
@@ -177,19 +182,22 @@ public class ListEmployeFragment extends AbstractFragment {
 
         centralEmployeSynchroSA
                 .onAddObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .filter(poleDtoFiltre)
                 .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
                     public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
-                        Log.d("mahery-haja", "created id from List " + superListEmployeItem.getItemId());
-                        items.add(superListEmployeItem);
-                        adapter.notifyDataSetChanged();
+                        ajouterItem(superListEmployeItem);
+
                     }
                 });
 
         //subscribe for update
         centralEmployeSynchroSA
                 .onUpdateObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .filter(poleDtoFiltre)
                 .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
@@ -212,6 +220,8 @@ public class ListEmployeFragment extends AbstractFragment {
         //subscribe for delete
         centralEmployeSynchroSA
                 .onDeleteObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .filter(poleDtoFiltre)
                 .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
@@ -223,6 +233,24 @@ public class ListEmployeFragment extends AbstractFragment {
                 });
 
 
+    }
+
+    protected void ajouterItem(SuperListEmployeItem superListEmployeItem) {
+        items.add(superListEmployeItem);
+        adapter.notifyDataSetChanged();
+    }
+
+    Set<Integer> getEmployeIdSet() {
+        Set<Integer> integerSet = new HashSet<>();
+
+        for (IFlexible item : items) {
+            try {
+                integerSet.add(((SuperListEmployeItem) item).getEmployeDto().getId().intValue());
+            } catch (NullPointerException e) {
+
+            }
+        }
+        return integerSet;
     }
 
 

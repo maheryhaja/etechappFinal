@@ -26,9 +26,11 @@ import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.operation.OperationSA;
+import mg.etech.mobile.etechapp.service.applicatif.operation.OperationSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
-import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSAImpl;
 
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
@@ -45,6 +47,8 @@ public class SplashActivity extends AppCompatActivity {
     @Bean(BackSynchronizerSAImpl.class)
     BackSynchronizerSA backSynchronizerSA;
 
+    @Bean(OperationSAImpl.class)
+    OperationSA operationSA;
 
     @AfterViews
     public void initAfterViews() {

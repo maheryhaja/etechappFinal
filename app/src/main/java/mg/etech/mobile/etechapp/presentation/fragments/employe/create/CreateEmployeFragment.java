@@ -4,6 +4,7 @@ package mg.etech.mobile.etechapp.presentation.fragments.employe.create;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -189,15 +190,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                 .fromCallable(new Callable<EmployeDto>() {
                     @Override
                     public EmployeDto call() throws Exception {
-                        CreateEmployeCommand command;
-
-                        OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
-                        employeDtoOperationDto.setOperationName(OperationType.CREATE);
-                        employeDtoOperationDto.setData(employeDto);
-                        employeDtoOperationDto.setClassName(EmployeDto.class.getName());
-                        operationStackSynchroSA.addOperation(employeDtoOperationDto);
-
-                        return employeDto;
+                        return performOperation(employeDto);
 
                     }
                 })
@@ -220,6 +213,18 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                         }
 
                 );
+    }
+
+    protected EmployeDto performOperation(EmployeDto employeDto) {
+        CreateEmployeCommand command;
+
+        OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
+        employeDtoOperationDto.setOperationName(OperationType.CREATE);
+        employeDtoOperationDto.setData(employeDto);
+        employeDtoOperationDto.setClassName(EmployeDto.class.getName());
+        operationStackSynchroSA.addOperation(employeDtoOperationDto);
+
+        return employeDto;
     }
 
     protected void onCreateEmployeSuccess() {
@@ -266,7 +271,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                                public void accept(HistoryPosteDto historyPosteDto) throws Exception {
                                    historyPosteDto.setId((long) (historyPosteDtos.size() + 1));
                                    historyPosteDtos.add(historyPosteDto);
-                                   chipCloud.addChip(historyPosteDto.getName() + " [ " + SimpleDateUtils.format(historyPosteDto.getDatePromotion(), SimpleDate.GENERAL_DATE_PATTERN) + " ]");
+                                   chipCloud.addChip(chipFromHistoryDto(historyPosteDto));
                                }
                            },
                         new Consumer<Throwable>() {
@@ -277,6 +282,11 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                             }
                         }
                 );
+    }
+
+    @NonNull
+    protected String chipFromHistoryDto(HistoryPosteDto historyPosteDto) {
+        return historyPosteDto.getName() + " [ " + SimpleDateUtils.format(historyPosteDto.getDatePromotion(), SimpleDate.GENERAL_DATE_PATTERN) + " ]";
     }
 
     protected void initialiseChipCloud() {

@@ -5,7 +5,7 @@
 - commencer la modification
 - ajout page de setting
 
-2- Creer une interface pour : Modifier, Supprimer
+2- Creer un business delegate pour la modification
 3- Creer une classe de modification
 4- Reperer les modifications necessaire depuis la classe Create
 5- Creer une commande Modifier

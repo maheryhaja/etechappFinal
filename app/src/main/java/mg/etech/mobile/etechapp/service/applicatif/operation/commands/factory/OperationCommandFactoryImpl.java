@@ -16,6 +16,7 @@ import mg.etech.mobile.etechapp.service.Metier.operation.OperationSM;
 import mg.etech.mobile.etechapp.service.Metier.operation.OperationSMImpl;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.CreateEmployeCommand;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationCommand;
+import mg.etech.mobile.etechapp.service.applicatif.operation.commands.UpdateEmployeCommand;
 
 /**
  * Created by mahery.haja on 20/09/2017.
@@ -49,6 +50,12 @@ public class OperationCommandFactoryImpl implements OperationCommandFactory {
                 Log.d("mahery-haja", "create command successfull");
                 return command;
             }
+
+        if (operationType.equals(OperationType.UPDATE)) {
+            UpdateEmployeCommand command = new UpdateEmployeCommand(context);
+            command.setOperation(employeDtoOperationDto);
+            return command;
+        }
 
 
         Log.d("mahery-haja", "creation failed");

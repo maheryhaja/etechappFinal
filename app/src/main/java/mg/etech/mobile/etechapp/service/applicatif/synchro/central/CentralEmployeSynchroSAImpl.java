@@ -8,6 +8,7 @@ import org.androidannotations.annotations.EBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +17,10 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.subjects.PublishSubject;
+import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
+import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.ListEmployeItem;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.ListEmployeItemTemp;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.SuperListEmployeItem;
@@ -76,7 +79,7 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                 .subscribe(new Consumer<EmployeDto>() {
                     @Override
                     public void accept(EmployeDto employeDto) throws Exception {
-                        addSubject.onNext(createListEmployeItem(employeDto));
+                        createListEmployeItem(employeDto);
                     }
                 });
 
@@ -85,7 +88,7 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                 .subscribe(new Consumer<EmployeDto>() {
                     @Override
                     public void accept(EmployeDto employeDto) throws Exception {
-                        updateSubject.onNext(createListEmployeItem(employeDto));
+                        createListEmployeItem(employeDto);
                     }
                 });
 
@@ -106,7 +109,7 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                     @Override
                     public void accept(OperationDto<EmployeDto> employeDtoOperationDto) throws Exception {
                         ListEmployeItemTemp listEmployeItemTemp = createListEmployeItemTemp(employeDtoOperationDto);
-                        addSubject.onNext(listEmployeItemTemp);
+                        //               addSubject.onNext(listEmployeItemTemp);
                     }
                 });
 
@@ -117,7 +120,10 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                 .subscribe(new Consumer<OperationDto>() {
                     @Override
                     public void accept(OperationDto operationDto) throws Exception {
-                        addSubject.onNext(createListEmployeItemTemp(operationDto));
+                        // pour la creation d'un employe
+                        ListEmployeItemTemp listEmployeItemTemp = createListEmployeItemTemp(operationDto);
+
+                        //pour la modeification d'un employe
                     }
                 });
 
@@ -143,7 +149,54 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
         id = id * -1;
         listEmployeItemTemp.setItemId(id);
         Log.d("mahery-haja", "created Id from Central " + id);
-        itemMap.put(id, listEmployeItemTemp);
+        EmployeDto employeDto = employeDtoOperationDto.getData();
+
+
+        if (employeDto.getId() != null) {
+            //update or delete
+            Log.d("mahery-haja", "update or delete");
+            int employeId = employeDto.getId().intValue();
+
+
+            // element deja present
+            if (itemMap.containsKey(employeId)) {
+
+                if (employeDtoOperationDto.getOperationName().equals(OperationType.UPDATE)) {
+                    // cas update operation
+
+                    //verifiaction des pole
+                    PoleDto dataPole = employeDtoOperationDto.getData().getPole();
+                    PoleDto targetPole = employeDtoOperationDto.getTarget().getPole();
+
+                    if (dataPole != null && targetPole != null) {
+                        // changement de pole
+                        if (dataPole.getId() != targetPole.getId()) {
+                            deleteSubject.onNext(itemMap.get(employeId));
+                            addSubject.onNext(listEmployeItemTemp);
+                        } else {
+                            // pas de changement de pole
+                            updateSubject.onNext(listEmployeItemTemp);
+                        }
+                        updateSubject.onNext(listEmployeItemTemp);
+                    }
+
+
+                } else {
+
+                    updateSubject.onNext(listEmployeItemTemp);
+                }
+
+            } else {
+                addSubject.onNext(listEmployeItemTemp);
+            }
+            itemMap.put(id, listEmployeItemTemp);
+        } else {
+            // create
+            itemMap.put(id, listEmployeItemTemp);
+            addSubject.onNext(listEmployeItemTemp);
+
+        }
+
         return listEmployeItemTemp;
     }
 
@@ -152,7 +205,10 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
         ListEmployeItem listEmployeItem = new ListEmployeItem(employeDto);
         int id = employeDto.getId().intValue();
         listEmployeItem.setItemId(employeDto.getId().intValue());
-        itemMap.put(id, listEmployeItem);
+        if (!getEmployeIdSet().contains(employeDto.getId())) {
+            itemMap.put(id, listEmployeItem);
+            addSubject.onNext(listEmployeItem);
+        }
         return listEmployeItem;
     }
 
@@ -181,5 +237,19 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
     @Override
     public EmployeDto findByitemId(int id) {
         return itemMap.get(id).getEmployeDto();
+    }
+
+    private HashSet<Long> getEmployeIdSet() {
+        HashSet<Long> longHashSet = new HashSet<>();
+
+        for (SuperListEmployeItem superListEmployeItem : itemMap.values()) {
+            try {
+                longHashSet.add(superListEmployeItem.getEmployeDto().getId());
+            } catch (NullPointerException e) {
+
+            }
+        }
+
+        return longHashSet;
     }
 }

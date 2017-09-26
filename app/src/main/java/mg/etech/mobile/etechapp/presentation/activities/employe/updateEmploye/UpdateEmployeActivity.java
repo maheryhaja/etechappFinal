@@ -29,7 +29,7 @@ public class UpdateEmployeActivity extends AppCompatActivity {
     @AfterViews
     void initAfterViews() {
         EmployeDto employeDto = centralEmployeSynchroSA.findByitemId(itemId);
-
+        updateEmployeFragment.initEmployeDto(employeDto);
     }
 
 }

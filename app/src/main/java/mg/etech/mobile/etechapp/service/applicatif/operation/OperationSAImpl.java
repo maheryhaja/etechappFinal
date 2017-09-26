@@ -55,4 +55,9 @@ public class OperationSAImpl implements OperationSA {
     public void deleteById(Long id) {
         operationSM.deleteById(id);
     }
+
+    @Override
+    public void deleteAll() {
+        operationSM.deleteAll();
+    }
 }

@@ -16,6 +16,7 @@ import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingletonImpl;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.CreateEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.ListEmployeResponse;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.UpdateEmployeResponse;
 
 /**
  * Created by mahery.haja on 07/09/2017.
@@ -66,10 +67,23 @@ public class EmployeBdlImpl implements EmployeBdl {
             throw new ApiCallException();
         } else {
             // success case
-            employeWsDto = createEmployeResponse.getEmploye();
+            employeWsDto1 = createEmployeResponse.getEmploye();
         }
-        return employeWsDto;
+        return employeWsDto1;
+    }
 
+    @Override
+    public EmployeWsDto update(EmployeWsDto employeWsDto) throws IOException, ApiCallException {
 
+        UpdateEmployeResponse updateEmployeResponse = employeApi.update(employeWsDto).execute().body();
+        EmployeWsDto updatedEmployeWsDto = null;
+
+        if (!updateEmployeResponse.isSuccess()) {
+            throw new ApiCallException();
+        } else {
+            updatedEmployeWsDto = updateEmployeResponse.getEmploye();
+        }
+
+        return updatedEmployeWsDto;
     }
 }

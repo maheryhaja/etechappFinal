@@ -5,10 +5,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -63,6 +61,7 @@ public class SimpleDatePicker extends TypefaceEditText implements View.OnClickLi
 
     public void setDate(Date date) {
         this.date = date;
+        setText(SimpleDateUtils.format(date, SimpleDate.GENERAL_DATE_PATTERN));
     }
 
     @Override

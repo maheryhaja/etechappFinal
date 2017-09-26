@@ -4,6 +4,7 @@ import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.CreateEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.ListEmployeResponse;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.UpdateEmployeResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -24,5 +25,10 @@ public interface EmployeApi {
             @Body EmployeWsDto employeWsDtoRequest
     );
 
+    @Headers("Content-Type: application/json")
+    @POST(ConfigUrl.employe.UPDATE_EMPLOYE)
+    Call<UpdateEmployeResponse> update(
+            @Body EmployeWsDto employeWsDtoRequest
+    );
 
 }
