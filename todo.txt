@@ -5,9 +5,6 @@
 - commencer la modification
 - ajout page de setting
 
-2- Creer un business delegate pour la modification
-3- Creer une classe de modification
-4- Reperer les modifications necessaire depuis la classe Create
-5- Creer une commande Modifier
-6- Verifier back-end
-7- trouver une solution pour afficher la modification
+1- regler l'affichage de la modification
+2- regler le pbm de la base 64
+3- s'attaquer a la modificatiuon des modifications (ne pas oublier le pbm de changement de poste ...)
