@@ -22,6 +22,8 @@ public interface OperationStackSynchroSA {
     void deleteOperation(OperationDto operationDto);
 
 
+    void deleteOperationById(int positiveId);
+
     Observable<OperationDto> getActualList();
 
     Observable<OperationDto> onAddObservable();
@@ -37,4 +39,6 @@ public interface OperationStackSynchroSA {
     void initialize();
 
     Observable<OperationDto> onUpdateObservable();
+
+    Observable<OperationDto> onSucceedObservable();
 }

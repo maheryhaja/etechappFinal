@@ -7,25 +7,21 @@ import java.io.IOException;
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 
 /**
- * Created by mahery.haja on 26/09/2017.
+ * Created by mahery.haja on 27/09/2017.
  */
 
-public class UpdateEmployeCommand extends BaseEmployeCommand implements OperationCommand {
-
-
-    public UpdateEmployeCommand(Context context) {
+public class DeleteEmployeCommand extends BaseEmployeCommand implements OperationCommand {
+    public DeleteEmployeCommand(Context context) {
         super(context);
     }
 
     @Override
     public void execute() throws IOException, ApiCallException {
-        // suppose that there are no conflicts
-        // execute update and notify for success
+        // execute delete and notify success
     }
 
     @Override
     public Long getId() {
-
         return employeDtoOperationDto.getId();
     }
 }

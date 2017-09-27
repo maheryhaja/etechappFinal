@@ -8,3 +8,11 @@
 1- regler l'affichage de la modification
 2- regler le pbm de la base 64
 3- s'attaquer a la modificatiuon des modifications (ne pas oublier le pbm de changement de poste ...)
+
+3- modification success call back
+3- test des updates
+5- bouclage du projet et test de begining + pull to refresh
+6- penser a la resolution des conflits et amelioration de l'interface graphique
+
+1- Regler affichage des operation
+2- regler context menu (ajouter bouton revert)

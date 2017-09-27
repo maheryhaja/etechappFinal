@@ -20,7 +20,6 @@ import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
-import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.ListEmployeItem;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.ListEmployeItemTemp;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.SuperListEmployeItem;
@@ -41,6 +40,8 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
     private PublishSubject<SuperListEmployeItem> addSubject = PublishSubject.create();
     private PublishSubject<SuperListEmployeItem> updateSubject = PublishSubject.create();
     private PublishSubject<SuperListEmployeItem> deleteSubject = PublishSubject.create();
+    private PublishSubject<ItemReplacement> replaceSubject = PublishSubject.create();
+
 
     private int positiveid;
     private int negativeId;
@@ -133,7 +134,18 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                 .subscribe(new Consumer<OperationDto>() {
                     @Override
                     public void accept(OperationDto operationDto) throws Exception {
+                        ListEmployeItemTemp nouveaItemTemp = fromOperationDto(operationDto);
+                        int itemId = nouveaItemTemp.getItemId();
+                        if (itemMap.keySet().contains(itemId)) {
+                            // element present: juste une verification
 
+                            //   check if changement de pole
+                            SuperListEmployeItem ancienItem = itemMap.get(itemId);
+
+                            replaceSubject.onNext(new ItemReplacement(ancienItem, nouveaItemTemp));
+                            itemMap.put(itemId, nouveaItemTemp);
+
+                        }
                     }
                 });
 
@@ -145,8 +157,36 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                     public void accept(OperationDto operationDto) throws Exception {
                         int id = (int) operationDto.getId();
                         id = id * -1;
-                        deleteSubject.onNext(itemMap.get(id));
+
+
+                        if (operationDto.getOperationName().equals(OperationType.DELETE) || operationDto.getOperationName().equals(OperationType.UPDATE)) {
+
+                            //remplacer par la valeur d'origine
+                            EmployeDto target = (EmployeDto) operationDto.getTarget();
+                            ListEmployeItem listEmployeItem = new ListEmployeItem(target);
+                            listEmployeItem.setItemId(target.getId().intValue());
+                            replaceSubject.onNext(new ItemReplacement(itemMap.get(id), listEmployeItem));
+                            itemMap.put(listEmployeItem.getItemId(), listEmployeItem);
+                            itemMap.remove(id);
+                        } else {
+                            deleteSubject.onNext(itemMap.get(id));
+                            itemMap.remove(id);
+
+                        }
+
+                    }
+                });
+
+        operationStackSynchroSA
+                .onSucceedObservable()
+                .filter(filtre)
+                .subscribe(new Consumer<OperationDto>() {
+                    @Override
+                    public void accept(OperationDto operationDto) throws Exception {
+                        int id = (int) operationDto.getId();
+                        id = id * -1;
                         itemMap.remove(id);
+                        deleteSubject.onNext(itemMap.get(id));
                     }
                 });
 
@@ -154,13 +194,9 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
 
     @android.support.annotation.NonNull
     private ListEmployeItemTemp createListEmployeItemTemp(OperationDto<EmployeDto> employeDtoOperationDto) {
-        ListEmployeItemTemp listEmployeItemTemp = new ListEmployeItemTemp(employeDtoOperationDto.getData(), employeDtoOperationDto.getOperationName());
-        int id = (int) employeDtoOperationDto.getId();
-        id = id * -1;
-        listEmployeItemTemp.setItemId(id);
-        Log.d("mahery-haja", "created Id from Central " + id);
+        ListEmployeItemTemp listEmployeItemTemp = fromOperationDto(employeDtoOperationDto);
         EmployeDto employeDto = employeDtoOperationDto.getData();
-
+        int id = listEmployeItemTemp.getItemId();
 
         if (employeDto.getId() != null) {
             //update or delete
@@ -170,12 +206,13 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
 
             // element deja present
             if (itemMap.containsKey(employeId)) {
-
-                            deleteSubject.onNext(itemMap.get(employeId));
-                            addSubject.onNext(listEmployeItemTemp);
+                // replacement
+                replaceSubject.onNext(new ItemReplacement(itemMap.get(employeId), listEmployeItemTemp));
+                itemMap.remove(employeId);
 
 
             } else {
+                // simple ajout
                 addSubject.onNext(listEmployeItemTemp);
             }
             itemMap.put(id, listEmployeItemTemp);
@@ -186,6 +223,14 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
 
         }
 
+        return listEmployeItemTemp;
+    }
+
+    public ListEmployeItemTemp fromOperationDto(OperationDto<EmployeDto> employeDtoOperationDto) {
+        ListEmployeItemTemp listEmployeItemTemp = new ListEmployeItemTemp(employeDtoOperationDto.getData(), employeDtoOperationDto.getOperationName());
+        int id = (int) employeDtoOperationDto.getId();
+        id = id * -1;
+        listEmployeItemTemp.setItemId(id);
         return listEmployeItemTemp;
     }
 
@@ -202,6 +247,7 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
         int id = employeDto.getId().intValue();
         listEmployeItem.setItemId(employeDto.getId().intValue());
         if (!getEmployeIdSet().contains(employeDto.getId())) {
+            itemMap.put(id, listEmployeItem);
             itemMap.put(id, listEmployeItem);
             addSubject.onNext(listEmployeItem);
         }
@@ -228,6 +274,11 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
     @Override
     public Observable<SuperListEmployeItem> onUpdateObservable() {
         return updateSubject;
+    }
+
+    @Override
+    public Observable<ItemReplacement> onReplaceObservable() {
+        return replaceSubject;
     }
 
     @Override
@@ -262,4 +313,18 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
         }
     }
 
+    @Override
+    public void requestDeleteItemById(int itemId) {
+        // simple verification
+        if (itemMap.containsKey(itemId)) {
+
+            if (itemId > 0) {
+                // simple employe
+            } else {
+                // delete of operation
+                operationStackSynchroSA.deleteOperationById(itemId * -1);
+            }
+
+        }
+    }
 }

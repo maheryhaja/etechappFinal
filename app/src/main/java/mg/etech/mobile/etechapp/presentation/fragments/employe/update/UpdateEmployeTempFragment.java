@@ -2,9 +2,7 @@ package mg.etech.mobile.etechapp.presentation.fragments.employe.update;
 
 import android.util.Log;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.EFragment;
 
 import mg.etech.mobile.etechapp.R;
@@ -13,7 +11,6 @@ import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
-import mg.etech.mobile.etechapp.service.applicatif.operation.commands.CreateEmployeCommand;
 
 /**
  * Created by maheryHaja on 9/26/2017.
@@ -25,6 +22,7 @@ public class UpdateEmployeTempFragment extends UpdateEmployeFragment{
     EmployeSA employeSA;
 
     protected String operationName;
+    protected Long operationId;
 
     public String getOperationName() {
         return operationName;
@@ -35,11 +33,20 @@ public class UpdateEmployeTempFragment extends UpdateEmployeFragment{
         Log.d("mahery-haja", "operation name: " + operationName);
     }
 
+    public Long getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(Long operationId) {
+        this.operationId = operationId;
+    }
+
     @Override
     protected EmployeDto performOperation(EmployeDto employeDto) {
 
         employeDto.setId(savedEmployeDto.getId());
         OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
+        employeDtoOperationDto.setId(getOperationId());
         employeDtoOperationDto.setOperationName(operationName);
         employeDtoOperationDto.setData(employeDto);
 
@@ -48,8 +55,7 @@ public class UpdateEmployeTempFragment extends UpdateEmployeFragment{
         employeDtoOperationDto.setClassName(EmployeDto.class.getName());
 
         //add an update operation
-        operationStackSynchroSA.addOperation(employeDtoOperationDto);
-
+        operationStackSynchroSA.updateOperation(employeDtoOperationDto);
         return employeDto;
     }
 }

@@ -29,6 +29,7 @@ import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.DetailEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeActivity_;
@@ -37,6 +38,7 @@ import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialog;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialogImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.central.ItemReplacement;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
 
@@ -70,7 +72,7 @@ public class ListEmployeFragment extends AbstractFragment {
 
             //differencier operation et affichage normal
             final SuperListEmployeItem selectedItem = (SuperListEmployeItem) items.get(position);
-            ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(pActivity);
+            final ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(pActivity);
 
             if (selectedItem instanceof ListEmployeItem) {
                 //case ListEmployeItem
@@ -86,17 +88,31 @@ public class ListEmployeFragment extends AbstractFragment {
                                         .start();
                             }
                         });
+
+                contextMenuDialog
+                        .onDeleteSelected()
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
+                                employeDtoOperationDto.setOperationName(OperationType.DELETE);
+                                employeDtoOperationDto.setData(selectedItem.getEmployeDto());
+                                employeDtoOperationDto.setClassName(EmployeDto.class.getName());
+                                operationStackSynchroSA.addOperation(employeDtoOperationDto);
+
+                            }
+                        });
+
             } else {
                 //Case ListEmployeTempItem
 
 
                 ListEmployeItemTemp listEmployeItemTemp = (ListEmployeItemTemp) selectedItem;
 
-                if (listEmployeItemTemp.getOperationName().equals(OperationType.CREATE)) {
+                if (listEmployeItemTemp.getOperationName().equals(OperationType.CREATE) || listEmployeItemTemp.getOperationName().equals(OperationType.UPDATE)) {
                     // create operation
 
 
-                } else if (listEmployeItemTemp.getOperationName().equals(OperationType.UPDATE)) {
                     // update operation
                     contextMenuDialog.show();
 
@@ -112,11 +128,21 @@ public class ListEmployeFragment extends AbstractFragment {
                                 }
                             });
 
+                    contextMenuDialog
+                            .onDeleteSelected()
+                            .subscribe(new Consumer<Boolean>() {
+                                @Override
+                                public void accept(Boolean aBoolean) throws Exception {
+                                    contextMenuDialog.dissmiss();
+                                    centralEmployeSynchroSA.requestDeleteItemById(selectedItem.getItemId());
+                                }
+                            });
+
                 } else {
                     // delete operation
                     // cacher ici un context item
-                }
 
+                }
             }
 
 
@@ -224,30 +250,6 @@ public class ListEmployeFragment extends AbstractFragment {
                     }
                 });
 
-        //subscribe for update
-        centralEmployeSynchroSA
-                .onUpdateObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter(poleDtoFiltre)
-                .subscribe(new Consumer<SuperListEmployeItem>() {
-                    @Override
-                    public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
-
-                        Log.d("mahery-haja", "update observed");
-                        try {
-                            int position = items.indexOf(superListEmployeItem);
-                            items.set(position, superListEmployeItem);
-                            adapter.notifyDataSetChanged();
-                        } catch (IndexOutOfBoundsException e) {
-                            //changement de pole
-                            items.add(superListEmployeItem);
-                            adapter.notifyDataSetChanged();
-                        }
-
-                    }
-                });
-
         //subscribe for delete
         centralEmployeSynchroSA
                 .onDeleteObservable()
@@ -257,17 +259,62 @@ public class ListEmployeFragment extends AbstractFragment {
                 .subscribe(new Consumer<SuperListEmployeItem>() {
                     @Override
                     public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
-                        int position = items.indexOf(superListEmployeItem);
-                        items.remove(position);
-                        adapter.notifyDataSetChanged();
+                        deleteItem(superListEmployeItem);
                     }
                 });
 
+        //subscribe for replacement
+        centralEmployeSynchroSA
+                .onReplaceObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ItemReplacement>() {
+                    @Override
+                    public void accept(ItemReplacement itemReplacement) throws Exception {
 
+                        switch (itemReplacement.getConcernedLevel(poleDto.getId())) {
+                            case NewConcerned:
+                                ajouterItem(itemReplacement.getNewItem());
+                                break;
+                            case OldConcerned:
+                                deleteItem(itemReplacement.getOldItem());
+                                break;
+                            case TwoWayConcerned:
+                                replace(itemReplacement.getOldItem(), itemReplacement.getNewItem());
+                                break;
+                        }
+                    }
+                });
+
+    }
+
+    protected void deleteItem(SuperListEmployeItem superListEmployeItem) {
+        int position = items.indexOf(superListEmployeItem);
+        items.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
+    protected void updateItem(SuperListEmployeItem superListEmployeItem) {
+        Log.d("mahery-haja", "update observed");
+        try {
+            int position = items.indexOf(superListEmployeItem);
+            items.set(position, superListEmployeItem);
+            adapter.notifyDataSetChanged();
+        } catch (IndexOutOfBoundsException e) {
+            //changement de pole
+            items.add(superListEmployeItem);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     protected void ajouterItem(SuperListEmployeItem superListEmployeItem) {
         items.add(superListEmployeItem);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void replace(SuperListEmployeItem oldItem, SuperListEmployeItem newItem) {
+        int position = items.indexOf(oldItem);
+        items.set(position, newItem);
         adapter.notifyDataSetChanged();
     }
 

@@ -25,5 +25,9 @@ public interface CentralEmployeSynchroSA {
 
     Observable<SuperListEmployeItem> onUpdateObservable();
 
+    Observable<ItemReplacement> onReplaceObservable();
+
+    void requestDeleteItemById(int itemId);
+
     String findOperationNameById(int id);
 }

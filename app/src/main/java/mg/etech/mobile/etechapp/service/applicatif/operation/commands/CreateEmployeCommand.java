@@ -20,6 +20,7 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
 
     @Override
     public void execute() throws IOException, ApiCallException {
+        // execute create and notify success
         EmployeDto data = employeDtoOperationDto.getData();
 
         Log.d("mahery-haja", "employe wsdto factory " + (employeWsDtoFromDtoFactory == null));

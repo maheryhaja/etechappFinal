@@ -41,8 +41,10 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
 
 
     private PublishSubject<OperationDto> addSubject = PublishSubject.create();
-    private PublishSubject<OperationDto> removeSubject = PublishSubject.create();
+    private PublishSubject<OperationDto> deleteSubject = PublishSubject.create();
     private PublishSubject<OperationDto> updateSubject = PublishSubject.create();
+    private PublishSubject<OperationDto> succeedSubject = PublishSubject.create();
+
 
     ReplaySubject<OperationDto> initialPublishSubject = ReplaySubject.create();
 
@@ -85,7 +87,13 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
     @Override
     public void updateOperation(OperationDto operationDto) {
         operationSA.update(operationDto);
-        operationDtoMap.put((int) operationDto.getId(), operationDto);
+        int operationid = (int) operationDto.getId();
+
+        OperationDto ancienOperation = operationDtoMap.get(operationid);
+        //gerer le changement de pole
+
+        operationDtoMap.put(operationid, operationDto);
+        updateSubject.onNext(operationDto);
     }
 
     @Override
@@ -123,7 +131,18 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
 
     @Override
     public void deleteOperation(OperationDto operationDto) {
+        operationSA.deleteById(operationDto.getId());
+    }
 
+    @Override
+    public void deleteOperationById(int positiveId) {
+
+        if (operationDtoMap.containsKey(positiveId)) {
+            OperationDto op = operationDtoMap.get(positiveId);
+            deleteOperation(op);
+            deleteSubject.onNext(op);
+            operationDtoMap.remove(positiveId);
+        }
     }
 
     @Override
@@ -141,7 +160,7 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
     public void notifySuccess(OperationDto operationDto) {
         operationSA.deleteById(operationDto.getId());
         operationDtoMap.remove((int) operationDto.getId());
-        removeSubject.onNext(operationDto);
+        succeedSubject.onNext(operationDto);
     }
 
     @Override
@@ -151,11 +170,17 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
 
     @Override
     public Observable<OperationDto> onDeleteObservable() {
-        return removeSubject;
+        return deleteSubject;
     }
 
     @Override
     public Observable<OperationDto> onUpdateObservable() {
         return updateSubject;
     }
+
+    @Override
+    public Observable<OperationDto> onSucceedObservable() {
+        return succeedSubject;
+    }
+
 }

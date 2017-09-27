@@ -34,6 +34,7 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
 
         for (HistoryPosteDto historyPosteDto : emp.getPostes()) {
             chipCloud.addChip(chipFromHistoryDto(historyPosteDto));
+            historyPosteDtos.add(historyPosteDto);
         }
 
     }
