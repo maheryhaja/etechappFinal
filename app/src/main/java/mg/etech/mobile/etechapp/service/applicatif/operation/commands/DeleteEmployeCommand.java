@@ -18,10 +18,18 @@ public class DeleteEmployeCommand extends BaseEmployeCommand implements Operatio
     @Override
     public void execute() throws IOException, ApiCallException {
         // execute delete and notify success
+        employeBdl.delete(employeWsDtoFromDtoFactory.getInstance(employeDtoOperationDto.getData()));
     }
 
     @Override
     public Long getId() {
         return employeDtoOperationDto.getId();
+    }
+
+    @Override
+    public void onSuccess() {
+        employeSA.deleteById(employeDtoOperationDto.getData().getId());
+        dataBaseSynchroSA.notifyForDelete(employeDtoOperationDto.getData());
+        operationStackSynchroSA.notifySuccess(employeDtoOperationDto);
     }
 }

@@ -135,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Click(R.id.btnSynchro)
     void onSynchroClicked() {
-        //commandInvoker.processStack();
-        pullSynchroSA.launch();
+        commandInvoker.processStack();
+//        pullSynchroSA.launch();
     }
 
 }

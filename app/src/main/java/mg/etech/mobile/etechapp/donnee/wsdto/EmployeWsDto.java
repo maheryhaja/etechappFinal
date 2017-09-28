@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class EmployeWsDto {
     private String photo;
 
     @JsonProperty("postes")
-    private List<HistoryPosteWsDto> postes;
+    private List<HistoryPosteWsDto> postes = new ArrayList<>();
 
     public static String getDateWsPattern() {
         return DATE_WS_PATTERN;

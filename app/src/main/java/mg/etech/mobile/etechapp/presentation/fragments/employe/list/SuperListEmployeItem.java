@@ -61,11 +61,13 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
 
         try {
             holder.setMatricule(employeDto.getMatricule());
-            holder.setPhoto(employeDto.getPhoto());
+
         } catch (NullPointerException e) {
             Log.d("mahery-haja", "pas de matricule");
 
         }
+
+        holder.setPhoto(employeDto.getPhoto());
     }
 
     @Override

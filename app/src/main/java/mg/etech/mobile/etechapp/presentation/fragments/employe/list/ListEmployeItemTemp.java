@@ -45,6 +45,8 @@ public class ListEmployeItemTemp extends SuperListEmployeItem<ListEmployeTempVie
     @Override
     public void bindViewHolder(FlexibleAdapter adapter, ListEmployeTempViewHolder holder, int position, List payloads) {
         super.bindViewHolder(adapter, holder, position, payloads);
+        Log.d("mahery-haja", "try to bind " + operationName);
+        holder.setOperationImage(operationName);
     }
 
     public String getOperationName() {

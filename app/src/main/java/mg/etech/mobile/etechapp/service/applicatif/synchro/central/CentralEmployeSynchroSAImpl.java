@@ -163,8 +163,16 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
 
                             //remplacer par la valeur d'origine
                             EmployeDto target = (EmployeDto) operationDto.getTarget();
-                            ListEmployeItem listEmployeItem = new ListEmployeItem(target);
-                            listEmployeItem.setItemId(target.getId().intValue());
+                            EmployeDto data = (EmployeDto) operationDto.getData();
+                            ListEmployeItem listEmployeItem = new ListEmployeItem(target != null ? target : data);
+
+                            try {
+                                listEmployeItem.setItemId(target.getId().intValue());
+                            } catch (NullPointerException e) {
+                                // pas de target ---> delete operation
+                                Log.d("mahery-haja", "process delete operation");
+                                listEmployeItem.setItemId(data.getId().intValue());
+                            }
                             replaceSubject.onNext(new ItemReplacement(itemMap.get(id), listEmployeItem));
                             itemMap.put(listEmployeItem.getItemId(), listEmployeItem);
                             itemMap.remove(id);
@@ -183,10 +191,33 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
                 .subscribe(new Consumer<OperationDto>() {
                     @Override
                     public void accept(OperationDto operationDto) throws Exception {
+                        EmployeDto data = (EmployeDto) operationDto.getData();
+                        EmployeDto target = (EmployeDto) operationDto.getTarget();
                         int id = (int) operationDto.getId();
                         id = id * -1;
+
+                        Log.d("mahery-haja", "success of " + operationDto.getOperationName());
+
+                        if (operationDto.getOperationName().equals(OperationType.CREATE)) {
+                            ListEmployeItem listEmployeItem = new ListEmployeItem(data);
+                            listEmployeItem.setItemId(data.getId().intValue());
+                            itemMap.put(listEmployeItem.getItemId(), listEmployeItem);
+                            Log.d("mahery-haja", "trigger replacement after create");
+                            replaceSubject.onNext(new ItemReplacement(itemMap.get(id), listEmployeItem));
+                        }
+
+                        if (operationDto.getOperationName().equals(OperationType.UPDATE)) {
+                            ListEmployeItem listEmployeItem = new ListEmployeItem(data);
+                            listEmployeItem.setItemId(data.getId().intValue());
+                            itemMap.put(listEmployeItem.getItemId(), listEmployeItem);
+                            replaceSubject.onNext(new ItemReplacement(itemMap.get(id), listEmployeItem));
+                        }
+
+                        if (operationDto.getOperationName().equals(OperationType.DELETE)) {
+                            deleteSubject.onNext(itemMap.get(id));
+                        }
+                        // for delete
                         itemMap.remove(id);
-                        deleteSubject.onNext(itemMap.get(id));
                     }
                 });
 

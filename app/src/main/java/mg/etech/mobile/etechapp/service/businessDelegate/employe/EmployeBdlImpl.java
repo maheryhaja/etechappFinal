@@ -15,6 +15,7 @@ import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingleton;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingletonImpl;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.CreateEmployeResponse;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.DeleteEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.ListEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.UpdateEmployeResponse;
 
@@ -85,5 +86,16 @@ public class EmployeBdlImpl implements EmployeBdl {
         }
 
         return updatedEmployeWsDto;
+    }
+
+
+    @Override
+    public void delete(EmployeWsDto employeWsDto) throws IOException, ApiCallException {
+        DeleteEmployeResponse deleteEmployeResponse = employeApi.delete(employeWsDto.getId()).execute().body();
+
+        if (!deleteEmployeResponse.isSuccess()) {
+            throw new ApiCallException();
+        }
+
     }
 }

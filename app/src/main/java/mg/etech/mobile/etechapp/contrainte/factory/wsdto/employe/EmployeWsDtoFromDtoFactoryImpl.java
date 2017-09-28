@@ -25,7 +25,9 @@ EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, EmployeWsDto> imp
     public EmployeWsDto getInstance(EmployeDto employeDto) {
 
         Log.d("mahery-haja", "transformation begin");
+
         EmployeWsDto employeWsDto = new EmployeWsDto();
+        employeWsDto.setId(employeDto.getId());
         employeWsDto.setLastName(employeDto.getLastName());
         employeWsDto.setFirstName(employeDto.getFirstName());
         employeWsDto.setAlias(employeDto.getAlias());

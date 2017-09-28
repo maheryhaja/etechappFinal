@@ -27,4 +27,6 @@ public class ListEmployeItem extends SuperListEmployeItem<ListEmployeViewHolder>
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.itemview_liste_employe, parent, false);
         return new ListEmployeViewHolder(linearLayout, adapter);
     }
+
+
 }

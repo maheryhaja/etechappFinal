@@ -23,6 +23,7 @@ public class ConfigUrl {
         //        public static final String FIND_ALL = "/static/employe.json";
         public static final String CREATE_EMPLOYE = "/employe/create";
         public static final String UPDATE_EMPLOYE = "/employe/edit";
+        public static final String DELETE_EMPLOYE = "/employe/delete";
     }
 
     public static class poste {

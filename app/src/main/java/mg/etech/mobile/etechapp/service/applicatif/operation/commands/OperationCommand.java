@@ -11,6 +11,8 @@ import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 public interface OperationCommand {
 
     void execute() throws IOException, ApiCallException;
+
+    void onSuccess();
     Long getId();
 
 }

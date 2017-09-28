@@ -15,4 +15,6 @@ public interface EmployeBdl {
     EmployeWsDto create(EmployeWsDto employeWsDto) throws IOException, ApiCallException;
 
     EmployeWsDto update(EmployeWsDto employeWsDto) throws IOException, ApiCallException;
+
+    void delete(EmployeWsDto employeWsDto) throws IOException, ApiCallException;
 }

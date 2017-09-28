@@ -26,6 +26,12 @@ public interface DataBaseSynchroSA {
 
     void updateEmploye(EmployeDto data, EmployeDto target);
 
+    void notifyForDelete(EmployeDto employeDto);
+
+    void notifyForUpdate(EmployeDto data, EmployeDto target);
+
+    void notifyForCreate(EmployeDto employeDto);
+
     Observable<EmployeDto> onAddObservable();
 
     Observable<EmployeDto> onDeleteObservable();

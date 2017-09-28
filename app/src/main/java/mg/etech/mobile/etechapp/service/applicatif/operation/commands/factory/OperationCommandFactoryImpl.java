@@ -36,10 +36,12 @@ public class OperationCommandFactoryImpl implements OperationCommandFactory {
 
     //pour les employes
     @Override
-    public OperationCommand createFromEmployeDto(String operationType, EmployeDto employeDtoData, EmployeDto target) {
+    public OperationCommand createFromEmployeDto(String operationType, EmployeDto employeDtoData, EmployeDto target, Long id) {
 
 
         OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<>();
+        employeDtoOperationDto.setId(id);
+        employeDtoOperationDto.setClassName(EmployeDto.class.getName());
         employeDtoOperationDto.setOperationName(operationType);
         employeDtoOperationDto.setData(employeDtoData);
         employeDtoOperationDto.setTarget(target);
@@ -85,7 +87,7 @@ public class OperationCommandFactoryImpl implements OperationCommandFactory {
                 target = (EmployeDto) operationDto.getTarget();
             }
 
-            return createFromEmployeDto(operationDto.getOperationName(), source, target);
+            return createFromEmployeDto(operationDto.getOperationName(), source, target, operationDto.getId());
 
         }
         return null;

@@ -4,6 +4,7 @@ package mg.etech.mobile.etechapp.donnee.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class EmployeDto {
     private String photo;
 
     @JsonProperty("postes")
-    private List<HistoryPosteDto> postes;
+    private List<HistoryPosteDto> postes = new ArrayList<>();
 
     public Long getId() {
         return id;

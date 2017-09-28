@@ -195,4 +195,19 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
     public Observable<EmployeDto> onUpdateObservable() {
         return updateSubject;
     }
+
+    @Override
+    public void notifyForDelete(EmployeDto employeDto) {
+        employeDtomap.remove(employeDto.getId().intValue());
+    }
+
+    @Override
+    public void notifyForUpdate(EmployeDto data, EmployeDto target) {
+        employeDtomap.put(data.getId().intValue(), data);
+    }
+
+    @Override
+    public void notifyForCreate(EmployeDto employeDto) {
+        employeDtomap.put(employeDto.getId().intValue(), employeDto);
+    }
 }

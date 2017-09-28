@@ -9,7 +9,7 @@ import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationC
  */
 
 public interface OperationCommandFactory {
-    OperationCommand createFromEmployeDto(String operationType, EmployeDto employeDtoData, EmployeDto target);
+    OperationCommand createFromEmployeDto(String operationType, EmployeDto employeDtoData, EmployeDto target, Long id);
 
     OperationCommand create(OperationDto operationDto);
 }

@@ -21,6 +21,8 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
     @Override
     public void execute() throws IOException, ApiCallException {
         // execute create and notify success
+
+        Log.d("mahery-haja", "process Operation id " + employeDtoOperationDto.getId());
         EmployeDto data = employeDtoOperationDto.getData();
 
         Log.d("mahery-haja", "employe wsdto factory " + (employeWsDtoFromDtoFactory == null));
@@ -28,7 +30,17 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
         EmployeWsDto employeWsDto = employeWsDtoFromDtoFactory.getInstance(data);
 
 
-        employeBdl.create(employeWsDto);
+        EmployeDto created = employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeBdl.create(employeWsDto), data.getPole());
+
+        employeDtoOperationDto.setData(created);
+    }
+
+    @Override
+    public void onSuccess() {
+        employeSA.create(employeDtoOperationDto.getData());
+        dataBaseSynchroSA.notifyForCreate(employeDtoOperationDto.getData());
+        operationStackSynchroSA.notifySuccess(employeDtoOperationDto);
+
     }
 
     @Override

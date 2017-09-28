@@ -158,8 +158,10 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
 
     @Override
     public void notifySuccess(OperationDto operationDto) {
-        operationSA.deleteById(operationDto.getId());
-        operationDtoMap.remove((int) operationDto.getId());
+        long id = operationDto.getId();
+        Log.d("mahery-haja", "try to delete operation " + id);
+        operationSA.deleteById(id);
+        operationDtoMap.remove((int) id);
         succeedSubject.onNext(operationDto);
     }
 

@@ -72,7 +72,10 @@ public class ListEmployeFragment extends AbstractFragment {
 
             //differencier operation et affichage normal
             final SuperListEmployeItem selectedItem = (SuperListEmployeItem) items.get(position);
-            final ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(pActivity);
+            final ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(pActivity, selectedItem);
+            /***
+             * A mettre dans une factory
+             */
 
             if (selectedItem instanceof ListEmployeItem) {
                 //case ListEmployeItem
@@ -109,9 +112,6 @@ public class ListEmployeFragment extends AbstractFragment {
 
                 ListEmployeItemTemp listEmployeItemTemp = (ListEmployeItemTemp) selectedItem;
 
-                if (listEmployeItemTemp.getOperationName().equals(OperationType.CREATE) || listEmployeItemTemp.getOperationName().equals(OperationType.UPDATE)) {
-                    // create operation
-
 
                     // update operation
                     contextMenuDialog.show();
@@ -129,7 +129,7 @@ public class ListEmployeFragment extends AbstractFragment {
                             });
 
                     contextMenuDialog
-                            .onDeleteSelected()
+                            .onRevertSelected()
                             .subscribe(new Consumer<Boolean>() {
                                 @Override
                                 public void accept(Boolean aBoolean) throws Exception {
@@ -138,11 +138,6 @@ public class ListEmployeFragment extends AbstractFragment {
                                 }
                             });
 
-                } else {
-                    // delete operation
-                    // cacher ici un context item
-
-                }
             }
 
 

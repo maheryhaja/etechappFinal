@@ -6,11 +6,12 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import java.util.Stack;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationCommand;
@@ -55,26 +56,28 @@ public class CommandInvokerImpl implements CommandInvoker {
     }
 
 
-    private void processOperation(final OperationDto operationDto) {
-        final OperationCommand command = operationCommandFactory
+    private void processOperation(OperationDto operationDto) {
+        OperationCommand command = operationCommandFactory
                 .create(operationDto);
 
         Observable
-                .fromCallable(new Callable<Boolean>() {
+                .just(command)
+                .map(new Function<OperationCommand, OperationCommand>() {
                     @Override
-                    public Boolean call() throws Exception {
-                        command.execute();
-                        return true;
+                    public OperationCommand apply(@NonNull OperationCommand operationCommand) throws Exception {
+                        operationCommand.execute();
+                        return operationCommand;
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
+                .subscribe(new Consumer<OperationCommand>() {
                                // on success
                                @Override
-                               public void accept(Boolean aBoolean) throws Exception {
+                               public void accept(OperationCommand operationCommand) throws Exception {
                                    Log.d("mahery-haja", "Operation Process Success");
-                                   operationStackSynchroSA.notifySuccess(operationDto);
+                                   operationCommand.onSuccess();
+
                                }
                            },
                         // on error
@@ -83,7 +86,6 @@ public class CommandInvokerImpl implements CommandInvoker {
                             public void accept(Throwable throwable) throws Exception {
                                 Log.d("mahery-haja", "operation process Failed");
                                 throwable.printStackTrace();
-                                operationStackSynchroSA.notifyError(operationDto);
                             }
                         }
                 );

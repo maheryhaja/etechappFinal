@@ -11,8 +11,11 @@ public interface ContextMenuDialog {
 
     void dissmiss();
 
+
     Observable<Boolean> onUpdateSelected();
 
     Observable<Boolean> onDeleteSelected();
+
+    Observable<Boolean> onRevertSelected();
 
 }
