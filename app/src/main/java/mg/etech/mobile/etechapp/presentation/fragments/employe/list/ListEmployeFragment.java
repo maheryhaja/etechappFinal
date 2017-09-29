@@ -21,6 +21,7 @@ import java.util.Set;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -35,6 +36,7 @@ import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.De
 import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeTempActivity_;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
+import mg.etech.mobile.etechapp.presentation.fragments.employe.list.adapter.CustomFlexibleAdapter;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialog;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialogImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
@@ -146,7 +148,7 @@ public class ListEmployeFragment extends AbstractFragment {
     };
 
 
-    private FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items, onClickListener);
+    private CustomFlexibleAdapter adapter = new CustomFlexibleAdapter<>(items, onClickListener);
     ;
 
 
@@ -171,7 +173,7 @@ public class ListEmployeFragment extends AbstractFragment {
 
     @AfterViews
     void initAfterViews() {
-        adapter = new FlexibleAdapter<IFlexible>(items, onClickListener);
+        adapter = new CustomFlexibleAdapter<>(items, onClickListener);
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.mItemClickListener = onClickListener;
@@ -218,7 +220,7 @@ public class ListEmployeFragment extends AbstractFragment {
             }
         };
         centralEmployeSynchroSA
-                .getActualList()
+                .getActualListObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(poleDtoFiltre)
@@ -324,6 +326,33 @@ public class ListEmployeFragment extends AbstractFragment {
             }
         }
         return integerSet;
+    }
+
+    // set Query Listener
+    public void setQueryListener(Observable<String> queryObservable) {
+        queryObservable
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        adapter.setSearchText(s);
+                        Log.d("mahery-haja", poleDto.getName() + "items size:" + items.size());
+
+
+                        ArrayList<SuperListEmployeItem> unfilteredItems = new ArrayList<>();
+
+                        for (SuperListEmployeItem superListEmployeItem : centralEmployeSynchroSA.getActualList()) {
+                            try {
+                                if (superListEmployeItem.getEmployeDto().getPole().getId() == poleDto.getId())
+                                    unfilteredItems.add(superListEmployeItem);
+                            } catch (NullPointerException e) {
+
+                            }
+                        }
+                        adapter.filterItems(unfilteredItems);
+
+
+                    }
+                });
     }
 
 

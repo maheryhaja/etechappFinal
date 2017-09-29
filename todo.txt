@@ -16,3 +16,7 @@
 
 1- Regler affichage des operation
 2- regler context menu (ajouter bouton revert)
+
+Les types de recherche:
+    recherche par nom|prenom|allias / matricule
+    recherche par pole

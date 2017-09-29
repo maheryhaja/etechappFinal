@@ -286,7 +286,7 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
     }
 
     @Override
-    public Observable<SuperListEmployeItem> getActualList() {
+    public Observable<SuperListEmployeItem> getActualListObservable() {
         return Observable
                 .fromIterable(itemMap.values())
                 ;
@@ -357,5 +357,10 @@ public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
             }
 
         }
+    }
+
+    @Override
+    public List<SuperListEmployeItem> getActualList() {
+        return new ArrayList<>(itemMap.values());
     }
 }

@@ -39,6 +39,7 @@ EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, EmployeWsDto> imp
         employeWsDto.setHiringDate(employeDto.getHiringDate());
         employeWsDto.setPostes(historyPosteWsDtoFromDtoFactory.getInstance(employeDto.getPostes()));
         employeWsDto.setPole(employeDto.getPole().getId());
+        employeWsDto.setEncodedPhoto(employeDto.getPhoto());
         Log.d("mahery-haja", "transformation " + employeWsDto.getPole());
         return employeWsDto;
     }

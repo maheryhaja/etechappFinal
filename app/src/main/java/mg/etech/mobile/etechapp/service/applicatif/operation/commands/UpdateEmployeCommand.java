@@ -29,6 +29,7 @@ public class UpdateEmployeCommand extends BaseEmployeCommand implements Operatio
 
         Log.d("mahery-haja", "employe wsdto factory " + (employeWsDtoFromDtoFactory == null));
 
+        //a recuperer from bdl
         EmployeWsDto employeWsDto = employeWsDtoFromDtoFactory.getInstance(data);
         employeBdl.update(employeWsDto);
     }

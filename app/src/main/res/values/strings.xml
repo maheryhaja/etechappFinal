@@ -53,5 +53,6 @@
     <string name="supprimer">Supprimer</string>
     <string name="modifier">Modifier</string>
     <string name="annuler_operation">Annuler l\'opération</string>
+    <string name="recherche">menu_action_search</string>
 
 </resources>

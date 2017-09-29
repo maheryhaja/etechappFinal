@@ -1,6 +1,8 @@
 package mg.etech.mobile.etechapp.service.applicatif.synchro.central;
 
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.SuperListEmployeItem;
@@ -17,7 +19,9 @@ public interface CentralEmployeSynchroSA {
 
     EmployeDto findByitemId(int id);
 
-    Observable<SuperListEmployeItem> getActualList();
+    Observable<SuperListEmployeItem> getActualListObservable();
+
+    List<SuperListEmployeItem> getActualList();
 
     Observable<SuperListEmployeItem> onAddObservable();
 

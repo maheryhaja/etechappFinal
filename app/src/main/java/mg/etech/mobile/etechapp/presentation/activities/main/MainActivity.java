@@ -2,6 +2,9 @@ package mg.etech.mobile.etechapp.presentation.activities.main;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -10,11 +13,14 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.animation.SimpleReboundAnimator;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
@@ -43,6 +49,7 @@ import mg.etech.mobile.etechapp.service.applicatif.synchro.pull.PullSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.pull.PullSynchroSAImpl;
 
 @EActivity(R.layout.activity_main)
+@OptionsMenu(R.menu.menu_filter)
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -58,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     @ViewById(R.id.btnAddEmploye)
     FloatingActionButton addEmployeButton;
 
+
+    private SearchView searchView;
 
     @Bean(PoleSAImpl.class)
     PoleSA poleSA;
@@ -87,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    private PublishSubject<String> searchSubject = PublishSubject.create();
+
+
 
     @AfterViews
     void initAfterViews() {
@@ -94,6 +106,28 @@ public class MainActivity extends AppCompatActivity {
         showAddButton();
 
 
+    }
+
+    @OptionsMenuItem(R.id.action_search)
+    void searchInjected(MenuItem searchItem) {
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchSubject.onNext(s);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void showAddButton() {
@@ -112,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         for (PoleDto poleDto : poleDtoList) {
             ListEmployeFragment_ fragment = new ListEmployeFragment_();
             fragment.setListInitialEmployeObservable(centralEmployeSynchroSA, poleDto);
+            fragment.setQueryListener(searchSubject);
             fragment.initFragment();
             mainPagerAdapterBuilder = mainPagerAdapterBuilder.addFragment(fragment, poleDto.getIdServer());
         }

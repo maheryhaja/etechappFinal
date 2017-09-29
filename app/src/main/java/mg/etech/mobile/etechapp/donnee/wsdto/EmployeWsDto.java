@@ -52,6 +52,9 @@ public class EmployeWsDto {
     @JsonProperty("photo")
     private String photo;
 
+    @JsonProperty("encodedPhoto")
+    private String encodedPhoto;
+
     @JsonProperty("postes")
     private List<HistoryPosteWsDto> postes = new ArrayList<>();
 
@@ -155,5 +158,13 @@ public class EmployeWsDto {
 
     public void setPostes(List<HistoryPosteWsDto> postes) {
         this.postes = postes;
+    }
+
+    public String getEncodedPhoto() {
+        return encodedPhoto;
+    }
+
+    public void setEncodedPhoto(String encodedPhoto) {
+        this.encodedPhoto = encodedPhoto;
     }
 }

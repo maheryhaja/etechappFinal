@@ -34,7 +34,9 @@
         <activity
             android:name=".presentation.activities.login.LoginActivity_"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".presentation.activities.main.MainActivity_" />
+        <activity
+            android:name=".presentation.activities.main.MainActivity_"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".presentation.activities.inscription.InscriptionActivity_"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

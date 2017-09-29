@@ -158,7 +158,7 @@ public class DetailEmployeFragment extends Fragment {
         txtBirthDate.setText(getFormatedBirthDate(employeDto.getBirthDate(), employeDto.isMale()));
         txtHiringDate.setText(getFormatedHiringDate(employeDto.getHiringDate(), employeDto.isMale()));
 
-        //set Mail
+        //set Mai0l
         txtMail.setText(getFormatedMail(employeDto.getMail()));
 
         // set Age
@@ -166,6 +166,7 @@ public class DetailEmployeFragment extends Fragment {
 
         initializePosteHistoryDetail();
 
+        if (employeDto.getPhoto() != null)
         setImage(employeDto.getPhoto());
     }
 
@@ -173,15 +174,16 @@ public class DetailEmployeFragment extends Fragment {
 
         if (imageURL != null && !imageURL.equals("") && !imageURL.isEmpty()) {
 
+
             if (itemId > 0) {
 
                 Picasso
                         .with(getContext())
-                        .load(ConfigUrl.BASE_URL + imageURL)
+                        .load(ConfigUrl.BASE_URL + "/" + imageURL)
                         .into(photoImageView);
             } else {
 
-                // case from temp
+//                 case from temp
                 byte[] decodeString = Base64.decode(imageURL, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
 
@@ -192,7 +194,6 @@ public class DetailEmployeFragment extends Fragment {
                 }
             }
         }
-
 
         new SimpleReboundAnimator(photoImageView).bounce();
 

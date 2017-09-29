@@ -15,7 +15,9 @@ import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 /**
  * Created by mahery.haja on 08/09/2017.
  */
-public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends AbstractFlexibleItem<T> {
+public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends AbstractFlexibleItem<T>
+
+{
 
 
     protected EmployeDto employeDto;
@@ -75,4 +77,6 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
         LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.itemview_list_employe_inside, parent, false);
         return (T) new ListEmployeViewHolder(linearLayout, adapter);
     }
+
+
 }
