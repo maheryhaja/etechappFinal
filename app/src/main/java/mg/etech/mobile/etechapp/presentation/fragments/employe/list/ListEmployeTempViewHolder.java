@@ -50,20 +50,20 @@ public class ListEmployeTempViewHolder extends ListEmployeViewHolder {
     @Override
     public void setPhoto(String photourl) {
 
-        try {
-
-            byte[] decodeString = Base64.decode(photourl, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
-
-            if (bitmap != null) {
-                this.imageViewPhoto.setImageBitmap(bitmap);
-            } else {
-                Log.d("mahery-haja", "erreur de transformation bitmap");
-            }
-
-        } catch (NullPointerException e) {
-            imageViewPhoto.setImageDrawable(imageViewPhoto.getResources().getDrawable(R.drawable.ic_mahery));
-        }
+//        try {
+//
+//            byte[] decodeString = Base64.decode(photourl, Base64.DEFAULT);
+//            Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+//
+//            if (bitmap != null) {
+//                this.imageViewPhoto.setImageBitmap(bitmap);
+//            } else {
+//                Log.d("mahery-haja", "erreur de transformation bitmap");
+//            }
+//
+//        } catch (NullPointerException e) {
+//            imageViewPhoto.setImageDrawable(imageViewPhoto.getResources().getDrawable(R.drawable.ic_mahery));
+//        }
 
     }
 }

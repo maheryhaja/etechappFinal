@@ -47,6 +47,9 @@ public class EmployeDto {
     @JsonProperty("photo")
     private String photo;
 
+    @JsonProperty("encodeoPhoto")
+    private String encodedPhoto;
+
     @JsonProperty("postes")
     private List<HistoryPosteDto> postes = new ArrayList<>();
 
@@ -203,6 +206,8 @@ public class EmployeDto {
         // for photo ok
         if (getPhoto() != null ? !getPhoto().equals(that.getPhoto()) : that.getPhoto() != null)
             return false;
+        if (getEncodedPhoto() != null ? !getEncodedPhoto().equals(that.getPhoto()) : that.getEncodedPhoto() != null)
+            return false;
 
         // for postes not sure ---> a verifier
         if (getPostes() != null ? !(getPostes().size() == that.getPostes().size()) : that.getPostes() != null) {
@@ -217,4 +222,11 @@ public class EmployeDto {
         }
     }
 
+    public String getEncodedPhoto() {
+        return encodedPhoto;
+    }
+
+    public void setEncodedPhoto(String encodedPhoto) {
+        this.encodedPhoto = encodedPhoto;
+    }
 }

@@ -92,7 +92,9 @@ public class EmployeSAImpl implements EmployeSA {
 
     @Override
     public void update(EmployeDto employeDto) {
-        createUpdateDeleteEmployeSM.update(employeFromDtoFactory.getInstance(employeDto));
+        Employe instance = employeFromDtoFactory.getInstance(employeDto);
+        createUpdateDeleteEmployeSM.update(instance);
+
 
     }
 }

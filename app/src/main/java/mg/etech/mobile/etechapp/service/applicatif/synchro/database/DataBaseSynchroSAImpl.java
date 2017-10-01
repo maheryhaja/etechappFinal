@@ -156,6 +156,7 @@ public class DataBaseSynchroSAImpl implements DataBaseSynchroSA {
                     @Override
                     public EmployeDto apply(@NonNull EmployeDto employeDto) throws Exception {
                         employeSA.update(employeDto);
+                        Log.d("mahery-haja", "update " + employeDto.getPhoto());
                         Log.d("mahery-haja", "update done");
                         return employeDto;
                     }

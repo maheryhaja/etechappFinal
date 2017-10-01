@@ -23,6 +23,7 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
     protected EmployeDto employeDto;
     protected int itemId;
 
+
     public int getItemId() {
         return itemId;
     }
@@ -69,7 +70,13 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
 
         }
 
-        holder.setPhoto(employeDto.getPhoto());
+        if (employeDto.getEncodedPhoto() != null) {
+            holder.setEncodedPhoto(employeDto.getEncodedPhoto());
+        } else if (employeDto.getPhoto() != null) {
+            holder.setPhoto(employeDto.getPhoto());
+        } else {
+            holder.setDefault(employeDto.isMale());
+        }
     }
 
     @Override

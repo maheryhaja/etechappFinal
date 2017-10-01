@@ -175,7 +175,9 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
         employeDto.setBirthDate(edtBirthDate.getDate());
         employeDto.setMale(isMale);
         employeDto.setMail(edtMail.getText().toString());
-        employeDto.setPhoto(base64PhotoPicker.getValue());
+
+        // mettre la photo prise dans encoded photo
+        employeDto.setEncodedPhoto(base64PhotoPicker.getValue());
         employeDto.setPole(poleDtos.get(spinnerPoleDto.getSelectedItemPosition()));
         employeDto.setPostes(historyPosteDtos);
 

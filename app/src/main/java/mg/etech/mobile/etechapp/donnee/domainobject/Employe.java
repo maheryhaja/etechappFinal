@@ -44,6 +44,9 @@ public class Employe {
     @DatabaseField(columnName = "photo")
     private String photo;
 
+    @DatabaseField(columnName = "encodedPhoto")
+    private String encodedPhoto;
+
     @DatabaseField(columnName = "postes")
     private String postes;
 
@@ -142,4 +145,13 @@ public class Employe {
     public void setPostes(String postes) {
         this.postes = postes;
     }
+
+    public String getEncodedPhoto() {
+        return encodedPhoto;
+    }
+
+    public void setEncodedPhoto(String encodedPhoto) {
+        this.encodedPhoto = encodedPhoto;
+    }
 }
+

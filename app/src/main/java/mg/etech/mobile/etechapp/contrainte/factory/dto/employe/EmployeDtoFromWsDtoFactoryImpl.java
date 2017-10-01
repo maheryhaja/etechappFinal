@@ -35,6 +35,7 @@ public class EmployeDtoFromWsDtoFactoryImpl implements EmployeDtoFromWsDtoFactor
         employeDto.setMatricule(employeWsDto.getMatricule());
         employeDto.setMale(employeWsDto.isMale());
         employeDto.setPhoto(employeWsDto.getPhoto());
+        employeDto.setEncodedPhoto(employeWsDto.getEncodedPhoto());
 
         //set pole
         if (poleDto != null)

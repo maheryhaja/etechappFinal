@@ -20,3 +20,7 @@
 Les types de recherche:
     recherche par nom|prenom|allias / matricule
     recherche par pole
+
+
+1- Actualiser la structure de la base de donnees en prenant en compte les photo et les encoded photo
+2- Mettre en place un widget qui permettrait d'afficher une image avant que picasso ne reussisse le chargement

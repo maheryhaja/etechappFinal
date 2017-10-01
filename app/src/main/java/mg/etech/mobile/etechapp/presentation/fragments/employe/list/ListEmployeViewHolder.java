@@ -11,6 +11,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.viewholders.FlexibleViewHolder;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
+import mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView;
 
 /**
  * Created by mahery.haja on 08/09/2017.
@@ -21,12 +22,16 @@ public class ListEmployeViewHolder extends FlexibleViewHolder {
     protected TextView matricule;
     protected ImageView imageViewPhoto;
     protected View innerView;
+    protected PicassoImageView pImageViewPhoto;
+    protected boolean isFront = true;
 
     public ListEmployeViewHolder(View view, FlexibleAdapter adapter) {
         super(view, adapter);
         titre = (TextView) view.findViewById(R.id.txtItemNom);
         matricule = (TextView) view.findViewById(R.id.txtItemMatricule);
         imageViewPhoto = (ImageView) view.findViewById(R.id.imageViewItemPhoto);
+        pImageViewPhoto = (PicassoImageView) view.findViewById(R.id.pImageViewItemPhoto);
+        pImageViewPhoto.setFrontImage(R.drawable.ic_default_men);
         this.innerView = view;
     }
 
@@ -44,14 +49,19 @@ public class ListEmployeViewHolder extends FlexibleViewHolder {
     public void setPhoto(String photourl) {
 
         if (photourl != null && !photourl.equals("") && !photourl.isEmpty()) {
+            pImageViewPhoto.setPhotoWithUrl(photourl);
+        }
+    }
 
-            Log.d("mahery-haja", "appel set photo " + ConfigUrl.BASE_URL + "/" + photourl);
-            Picasso
-                    .with(innerView.getContext())
-                    .load(ConfigUrl.BASE_URL + "/" + photourl)
-                    .into(imageViewPhoto);
-        } else {
-            imageViewPhoto.setImageDrawable(imageViewPhoto.getResources().getDrawable(R.drawable.ic_mahery));
+    public void setDefault(boolean isMale) {
+        pImageViewPhoto.setFrontImage(isMale?R.drawable.ic_default_men:R.drawable.ic_default_women);
+        if(!pImageViewPhoto.isFront())
+            pImageViewPhoto.flip();
+    }
+
+    public void setEncodedPhoto(String base64) {
+        if (base64 != null && !base64.equals("") && !base64.isEmpty()) {
+            pImageViewPhoto.setPhotoWithBase64(base64);
         }
     }
 

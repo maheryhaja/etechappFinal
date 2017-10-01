@@ -35,6 +35,9 @@ public class EmployeFromDtoFactoryImpl extends BaseFactory<EmployeDto, Employe> 
         employe.setPhoto(employeDto.getPhoto());
         employe.setBirthDate(employeDto.getBirthDate());
         employe.setHiringDate(employeDto.getHiringDate());
+
+        // ne devrait pas etr util
+        employe.setEncodedPhoto(employeDto.getEncodedPhoto());
         try {
             employe.setPole(poleFromDtoFactory.getInstance(employeDto.getPole()));
         } catch (IllegalArgumentException e) {
