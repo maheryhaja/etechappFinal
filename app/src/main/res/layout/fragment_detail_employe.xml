@@ -34,12 +34,20 @@
                     android:src="@drawable/ic_mahery"
                     android:id="@+id/imageView_detailPhoto"
                     android:layout_centerHorizontal="true"
+
                     android:layout_marginTop="@dimen/detail_employe_photo_size_half"
                     app:civ_border_color="@color/white"
                     app:civ_border_width="5dp"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     />
 
+                <mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView_
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/pImageViewDetailPhoto"
+                    android:layout_marginTop="75dp"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="invisible"></mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView_>
 
             </RelativeLayout>
 

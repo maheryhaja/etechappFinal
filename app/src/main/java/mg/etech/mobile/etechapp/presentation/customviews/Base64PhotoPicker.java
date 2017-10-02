@@ -16,7 +16,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -44,15 +46,18 @@ public class Base64PhotoPicker extends LinearLayout {
 
     public static final int UPLOAD_PHOTO_REQUEST_CODE = 101;
     private boolean isSet = false;
+    private boolean isUrlSet = true;
     private Uri photoTakenURI;
     private Consumer<String> onSelectedPhotoSucceed;
     private Consumer<Throwable> onNoPhotoSelected;
+    private boolean beforeLast = false;
 
     public String getValue() {
         return value;
     }
 
     private String value;
+    private String urlValue;
 
     @ViewById(R.id.btnUploadPhoto)
     ImageView btnUploadPhoto;
@@ -60,15 +65,32 @@ public class Base64PhotoPicker extends LinearLayout {
     @ViewById(R.id.btnTakePhoto)
     ImageView btnTakePhoto;
 
+    @ViewById(R.id.btnRevertPhoto)
+    ImageView btnRevertPhoto;
+
+    @ViewById(R.id.txtChoosePhoto)
+    TextView txtChoosePhoto;
+
+    @ViewById(R.id.pImageViewBase64)
+    PicassoImageView picassoImageView;
 
     public Base64PhotoPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+
+    }
+
+    @AfterViews
+    void initAfterViews() {
         onSelectedPhotoSucceed = new Consumer<String>() {
 
             @Override
             public void accept(String s) throws Exception {
                 isSet = true;
                 value = s;
+                picassoImageView.setPhotoWithBase64(s);
+                afficherImpage();
+
             }
         };
         onNoPhotoSelected = new Consumer<Throwable>() {
@@ -218,4 +240,55 @@ public class Base64PhotoPicker extends LinearLayout {
 
     }
 
+    public void afficherImpage() {
+        picassoImageView.setVisibility(VISIBLE);
+        btnRevertPhoto.setVisibility(VISIBLE);
+        txtChoosePhoto.setVisibility(GONE);
+    }
+
+    public void cacherImage() {
+        picassoImageView.setVisibility(GONE);
+        btnRevertPhoto.setVisibility(GONE);
+        txtChoosePhoto.setVisibility(VISIBLE);
+    }
+
+    @Click(R.id.btnRevertPhoto)
+    public void onRevertClicked() {
+
+        if (beforeLast && isSet) {
+            setPhotoWithUrl(urlValue);
+            isSet = false;
+            beforeLast = false;
+        } else {
+
+            this.isSet = false;
+            this.value = null;
+            isUrlSet = false;
+            cacherImage();
+        }
+    }
+
+    public void setPhotoWithUrl(String url) {
+        urlValue = url;
+        picassoImageView.setPhotoWithUrl(url);
+        beforeLast = true;
+        isUrlSet = true;
+        afficherImpage();
+
+    }
+
+    public void setPhotoWithBase64(String base64) {
+        value = base64;
+        picassoImageView.setPhotoWithBase64(base64);
+        isSet = true;
+        afficherImpage();
+    }
+
+    public boolean isUrlSet() {
+        return isUrlSet;
+    }
+
+    public String getUrlValue() {
+        return urlValue;
+    }
 }

@@ -1,12 +1,12 @@
 package mg.etech.mobile.etechapp.service.applicatif.operation.commands;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.IOException;
 
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 
 /**
@@ -27,11 +27,16 @@ public class UpdateEmployeCommand extends BaseEmployeCommand implements Operatio
 
         EmployeDto data = employeDtoOperationDto.getData();
 
-        Log.d("mahery-haja", "employe wsdto factory " + (employeWsDtoFromDtoFactory == null));
 
         //a recuperer from bdl
         EmployeWsDto employeWsDto = employeWsDtoFromDtoFactory.getInstance(data);
-        employeBdl.update(employeWsDto);
+        EmployeWsDto employeWsDtoUpdated = employeBdl.update(employeWsDto);
+
+        PoleDto poleDto = poleSA.findPoleById(employeWsDtoUpdated.getPole());
+
+        employeDtoOperationDto.setData(employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDtoUpdated, poleDto));
+
+
     }
 
     @Override

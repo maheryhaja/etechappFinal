@@ -70,12 +70,14 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
 
         }
 
+        holder.setDefault(employeDto.isMale());
+
         if (employeDto.getEncodedPhoto() != null) {
             holder.setEncodedPhoto(employeDto.getEncodedPhoto());
         } else if (employeDto.getPhoto() != null) {
             holder.setPhoto(employeDto.getPhoto());
         } else {
-            holder.setDefault(employeDto.isMale());
+
         }
     }
 

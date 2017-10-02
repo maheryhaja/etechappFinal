@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -9,12 +9,27 @@
     android:layout_margin="@dimen/general_margin"
     >
 
-    <ImageView
+
+    <mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView_
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:id="@+id/pImageViewBase64"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"></mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView_>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
         android:layout_width="@dimen/image_button_dimens"
         android:layout_height="@dimen/image_button_dimens"
         android:src="@drawable/ic_upload_photo"
         android:id="@+id/btnUploadPhoto"
         android:layout_margin="@dimen/little_margin"
+            android:layout_gravity="center_vertical"
         />
 
     <TextView
@@ -24,6 +39,7 @@
         android:gravity="center"
         android:layout_margin="@dimen/little_margin"
         android:textSize="@dimen/little_font_size"
+        android:id="@+id/txtChoosePhoto"
         />
 
     <ImageView
@@ -32,7 +48,16 @@
         android:src="@drawable/ic_take_photo"
         android:id="@+id/btnTakePhoto"
         android:layout_margin="@dimen/little_margin"
+        android:layout_gravity="center_vertical"
         />
 
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_revert"
+            android:id="@+id/btnRevertPhoto"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout>

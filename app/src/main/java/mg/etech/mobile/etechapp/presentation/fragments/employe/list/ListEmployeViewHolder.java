@@ -5,12 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.viewholders.FlexibleViewHolder;
 import mg.etech.mobile.etechapp.R;
-import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 import mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView;
 
 /**
@@ -55,8 +52,7 @@ public class ListEmployeViewHolder extends FlexibleViewHolder {
 
     public void setDefault(boolean isMale) {
         pImageViewPhoto.setFrontImage(isMale?R.drawable.ic_default_men:R.drawable.ic_default_women);
-        if(!pImageViewPhoto.isFront())
-            pImageViewPhoto.flip();
+
     }
 
     public void setEncodedPhoto(String base64) {

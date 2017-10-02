@@ -54,4 +54,15 @@ public class PoleSAImpl implements PoleSA {
     public void create(List<PoleDto> poleDtos) {
         createUpdateDeletePoleSM.create(poleFromDtoFactory.getInstance(poleDtos));
     }
+
+    @Override
+    public PoleDto findPoleById(Long id) {
+
+        for (PoleDto poleDto : findAll()) {
+            if (poleDto.getId() == id)
+                return poleDto;
+        }
+
+        return null;
+    }
 }

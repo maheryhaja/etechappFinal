@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.squareup.picasso.Callback;
@@ -19,6 +18,7 @@ import com.wajahatkarim3.easyflipview.EasyFlipView;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 
@@ -33,14 +33,14 @@ public class PicassoImageView extends LinearLayout{
 
 
     @ViewById(R.id.picassoImageFront)
-    ImageView imageViewFront;
+    CircleImageView imageViewFront;
 
 
     @ViewById(R.id.picassoImageBack)
-    ImageView imageViewBack;
+    CircleImageView imageViewBack;
 
     @ViewById(R.id.picassoRealImage)
-    ImageView imageReal;
+    CircleImageView imageReal;
 
     private String photoUrl;
     private String photoEncoded;
@@ -56,11 +56,17 @@ public class PicassoImageView extends LinearLayout{
 
 
     public void setFrontImage(int id) {
+
         Drawable drawable = getResources().getDrawable(id);
+
         imageViewFront.setImageDrawable(drawable);
+
         imageReal.setImageDrawable(drawable);
-        imageReal.setVisibility(VISIBLE);
-        flipView.setVisibility(GONE);
+        flipView.setVisibility(View.GONE);
+        imageReal.setVisibility(View.VISIBLE);
+
+
+
 //        flipView.flipTheView();
     }
 
@@ -74,6 +80,7 @@ public class PicassoImageView extends LinearLayout{
                 .into(imageViewBack, new Callback() {
                     @Override
                     public void onSuccess() {
+                        Log.d("mahery-haja", "flipping the view " + isFront);
                         if(isFront)flipView.flipTheView();
                         isFront = false;
                     }
@@ -82,11 +89,13 @@ public class PicassoImageView extends LinearLayout{
                     public void onError() {
                         flipView.setVisibility(GONE);
                         imageReal.setVisibility(VISIBLE);
+                        Log.d("mahery-haja", "error loading image with picasso");
                     }
                 });
     }
 
     public void setPhotoWithBase64(String base64) {
+
         photoEncoded = base64;
 
         try {
@@ -95,16 +104,16 @@ public class PicassoImageView extends LinearLayout{
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
 
             if (bitmap != null) {
-                this.imageReal.setImageBitmap(bitmap);
                 imageReal.setVisibility(VISIBLE);
+                this.imageReal.setImageBitmap(bitmap);
                 flipView.setVisibility(GONE);
-                isFront = false;
             } else {
                 Log.d("mahery-haja", "erreur de transformation bitmap");
             }
 
         } catch (NullPointerException e) {
             imageViewBack.setImageDrawable(imageViewBack.getResources().getDrawable(R.drawable.ic_mahery));
+            Log.d("mahery-haja", "error base 64 null pointer");
         }
     }
 
@@ -118,5 +127,18 @@ public class PicassoImageView extends LinearLayout{
 
     public void flip() {
         flipView.flipTheView();
+        isFront = !isFront;
+        Log.d("mahery-haja", "flip function used " + isFront);
+
+    }
+
+    public void setBorderWidth(int borderWidth) {
+        imageViewFront.setBorderWidth(borderWidth);
+        imageViewBack.setBorderWidth(borderWidth);
+        imageReal.setBorderWidth(borderWidth);
+        int color = getResources().getColor(R.color.white);
+        imageReal.setBorderColor(color);
+        imageViewBack.setBorderColor(color);
+        imageViewFront.setBorderColor(color);
     }
 }

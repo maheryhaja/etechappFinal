@@ -41,6 +41,7 @@ import mg.etech.mobile.etechapp.commun.constante.SimpleDate;
 import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
+import mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
@@ -104,6 +105,9 @@ public class DetailEmployeFragment extends Fragment {
     @ViewById(R.id.txtHistoryNoPoste)
     TextView txtHistoryNoPoste;
 
+    @ViewById(R.id.pImageViewDetailPhoto)
+    PicassoImageView pPhotoImageView;
+
     private EmployeDto employeDto;
 
     public DetailEmployeFragment() {
@@ -166,8 +170,12 @@ public class DetailEmployeFragment extends Fragment {
 
         initializePosteHistoryDetail();
 
-        if (employeDto.getPhoto() != null)
-        setImage(employeDto.getPhoto());
+//        if (employeDto.getPhoto() != null)
+//        setImage(employeDto.getPhoto());
+
+        setPhotoIsMale(employeDto.isMale());
+
+        setPicassoImage(employeDto);
     }
 
     private void setImage(String imageURL) {
@@ -198,6 +206,17 @@ public class DetailEmployeFragment extends Fragment {
         new SimpleReboundAnimator(photoImageView).bounce();
 
 
+    }
+
+    public void setPicassoImage(EmployeDto employeDto) {
+        if (employeDto.getEncodedPhoto() != null) {
+            pPhotoImageView.setPhotoWithBase64(employeDto.getEncodedPhoto());
+        } else if (employeDto.getPhoto() != null) {
+            pPhotoImageView.setPhotoWithUrl(employeDto.getPhoto());
+        } else {
+            pPhotoImageView.setFrontImage(employeDto.isMale() ? R.drawable.ic_default_men_150 : R.drawable.ic_default_women_150);
+        }
+        new SimpleReboundAnimator(pPhotoImageView).bounce();
     }
 
     private void setPhotoIsMale(boolean isMale) {

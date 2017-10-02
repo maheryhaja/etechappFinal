@@ -14,6 +14,7 @@ public interface PoleSA {
 
     void create(List<PoleDto> poleDtos);
 
+    PoleDto findPoleById(Long id);
 
     void deleteAll();
 }

@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import fisk.chipcloud.ChipCloud;
 import fisk.chipcloud.ChipCloudConfig;
+import fisk.chipcloud.ChipDeletedListener;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -141,9 +142,10 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
             edtAllias.setText(edtPrenom.getText());
         }
 
-        if (!base64PhotoPicker.isSet()) {
-            onPhotoPickerNotSet();
-        } else {
+//        if (!base64PhotoPicker.isSet()) {
+//            onPhotoPickerNotSet();
+//        }
+        else {
             // start animation
 
             if (historyPosteDtos.size() == 0) {
@@ -181,6 +183,12 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
         employeDto.setPole(poleDtos.get(spinnerPoleDto.getSelectedItemPosition()));
         employeDto.setPostes(historyPosteDtos);
 
+        if (base64PhotoPicker.isSet()) {
+            employeDto.setEncodedPhoto(base64PhotoPicker.getValue());
+        } else if (base64PhotoPicker.isUrlSet()) {
+            employeDto.setPhoto(base64PhotoPicker.getUrlValue());
+        }
+
         for (HistoryPosteDto historyPosteDto : historyPosteDtos)
             Log.d("mahery-haja", "poste found " + historyPosteDto.getName());
 
@@ -202,7 +210,6 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                                @Override
                                public void accept(EmployeDto employeDto) throws Exception {
                                    // on success
-                                   Toast.makeText(pActivity, "success " + employeDto.getId(), Toast.LENGTH_SHORT).show();
                                    onCreateEmployeSuccess();
                                }
                            },
@@ -298,8 +305,16 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                 .checkedTextColor(Color.parseColor("#ffffff"))
                 .uncheckedChipColor(Color.parseColor("#efefef"))
                 .uncheckedTextColor(Color.parseColor("#666666"))
+                .showClose(Color.parseColor("#a6a6a6"), 500)
                 .useInsetPadding(true);
         chipCloud = new ChipCloud(getContext(), chipFlexBoxLayout, config);
+
+        chipCloud.setDeleteListener(new ChipDeletedListener() {
+            @Override
+            public void chipDeleted(int i, String s) {
+                historyPosteDtos.remove(i);
+            }
+        });
 
 
     }

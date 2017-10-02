@@ -47,7 +47,7 @@ public class EmployeDto {
     @JsonProperty("photo")
     private String photo;
 
-    @JsonProperty("encodeoPhoto")
+    @JsonProperty("encodedPhoto")
     private String encodedPhoto;
 
     @JsonProperty("postes")

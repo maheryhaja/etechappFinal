@@ -7,6 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/picassoRealImage"
+        android:src="@drawable/ic_no_image_150"
+
         />
 
     <com.wajahatkarim3.easyflipview.EasyFlipView
@@ -20,13 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/picassoImageBack"
+            android:src="@drawable/ic_no_image_150"
             />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/picassoImageFront"
-            android:src="@drawable/ic_no_image"
+            android:src="@drawable/ic_no_image_150"
             />
 
     </com.wajahatkarim3.easyflipview.EasyFlipView>

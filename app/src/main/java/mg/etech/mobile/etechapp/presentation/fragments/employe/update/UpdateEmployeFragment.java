@@ -21,6 +21,8 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
 
     public void initEmployeDto(EmployeDto emp) {
         //set all field in the fragment
+        this.btnCreateEmploye.setText(getResources().getText(R.string.btn_text_update_employe));
+
         savedEmployeDto = emp;
         this.edtNom.setText(emp.getLastName());
         this.edtPrenom.setText(emp.getFirstName());
@@ -31,6 +33,11 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
         this.edtMatricule.setText(emp.getMatricule() + "");
         this.spinnerPoleDto.setSelection((int) (emp.getPole().getId() - 1));
 
+        if (emp.getEncodedPhoto() != null) {
+            base64PhotoPicker.setPhotoWithBase64(emp.getEncodedPhoto());
+        } else if (emp.getPhoto() != null) {
+            base64PhotoPicker.setPhotoWithUrl(emp.getPhoto());
+        }
 
         for (HistoryPosteDto historyPosteDto : emp.getPostes()) {
             chipCloud.addChip(chipFromHistoryDto(historyPosteDto));

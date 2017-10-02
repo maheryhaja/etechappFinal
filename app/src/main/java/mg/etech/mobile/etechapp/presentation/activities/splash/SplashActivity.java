@@ -55,6 +55,7 @@ public class SplashActivity extends AppCompatActivity {
         initializeIntervalObservable();
 
 
+
 //        backSynchronize();
 
 
@@ -83,6 +84,7 @@ public class SplashActivity extends AppCompatActivity {
                             }
                     );
         }
+
 
     private void backSynchronize() {
         Observable

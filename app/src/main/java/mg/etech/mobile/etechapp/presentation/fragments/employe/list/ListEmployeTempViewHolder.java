@@ -1,9 +1,5 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.list;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -46,24 +42,24 @@ public class ListEmployeTempViewHolder extends ListEmployeViewHolder {
         }
         imgOperationType.setImageDrawable(imageViewPhoto.getContext().getResources().getDrawable(icTempId));
     }
-
-    @Override
-    public void setPhoto(String photourl) {
-
-//        try {
 //
-//            byte[] decodeString = Base64.decode(photourl, Base64.DEFAULT);
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+//    @Override
+//    public void setPhoto(String photourl) {
 //
-//            if (bitmap != null) {
-//                this.imageViewPhoto.setImageBitmap(bitmap);
-//            } else {
-//                Log.d("mahery-haja", "erreur de transformation bitmap");
-//            }
+////        try {
+////
+////            byte[] decodeString = Base64.decode(photourl, Base64.DEFAULT);
+////            Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+////
+////            if (bitmap != null) {
+////                this.imageViewPhoto.setImageBitmap(bitmap);
+////            } else {
+////                Log.d("mahery-haja", "erreur de transformation bitmap");
+////            }
+////
+////        } catch (NullPointerException e) {
+////            imageViewPhoto.setImageDrawable(imageViewPhoto.getResources().getDrawable(R.drawable.ic_mahery));
+////        }
 //
-//        } catch (NullPointerException e) {
-//            imageViewPhoto.setImageDrawable(imageViewPhoto.getResources().getDrawable(R.drawable.ic_mahery));
-//        }
-
-    }
+//    }
 }
