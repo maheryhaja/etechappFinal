@@ -161,6 +161,33 @@ public class EmployeDto {
         EmployeDto that = (EmployeDto) o;
 
 
+        if (equalsWithoutPoste(o)) {
+
+            // for postes not sure ---> a verifier
+            if (getPostes() != null ? !(getPostes().size() == that.getPostes().size()) : that.getPostes() != null) {
+                return false;
+            } else {
+                boolean posteEquals = true;
+
+                for (int i = 0; i < getPostes().size() && posteEquals; i++) {
+                    posteEquals = (getPostes().get(i).equals(that.getPostes().get(i)));
+                }
+                return posteEquals;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean equalsWithoutPoste(Object o) {
+
+
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EmployeDto that = (EmployeDto) o;
+
         // for is Male ok
         if (isMale() != that.isMale()) return false;
 
@@ -209,17 +236,7 @@ public class EmployeDto {
         if (getEncodedPhoto() != null ? !getEncodedPhoto().equals(that.getPhoto()) : that.getEncodedPhoto() != null)
             return false;
 
-        // for postes not sure ---> a verifier
-        if (getPostes() != null ? !(getPostes().size() == that.getPostes().size()) : that.getPostes() != null) {
-            return false;
-        } else {
-            boolean posteEquals = true;
-
-            for (int i = 0; i < getPostes().size() && posteEquals; i++) {
-                posteEquals = (getPostes().get(i).equals(that.getPostes().get(i)));
-            }
-            return posteEquals;
-        }
+        return true;
     }
 
     public String getEncodedPhoto() {

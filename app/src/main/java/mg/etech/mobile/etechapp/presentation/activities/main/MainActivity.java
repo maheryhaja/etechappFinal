@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     @ViewById(R.id.btnAddEmploye)
     FloatingActionButton addEmployeButton;
 
-
     private SearchView searchView;
 
     @Bean(PoleSAImpl.class)
