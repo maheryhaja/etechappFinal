@@ -10,6 +10,7 @@ import java.util.Stack;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -27,6 +28,8 @@ import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.Operat
 public class CommandInvokerImpl implements CommandInvoker {
 
     private Stack<OperationDto> operationDtoStack = new Stack<>();
+    private int stackSize;
+    private boolean isRunning = false;
 
     @Bean(OperationStackSynchroSAImpl.class)
     OperationStackSynchroSA operationStackSynchroSA;
@@ -36,23 +39,7 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     @Override
     public void initialize() {
-        operationStackSynchroSA
-                .getActualList()
-                .subscribe(new Consumer<OperationDto>() {
-                    @Override
-                    public void accept(OperationDto operationDto) throws Exception {
-                        operationDtoStack.add(operationDto);
-                    }
-                });
 
-        operationStackSynchroSA
-                .onAddObservable()
-                .subscribe(new Consumer<OperationDto>() {
-                    @Override
-                    public void accept(OperationDto operationDto) throws Exception {
-                        operationDtoStack.add(operationDto);
-                    }
-                });
     }
 
 
@@ -77,15 +64,22 @@ public class CommandInvokerImpl implements CommandInvoker {
                                public void accept(OperationCommand operationCommand) throws Exception {
                                    Log.d("mahery-haja", "Operation Process Success");
                                    operationCommand.onSuccess();
-
+                                   stackSize--;
+                                   isRunning = (stackSize != 0);
+                                   if (stackSize == 0) {
+                                       Log.d("mahery-haja", "all operation processed");
+                                   }
                                }
                            },
                         // on error
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                Log.d("mahery-haja", "operation process Failed");
                                 throwable.printStackTrace();
+                                stackSize--;
+                                if (stackSize == 0) {
+                                    Log.d("mahery-haja", "all operation processed");
+                                }
                             }
                         }
                 );
@@ -94,9 +88,43 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     @Override
     public void processStack() {
+        isRunning = true;
         Log.d("mahery-haja", "process Stack " + operationDtoStack.size());
+        stackSize = operationDtoStack.size();
         while (!operationDtoStack.isEmpty()) {
             processOperation(operationDtoStack.pop());
         }
+    }
+
+    public int getStackSize() {
+        return stackSize;
+    }
+
+    @Override
+    public void launch() {
+
+        operationStackSynchroSA
+                .getActualList()
+                .subscribe(new Consumer<OperationDto>() {
+                               @Override
+                               public void accept(OperationDto operationDto) throws Exception {
+                                   operationDtoStack.add(operationDto);
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+
+                            }
+
+                        },
+                        new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                // on complete
+                                processStack();
+                            }
+                        }
+                );
     }
 }

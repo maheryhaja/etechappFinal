@@ -7,5 +7,6 @@ package mg.etech.mobile.etechapp.service.applicatif.synchro.commandInvoker;
 public interface CommandInvoker {
     void initialize();
 
+    void launch();
     void processStack();
 }

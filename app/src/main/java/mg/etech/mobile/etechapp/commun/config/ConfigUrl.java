@@ -24,6 +24,7 @@ public class ConfigUrl {
         public static final String CREATE_EMPLOYE = "/employe/create";
         public static final String UPDATE_EMPLOYE = "/employe/edit";
         public static final String DELETE_EMPLOYE = "/employe/delete";
+        public static final String ADD_EMPLOYE_POSTE = "/employe/addPoste";
     }
 
     public static class poste {

@@ -14,10 +14,13 @@ import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingleton;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingletonImpl;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
+import mg.etech.mobile.etechapp.donnee.wsdto.HistoryPosteWsDto;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.AddPosteEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.CreateEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.DeleteEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.ListEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.UpdateEmployeResponse;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.requests.AddPosteRequest;
 
 /**
  * Created by mahery.haja on 07/09/2017.
@@ -97,5 +100,20 @@ public class EmployeBdlImpl implements EmployeBdl {
             throw new ApiCallException();
         }
 
+    }
+
+    @Override
+    public HistoryPosteWsDto addPoste(HistoryPosteWsDto historyPosteWsDto, Long idEmploye) throws IOException, ApiCallException {
+
+        AddPosteEmployeResponse addPosteResponse = employeApi.addPoste(AddPosteRequest.fromHistoryPosteDto(historyPosteWsDto, idEmploye)).execute().body();
+
+        HistoryPosteWsDto addedHistoryPosteWsDto = null;
+
+        if (!addPosteResponse.isSuccess()) {
+            throw new ApiCallException();
+        } else {
+            addedHistoryPosteWsDto = addPosteResponse.getPoste();
+        }
+        return addedHistoryPosteWsDto;
     }
 }

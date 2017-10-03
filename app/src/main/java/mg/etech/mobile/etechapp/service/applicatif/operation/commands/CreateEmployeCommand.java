@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
+import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 
 /**
@@ -31,6 +32,20 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
 
 
         EmployeDto created = employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeBdl.create(employeWsDto), data.getPole());
+
+
+        /***
+         * separation necessaire
+         */
+        for (HistoryPosteDto historyPosteDto : data.getPostes()) {
+            HistoryPosteDto createdPoste = historyPosteDtoFromWsDtoFactory.getInstance(
+                    employeBdl.addPoste(
+                            historyPosteWsDtoFromDtoFactory.getInstance(historyPosteDto)
+                            , data.getId()
+                    )
+            );
+            created.getPostes().add(createdPoste);
+        }
 
         employeDtoOperationDto.setData(created);
     }

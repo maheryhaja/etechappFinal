@@ -2,10 +2,12 @@ package mg.etech.mobile.etechapp.service.businessDelegate.employe;
 
 import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.AddPosteEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.CreateEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.DeleteEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.ListEmployeResponse;
 import mg.etech.mobile.etechapp.service.businessDelegate.employe.reponses.UpdateEmployeResponse;
+import mg.etech.mobile.etechapp.service.businessDelegate.employe.requests.AddPosteRequest;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -36,6 +38,12 @@ public interface EmployeApi {
     @GET(ConfigUrl.employe.DELETE_EMPLOYE)
     Call<DeleteEmployeResponse> delete(
             @Query("id") Long id
+    );
+
+    @Headers("Content-Type: application/json")
+    @POST(ConfigUrl.employe.ADD_EMPLOYE_POSTE)
+    Call<AddPosteEmployeResponse> addPoste(
+            @Body AddPosteRequest request
     );
 
 
