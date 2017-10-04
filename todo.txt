@@ -12,4 +12,14 @@
     * diviser creation en: creation employe + ajout des postes
     * diviser modification en: modification employe + ajout/modif/suppr des postes
 
+1- remplacer la creation par une modification
+2- remplacer une modification par une autre modification
+3- mettre en place un system de process rapide des operations
+
+
+1- retravailler method equals (prendre en compte les dates)
+2- retravailler les methods equals (prendre en compte des postes)
+3- mettre en place un systeme infailllible pour les CRUD
+4- afficher les feedback de modification
+
 

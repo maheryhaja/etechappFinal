@@ -283,12 +283,69 @@ public class ListEmployeFragment extends AbstractFragment {
                     }
                 });
 
+        centralEmployeSynchroSA
+                .onProcessObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+
+                .filter(poleDtoFiltre)
+                .subscribe(new Consumer<SuperListEmployeItem>() {
+                    @Override
+                    public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
+                        setProcessingItem(superListEmployeItem);
+                    }
+                });
+
+        centralEmployeSynchroSA
+                .onErrorObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .filter(poleDtoFiltre)
+                .subscribe(new Consumer<SuperListEmployeItem>() {
+                    @Override
+                    public void accept(SuperListEmployeItem superListEmployeItem) throws Exception {
+                        setStopProcessingItem(superListEmployeItem);
+                    }
+                });
+
+
+
+
     }
 
     protected void deleteItem(SuperListEmployeItem superListEmployeItem) {
         int position = items.indexOf(superListEmployeItem);
         items.remove(position);
         adapter.notifyDataSetChanged();
+    }
+
+    protected void setProcessingItem(SuperListEmployeItem processingItem) {
+        int position = items.indexOf(processingItem);
+
+        Log.d("mahery-haja", "processing in fragment " + position);
+
+        if (position > 0) {
+            if (processingItem instanceof ListEmployeItemTemp) {
+
+                Log.d("mahery-haja", "processing about to run");
+                ListEmployeItemTemp itemTemp = (ListEmployeItemTemp) items.get(position);
+                itemTemp.displayProcessRunning();
+            }
+        }
+    }
+
+    protected void setStopProcessingItem(SuperListEmployeItem stopProcessingItem) {
+        int position = items.indexOf(stopProcessingItem);
+
+        Log.d("mahery-haja", "processing in fragment " + position);
+
+        if (position > 0) {
+            if (stopProcessingItem instanceof ListEmployeItemTemp) {
+
+                ListEmployeItemTemp itemTemp = (ListEmployeItemTemp) items.get(position);
+                itemTemp.displayDefault();
+            }
+        }
     }
 
     protected void updateItem(SuperListEmployeItem superListEmployeItem) {
@@ -328,7 +385,7 @@ public class ListEmployeFragment extends AbstractFragment {
         return integerSet;
     }
 
-    // set Query Listener
+    // set Query Listener pour les recherches
     public void setQueryListener(Observable<String> queryObservable) {
         queryObservable
                 .subscribe(new Consumer<String>() {
@@ -349,7 +406,6 @@ public class ListEmployeFragment extends AbstractFragment {
                             }
                         }
                         adapter.filterItems(unfilteredItems);
-
 
                     }
                 });

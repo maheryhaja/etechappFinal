@@ -19,6 +19,7 @@ import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 public class ListEmployeItemTemp extends SuperListEmployeItem<ListEmployeTempViewHolder> {
 
     protected String operationName= OperationType.CREATE;
+    private ListEmployeTempViewHolder actualView;
 
     public ListEmployeItemTemp(EmployeDto employeDto) {
         super(employeDto);
@@ -47,6 +48,7 @@ public class ListEmployeItemTemp extends SuperListEmployeItem<ListEmployeTempVie
         super.bindViewHolder(adapter, holder, position, payloads);
         Log.d("mahery-haja", "try to bind " + operationName);
         holder.setOperationImage(operationName);
+        actualView = holder;
     }
 
     public String getOperationName() {
@@ -56,4 +58,19 @@ public class ListEmployeItemTemp extends SuperListEmployeItem<ListEmployeTempVie
     public void setOperationName(String operationName) {
         this.operationName = operationName;
     }
+
+    public void displayProcessRunning() {
+        if (actualView != null)
+            actualView.afficherLoader();
+    }
+
+    public void displayDefault() {
+        if (actualView != null) {
+            actualView.afficherNoConnection();
+
+        }
+
+    }
+
+
 }

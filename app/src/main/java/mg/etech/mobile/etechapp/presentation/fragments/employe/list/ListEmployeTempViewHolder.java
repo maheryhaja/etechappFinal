@@ -2,6 +2,7 @@ package mg.etech.mobile.etechapp.presentation.fragments.employe.list;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import mg.etech.mobile.etechapp.R;
@@ -16,6 +17,8 @@ public class ListEmployeTempViewHolder extends ListEmployeViewHolder {
 
     protected String operationName = OperationType.CREATE;
     protected ImageView imgOperationType;
+    protected ImageView imgNoConnection;
+    protected ProgressBar progressBar;
     public ListEmployeTempViewHolder(View view, FlexibleAdapter adapter) {
         super(view, adapter);
     }
@@ -24,7 +27,8 @@ public class ListEmployeTempViewHolder extends ListEmployeViewHolder {
         super(view, adapter);
         this.operationName = operationName;
         imgOperationType = (ImageView) view.findViewById(R.id.imgTempOperationType);
-
+        progressBar = (ProgressBar) view.findViewById(R.id.progressProcessing);
+        imgNoConnection = (ImageView) view.findViewById(R.id.imgTempLoading);
     }
 
     public void setOperationImage(String operationType) {
@@ -42,6 +46,18 @@ public class ListEmployeTempViewHolder extends ListEmployeViewHolder {
         }
         imgOperationType.setImageDrawable(imageViewPhoto.getContext().getResources().getDrawable(icTempId));
     }
+
+    public void afficherLoader() {
+        progressBar.setVisibility(View.VISIBLE);
+        imgNoConnection.setVisibility(View.INVISIBLE);
+    }
+
+    public void afficherNoConnection() {
+        progressBar.setVisibility(View.INVISIBLE);
+        imgNoConnection.setVisibility(View.VISIBLE);
+
+    }
+
 //
 //    @Override
 //    public void setPhoto(String photourl) {
@@ -62,4 +78,6 @@ public class ListEmployeTempViewHolder extends ListEmployeViewHolder {
 ////        }
 //
 //    }
+
+
 }

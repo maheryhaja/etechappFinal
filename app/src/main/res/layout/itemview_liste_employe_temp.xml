@@ -25,11 +25,22 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_not_synchronized"
+
             android:layout_alignParentRight="true"
             android:layout_marginTop="32dp"
             android:layout_marginRight="16dp"
             android:id="@+id/imgTempLoading"
             />
+
+        <ProgressBar
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
+            android:visibility="invisible"
+            android:id="@+id/progressProcessing" />
+
 
         <ImageView
             android:layout_width="32dp"

@@ -2,6 +2,7 @@ package mg.etech.mobile.etechapp.commun.utils.date;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,5 +19,25 @@ public class SimpleDateUtils {
     public static int getAge(Date birthDate) {
         Date actualDate = new Date();
         return actualDate.getYear() - birthDate.getYear();
+    }
+
+    public static boolean compare(Date date1, Date date2) {
+
+        if (date1 == null && date2 == null) {
+            return true;
+        } else if (date1 == null || date2 == null) {
+            return false;
+        } else {
+
+
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            cal1.setTime(date1);
+            cal2.setTime(date2);
+
+
+            return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                    cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+        }
     }
 }

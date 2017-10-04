@@ -31,6 +31,10 @@ public interface CentralEmployeSynchroSA {
 
     Observable<ItemReplacement> onReplaceObservable();
 
+    Observable<SuperListEmployeItem> onProcessObservable();
+
+    Observable<SuperListEmployeItem> onErrorObservable();
+
     void requestDeleteItemById(int itemId);
 
     String findOperationNameById(int id);

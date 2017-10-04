@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
+import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.wsdto.EmployeWsDto;
 
@@ -38,15 +39,34 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
         employeDtoOperationDto.setData(created);
         editPosteNecessaire = data.getPostes().size() > 0;
         if (editPosteNecessaire) {
+            data.setId(created.getId());
             employeDtoOperationDto.setTarget(data);
         }
     }
 
     @Override
     public void onSuccess() {
+        // create the employe in database
         employeSA.create(employeDtoOperationDto.getData());
-        operationStackSynchroSA.notifySuccess(employeDtoOperationDto);
+
+        // notify databasynchro to update its employeDto map
         dataBaseSynchroSA.notifyForCreate(employeDtoOperationDto.getData());
+
+        if (editPosteNecessaire) {
+
+            // interchanger data et target
+            EmployeDto data = employeDtoOperationDto.getData();
+            employeDtoOperationDto.setOperationName(OperationType.UPDATE);
+            employeDtoOperationDto.setData(employeDtoOperationDto.getTarget());
+            employeDtoOperationDto.setTarget(data);
+            operationStackSynchroSA.updateOperation(employeDtoOperationDto);
+        } else {
+            // operation habituel
+            // notifier operation Stack pour le success d'une operation
+            operationStackSynchroSA.notifySuccess(employeDtoOperationDto);
+        }
+
+
     }
 
     @Override

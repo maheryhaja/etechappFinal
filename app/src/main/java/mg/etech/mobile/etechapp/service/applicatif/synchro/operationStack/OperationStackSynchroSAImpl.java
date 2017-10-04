@@ -24,6 +24,8 @@ import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.service.applicatif.operation.OperationSA;
 import mg.etech.mobile.etechapp.service.applicatif.operation.OperationSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.commandInvoker.CommandInvoker;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.commandInvoker.CommandInvokerImpl;
 
 /**
  * Created by mahery.haja on 21/09/2017.
@@ -34,6 +36,9 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
 
     @Bean(OperationSAImpl.class)
     OperationSA operationSA;
+
+    @Bean(CommandInvokerImpl.class)
+    CommandInvoker commandInvoker;
 
     private int negativeId = -1;
 
@@ -80,7 +85,7 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
 
         Log.d("mahery-haja", "add operation called");
         addSubject.onNext(operationDto);
-
+        commandInvoker.launch();
     }
 
 
@@ -88,12 +93,9 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
     public void updateOperation(OperationDto operationDto) {
         operationSA.update(operationDto);
         int operationid = (int) operationDto.getId();
-
-        OperationDto ancienOperation = operationDtoMap.get(operationid);
-        //gerer le changement de pole
-
         operationDtoMap.put(operationid, operationDto);
         updateSubject.onNext(operationDto);
+        commandInvoker.launch();
     }
 
     @Override
@@ -118,7 +120,6 @@ public class OperationStackSynchroSAImpl implements OperationStackSynchroSA {
                 .subscribe(new Consumer<OperationDto>() {
                     @Override
                     public void accept(OperationDto operationDto) throws Exception {
-                        Log.d("mahery-haja", "call of onNext");
                         operationDtoMap.put((int) operationDto.getId(), operationDto);
                         addSubject.onNext(operationDto);
                         initialPublishSubject.onNext(operationDto);

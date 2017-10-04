@@ -14,6 +14,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationCommand;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.factory.OperationCommandFactory;
@@ -31,6 +32,10 @@ public class CommandInvokerImpl implements CommandInvoker {
     private int stackSize;
     private boolean isRunning = false;
 
+
+    private PublishSubject<OperationDto> processingSubject = PublishSubject.create();
+    private PublishSubject<OperationDto> errorSubject = PublishSubject.create();
+
     @Bean(OperationStackSynchroSAImpl.class)
     OperationStackSynchroSA operationStackSynchroSA;
 
@@ -43,7 +48,7 @@ public class CommandInvokerImpl implements CommandInvoker {
     }
 
 
-    private void processOperation(OperationDto operationDto) {
+    private void processOperation(final OperationDto operationDto) {
         OperationCommand command = operationCommandFactory
                 .create(operationDto);
 
@@ -52,6 +57,7 @@ public class CommandInvokerImpl implements CommandInvoker {
                 .map(new Function<OperationCommand, OperationCommand>() {
                     @Override
                     public OperationCommand apply(@NonNull OperationCommand operationCommand) throws Exception {
+                        processingSubject.onNext(operationDto);
                         operationCommand.execute();
                         return operationCommand;
                     }
@@ -62,8 +68,9 @@ public class CommandInvokerImpl implements CommandInvoker {
                                // on success
                                @Override
                                public void accept(OperationCommand operationCommand) throws Exception {
-                                   Log.d("mahery-haja", "Operation Process Success");
                                    operationCommand.onSuccess();
+
+
                                    stackSize--;
                                    isRunning = (stackSize != 0);
                                    if (stackSize == 0) {
@@ -76,6 +83,7 @@ public class CommandInvokerImpl implements CommandInvoker {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
                                 throwable.printStackTrace();
+                                errorSubject.onNext(operationDto);
                                 stackSize--;
                                 if (stackSize == 0) {
                                     Log.d("mahery-haja", "all operation processed");
@@ -102,29 +110,40 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     @Override
     public void launch() {
+        if (!isRunning) {
+            operationStackSynchroSA
+                    .getActualList()
+                    .subscribe(new Consumer<OperationDto>() {
+                                   @Override
+                                   public void accept(OperationDto operationDto) throws Exception {
+                                       operationDtoStack.add(operationDto);
+                                   }
+                               },
+                            new Consumer<Throwable>() {
+                                @Override
+                                public void accept(Throwable throwable) throws Exception {
 
-        operationStackSynchroSA
-                .getActualList()
-                .subscribe(new Consumer<OperationDto>() {
-                               @Override
-                               public void accept(OperationDto operationDto) throws Exception {
-                                   operationDtoStack.add(operationDto);
-                               }
-                           },
-                        new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
+                                }
 
+                            },
+                            new Action() {
+                                @Override
+                                public void run() throws Exception {
+                                    // on complete
+                                    processStack();
+                                }
                             }
+                    );
+        }
+    }
 
-                        },
-                        new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                // on complete
-                                processStack();
-                            }
-                        }
-                );
+    @Override
+    public Observable<OperationDto> onProceessingObservable() {
+        return processingSubject;
+    }
+
+    @Override
+    public Observable<OperationDto> onErrorObservable() {
+        return errorSubject;
     }
 }
