@@ -25,7 +25,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/detail_employe_photo_size"
+                    android:layout_height="100dp"
                     android:background="@color/etechBlack"></LinearLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -35,7 +35,7 @@
                     android:id="@+id/imageView_detailPhoto"
                     android:layout_centerHorizontal="true"
 
-                    android:layout_marginTop="@dimen/detail_employe_photo_size_half"
+                    android:layout_marginTop="25dp"
                     app:civ_border_color="@color/white"
                     app:civ_border_width="5dp"
                     android:visibility="gone"
@@ -45,7 +45,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:id="@+id/pImageViewDetailPhoto"
-                    android:layout_marginTop="75dp"
+                    android:layout_marginTop="25dp"
                     android:layout_centerHorizontal="true"
                     android:visibility="invisible"></mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView_>
 
@@ -109,7 +109,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_matricule"
                             android:id="@+id/txtDetailMatricule"
-                            android:padding="@dimen/little_padding" />
+                            android:padding="@dimen/little_padding"
+                            app:customTypeface="@string/font_crimson" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"

@@ -17,9 +17,30 @@
 3- mettre en place un system de process rapide des operations
 
 
-1- retravailler method equals (prendre en compte les dates)
-2- retravailler les methods equals (prendre en compte des postes)
 3- mettre en place un systeme infailllible pour les CRUD
 4- afficher les feedback de modification
+5- regler le pbm des images volumineux ==> stocker dans des fichiers: utiliser la meme strategy que tiny
+
+1- Dessiner le nouveau design sur papier
+   Tester les animations
+   Voir si transclude est possible
+   Mettre en place le bouton updow
+   Mettre en place la gestion des titres
+
+2- Trouver un bon jeu de couleur
+3- Réarranger les elements
+4- Insérer des labels flottants
+5- Redisigner ajout de poste
+6- Appliquer les changements
+7- Differencier ajout, modification et update dans edition employe
+8- Implementer ajout
+9- Implementer modification
+10- Mettre en place un pull to refresh
+11- Mettre en place des observable pour Invoker(Running/ Not Running)
+12- Implementer les observables dans les interfaces
+
+
+
+
 
 

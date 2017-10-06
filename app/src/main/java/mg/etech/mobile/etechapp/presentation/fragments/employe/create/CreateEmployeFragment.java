@@ -189,9 +189,6 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
             employeDto.setPhoto(base64PhotoPicker.getUrlValue());
         }
 
-        for (HistoryPosteDto historyPosteDto : historyPosteDtos)
-            Log.d("mahery-haja", "poste found " + historyPosteDto.getName());
-
         createEmploye(employeDto);
     }
 

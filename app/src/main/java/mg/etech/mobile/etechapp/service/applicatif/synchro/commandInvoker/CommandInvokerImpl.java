@@ -41,6 +41,7 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     @Bean(OperationCommandFactoryImpl.class)
     OperationCommandFactory operationCommandFactory;
+    private boolean isRequestQueueing = false;
 
     @Override
     public void initialize() {
@@ -75,6 +76,7 @@ public class CommandInvokerImpl implements CommandInvoker {
                                    isRunning = (stackSize != 0);
                                    if (stackSize == 0) {
                                        Log.d("mahery-haja", "all operation processed");
+                                       processQueue();
                                    }
                                }
                            },
@@ -85,13 +87,22 @@ public class CommandInvokerImpl implements CommandInvoker {
                                 throwable.printStackTrace();
                                 errorSubject.onNext(operationDto);
                                 stackSize--;
+                                isRunning = (stackSize != 0);
                                 if (stackSize == 0) {
                                     Log.d("mahery-haja", "all operation processed");
+                                    processQueue();
+
                                 }
                             }
                         }
                 );
 
+    }
+
+    protected void processQueue() {
+        if (isRequestQueueing)
+            launch();
+        isRequestQueueing = false;
     }
 
     @Override
@@ -134,6 +145,8 @@ public class CommandInvokerImpl implements CommandInvoker {
                                 }
                             }
                     );
+        } else {
+            isRequestQueueing = true;
         }
     }
 

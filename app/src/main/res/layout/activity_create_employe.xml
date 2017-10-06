@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="mg.etech.mobile.etechapp.presentation.activities.employe.createEmloye.CreateEmployeActivity"
-    android:orientation="vertical"
-    android:background="@color/etechBlack">
+    android:orientation="vertical">
 
     <fragment
         android:layout_width="match_parent"

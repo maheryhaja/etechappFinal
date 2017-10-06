@@ -48,14 +48,21 @@ public class HistoryPosteDto {
 
     @Override
     public boolean equals(Object o) {
+        //verification de reference
         if (this == o) return true;
+
+        //verfication de classe
         if (o == null || getClass() != o.getClass()) return false;
 
         HistoryPosteDto that = (HistoryPosteDto) o;
 
-        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        //verification de Id
+        //if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+
+        //verification de name
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null)
             return false;
+
         return getDatePromotion() != null ? getDatePromotion().equals(that.getDatePromotion()) : that.getDatePromotion() == null;
 
     }

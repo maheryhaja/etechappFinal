@@ -31,6 +31,7 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
         Log.d("mahery-haja", "employe wsdto factory " + (employeWsDtoFromDtoFactory == null));
 
         EmployeWsDto employeWsDto = employeWsDtoFromDtoFactory.getInstance(data);
+//        employeWsDto.setPostes(null);
 
 
         EmployeDto created = employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeBdl.create(employeWsDto), data.getPole());
@@ -38,9 +39,10 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
 
         employeDtoOperationDto.setData(created);
         editPosteNecessaire = data.getPostes().size() > 0;
+//        editPosteNecessaire = false;
         if (editPosteNecessaire) {
-            data.setId(created.getId());
-            employeDtoOperationDto.setTarget(data);
+            employeDtoOperationDto.setTarget(created);
+            employeDtoOperationDto.getTarget().setPostes(data.getPostes());
         }
     }
 

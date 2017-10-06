@@ -1,9 +1,8 @@
 package mg.etech.mobile.etechapp.donnee.wsdto;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -55,6 +54,7 @@ public class EmployeWsDto {
     @JsonProperty("encodedPhoto")
     private String encodedPhoto;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("postes")
     private List<HistoryPosteWsDto> postes = new ArrayList<>();
 
@@ -151,8 +151,7 @@ public class EmployeWsDto {
     }
 
     public List<HistoryPosteWsDto> getPostes() {
-        for (HistoryPosteWsDto historyPosteWsDto : postes)
-            Log.d("mahery-haja", "a post found " + historyPosteWsDto.getName());
+
         return postes;
     }
 

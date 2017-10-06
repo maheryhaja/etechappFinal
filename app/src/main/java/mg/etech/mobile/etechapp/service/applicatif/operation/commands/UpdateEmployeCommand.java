@@ -29,53 +29,76 @@ public class UpdateEmployeCommand extends BaseEmployeCommand implements Operatio
         // suppose that there are no conflicts
         // execute update and notify for success
         EmployeDto data = employeDtoOperationDto.getData();
+        EmployeDto target = employeDtoOperationDto.getTarget();
         EmployeDto updatedEmployeDto;
+
         if (employeDtoOperationDto.getData().equalsWithoutPoste(employeDtoOperationDto.getTarget())) {
             // seul une operation d'ajout de poste est necessaire
             // tester pour ajout
-            Log.d("mahery-haja", "process add poste");
-            EmployeDto target = employeDtoOperationDto.getTarget();
-            HistoryPosteDto historyPosteDto = data.getPostes().get(0);
+            HistoryPosteDto historyPosteDtoRequest = data.getPostes().get(0);
 
 
-            HistoryPosteDto updatedHistoryPoste = historyPosteDtoFromWsDtoFactory.getInstance(
+            HistoryPosteDto historyPosteResponse = historyPosteDtoFromWsDtoFactory.getInstance(
                     employeBdl.addPoste(
-                            historyPosteWsDtoFromDtoFactory.getInstance(historyPosteDto), data.getId()
+                            historyPosteWsDtoFromDtoFactory.getInstance(historyPosteDtoRequest), data.getId()
                     )
             );
 
+            Log.d("mahery-haja", "need to add " + historyPosteResponse.getName() + " " + historyPosteResponse.getDatePromotion());
+            data.getPostes().set(0, historyPosteResponse);
+
             if (target.getPostes().size() > 0) {
 
-                target.getPostes().set(0, updatedHistoryPoste);
+                target.getPostes().set(0, historyPosteResponse);
             } else
-                target.getPostes().add(historyPosteDto);
+                target.getPostes().add(historyPosteResponse);
             updatedEmployeDto = employeDtoOperationDto.getTarget();
+
+
+            employeDtoOperationDto.setData(data);
+            employeDtoOperationDto.setTarget(target);
 
         } else {
             // update employe necessaire
+            Log.d("mahery-haja", "command process simple update");
 
+
+            //make postes transparent
 
 
 
         //a recuperer from bdl
-        EmployeWsDto employeWsDto = employeWsDtoFromDtoFactory.getInstance(data);
-        EmployeWsDto employeWsDtoUpdated = employeBdl.update(employeWsDto);
+            EmployeWsDto employeWsDtoRequest = employeWsDtoFromDtoFactory.getInstance(data);
+            EmployeWsDto employeWsDtoResponse = employeBdl.update(employeWsDtoRequest);
 
-        PoleDto poleDto = poleSA.findPoleById(employeWsDtoUpdated.getPole());
+            PoleDto poleDto = poleSA.findPoleById(employeWsDtoResponse.getPole());
 
-            updatedEmployeDto = employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDtoUpdated, poleDto);
-            employeDtoOperationDto.setData(updatedEmployeDto);
+            updatedEmployeDto = employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeWsDtoResponse, poleDto);
+
+            updatedEmployeDto.setPostes(target.getPostes());
+
             data.setPhoto(updatedEmployeDto.getPhoto());
             data.setEncodedPhoto(null);
             data.setHiringDate(updatedEmployeDto.getHiringDate());
             data.setBirthDate(updatedEmployeDto.getBirthDate());
 
-            anotherUpdateNecessaire = !updatedEmployeDto.equals(data);
+            updatedEmployeDto.setPostes(target.getPostes());
+            employeDtoOperationDto.setTarget(updatedEmployeDto);
+            //actualiser target
+
 
         }
 
+        anotherUpdateNecessaire = !employeDtoOperationDto.getTarget().equals(employeDtoOperationDto.getData());
+
         if (anotherUpdateNecessaire) {
+
+            Log.d("mahery-haja", "update: another update necessaire");
+            //une autre update necessaire jusq'a target ressemble a data
+
+            // target represente l'etat actuel
             employeDtoOperationDto.setTarget(updatedEmployeDto);
+            // data represente l'etat a atteindre
             employeDtoOperationDto.setData(data);
         }
     }

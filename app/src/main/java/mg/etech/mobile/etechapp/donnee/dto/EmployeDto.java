@@ -153,9 +153,10 @@ public class EmployeDto {
     @Override
     public boolean equals(Object o) {
 
-
+        // meme reference
         if (this == o) return true;
 
+        // comparaison des classes
         if (o == null || getClass() != o.getClass()) return false;
 
         EmployeDto that = (EmployeDto) o;
@@ -166,6 +167,8 @@ public class EmployeDto {
             // for postes not sure ---> a verifier
             if (getPostes() != null ? !(getPostes().size() == that.getPostes().size()) : that.getPostes() != null) {
                 return false;
+            } else if (getPostes() == null && that.getPostes() == null) {
+                return true;
             } else {
                 boolean posteEquals = true;
 
@@ -181,9 +184,10 @@ public class EmployeDto {
 
     public boolean equalsWithoutPoste(Object o) {
 
-
+        //meme reference
         if (this == o) return true;
 
+        // differentes class
         if (o == null || getClass() != o.getClass()) return false;
 
         EmployeDto that = (EmployeDto) o;
@@ -196,7 +200,7 @@ public class EmployeDto {
 
         //for first Name ok
 
-        if (getLastName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
+        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null)
             return false;
 
         // for Last Name ok
@@ -225,7 +229,7 @@ public class EmployeDto {
             return false;
 
 
-        // for pole not ok
+        // for pole not ok0
         if (getPole() != null ? !getPole().equals(that.getPole()) : that.getPole() != null)
             return false;
 
@@ -233,8 +237,9 @@ public class EmployeDto {
         // for photo ok
         if (getPhoto() != null ? !getPhoto().equals(that.getPhoto()) : that.getPhoto() != null)
             return false;
-        if (getEncodedPhoto() != null ? !getEncodedPhoto().equals(that.getPhoto()) : that.getEncodedPhoto() != null)
-            return false;
+
+//        if (getEncodedPhoto() != null ? !getEncodedPhoto().equals(that.getPhoto()) : that.getEncodedPhoto() != null)
+//            return false;
 
         return true;
     }
