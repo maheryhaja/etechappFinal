@@ -12,8 +12,8 @@
         android:layout_height="match_parent"
         android:name="mg.etech.mobile.etechapp.presentation.fragments.employe.create.CreateEmployeFragment_"
         tools:layout="@layout/fragment_create_employe"
-        android:id="@+id/fragmenCreateEmploye"
+        android:id="@+id/fragmenCreateEmploye">
 
-        ></fragment>
+    </fragment>
 
 </LinearLayout>

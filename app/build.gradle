@@ -143,6 +143,8 @@ dependencies {
 
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
 
+    // expandable layout
+    compile "net.cachapa.expandablelayout:expandablelayout:2.9.2"
 
 }
 

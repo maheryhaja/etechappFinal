@@ -25,6 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
+import mg.etech.mobile.etechapp.presentation.activities.test.TestAnimationActivity_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.operation.OperationSA;
 import mg.etech.mobile.etechapp.service.applicatif.operation.OperationSAImpl;
@@ -76,7 +77,8 @@ public class SplashActivity extends AppCompatActivity {
                                 @Override
                                 public void run() throws Exception {
                                     if (preferenceSA.isUserConnected()) {
-                                        goToMainActivity();
+//                                        goToMainActivity();
+                                        TestAnimationActivity_.intent(SplashActivity.this).start();
                                     } else {
                                         goToLoginActivity();
                                     }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/etechBlue"
+        android:padding="@dimen/general_padding">
+
+        <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="header"
+            android:id="@+id/txtFormSectionTitle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="toggle"
+            android:id="@+id/btnFormSectionToggle"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandablelayoutContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_duration="500"
+        app:el_expanded="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layoutFormSectionContent"
+            android:padding="@dimen/general_padding"></LinearLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+
+</LinearLayout>
