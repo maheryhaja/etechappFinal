@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/etechBlue"
-        android:padding="@dimen/general_padding">
+        android:padding="@dimen/little_padding">
 
         <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
             android:layout_width="wrap_content"
@@ -18,12 +18,12 @@
             android:text="header"
             android:id="@+id/txtFormSectionTitle" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="toggle"
-            android:id="@+id/btnFormSectionToggle"
-            android:layout_alignParentRight="true" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_icon_collapse"
+            android:layout_alignParentRight="true"
+            android:id="@+id/btnFormSectionToggle" />
     </RelativeLayout>
 
 
@@ -31,7 +31,6 @@
         android:id="@+id/expandablelayoutContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:el_duration="500"
         app:el_expanded="true">
 
         <LinearLayout
@@ -39,7 +38,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/layoutFormSectionContent"
-            android:padding="@dimen/general_padding"></LinearLayout>
+            android:padding="@dimen/general_padding1_5x"></LinearLayout>
     </net.cachapa.expandablelayout.ExpandableLayout>
 
 

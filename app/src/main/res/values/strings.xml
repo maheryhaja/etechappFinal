@@ -55,5 +55,7 @@
     <string name="annuler_operation">Annuler l\'opération</string>
     <string name="recherche">menu_action_search</string>
     <string name="font_crimson">Crimson-Roman.otf</string>
+    <string name="info_pers_title">Informations personnelles</string>
+    <string name="info_pro_title">Informations professionnelles</string>
 
 </resources>

@@ -52,7 +52,7 @@ public class PoleSpinnerAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         TextView textView = new TextView(context);
         textView.setText(poleDtos.get(position).getName());
-        textView.setTextColor(context.getResources().getColor(R.color.white));
+        textView.setTextColor(context.getResources().getColor(R.color.black));
         return textView;
     }
 

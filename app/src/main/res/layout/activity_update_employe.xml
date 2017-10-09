@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/etechBlack"
+    android:background="@color/etechWhiteGray"
     tools:context="mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeActivity">
 
     <fragment

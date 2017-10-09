@@ -17,110 +17,202 @@
             android:orientation="vertical"
             android:padding="@dimen/general_padding">
 
-            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edtCreateEmployeNom"
-                style="@style/edt_general_style"
-                    android:hint="@string/hint_nom_employe" />
-            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/edt_general_style"
-                android:hint="@string/hint_prenom_employe"
-                android:id="@+id/edtCreateEmployePrenom" />
-
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/edt_general_style"
-                android:hint="@string/hint_allias"
-                android:id="@+id/edtCreateEmployeAllias" />
-
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/edt_general_style"
-                android:hint="@string/hint_matricule"
-                android:id="@+id/edtCreateEmployeMatricule"
-                android:inputType="number" />
-
-            <mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/edt_general_style"
-                android:inputType="date"
-                android:id="@+id/edtCreateEmployeBirthDate"
-                android:hint="@string/hint_edt_date_de_naissance" />
-
-            <mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/edt_general_style"
-                android:inputType="date"
-                android:id="@+id/edtCreateEmployeHiringDate"
-                android:hint="@string/hint_date_embauche" />
-
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/rGroupMale"
-                android:layout_gravity="center">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
+                <mg.etech.mobile.etechapp.presentation.customviews.ExpandableFormSection
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rbutton_homme"
-                    android:id="@+id/rBtnCreateEmployeHomme"
-                    android:checked="true" />
+                    android:id="@+id/expandableInfoPers">
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rBtnCreateEmployeFemme"
-                    android:text="@string/rbutton_femme" />
-            </RadioGroup>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/little_padding">
 
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                        <RadioGroup
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:id="@+id/rGroupMale"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center">
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbutton_homme"
+                                android:id="@+id/rBtnCreateEmployeHomme"
+                                android:checked="true" />
+
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/rBtnCreateEmployeFemme"
+                                android:text="@string/rbutton_femme" />
+                        </RadioGroup>
+
+
+                        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true">
+
+                            <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/edt_general_light"
+                                android:hint="@string/hint_matricule"
+                                android:id="@+id/edtCreateEmployeMatricule"
+                                android:inputType="number"
+                                android:gravity="right"
+                                android:nextFocusDown="@+id/edtCreateEmployeNom" />
+                        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                    </RelativeLayout>
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/edtCreateEmployeNom"
+                            style="@style/edt_general_light"
+                            android:hint="@string/hint_nom_employe"
+                            android:nextFocusDown="@+id/edtCreateEmployePrenom"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            android:inputType="text" />
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/edt_general_light"
+                            android:hint="@string/hint_prenom_employe"
+                            android:id="@+id/edtCreateEmployePrenom"
+                            android:inputType="text"
+                            android:nextFocusDown="@+id/edtCreateEmployeAllias" />
+
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/edt_general_light"
+                            android:hint="@string/hint_allias"
+                            android:id="@+id/edtCreateEmployeAllias"
+                            android:nextFocusDown="@+id/edtCreateEmployeBirthDate"
+                            android:inputType="text" />
+
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/edt_general_light"
+                            android:inputType="date"
+                            android:id="@+id/edtCreateEmployeBirthDate"
+                            android:hint="@string/hint_edt_date_de_naissance"
+                            android:nextFocusDown="@+id/edtCreateEmployeMail" />
+
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+                </mg.etech.mobile.etechapp.presentation.customviews.ExpandableFormSection>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edtCreateEmployeMail"
-                android:hint="@string/hint_e_mail"
-                style="@style/edt_general_style" />
+                android:layout_height="wrap_content">
+
+                <mg.etech.mobile.etechapp.presentation.customviews.ExpandableFormSection
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/expandableInfoPro">
+
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/edtCreateEmployeMail"
+                            android:hint="@string/hint_e_mail"
+                            style="@style/edt_general_light"
+                            android:nextFocusDown="@+id/spinner_poleDto"
+                            android:inputType="text" />
+
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner_poleDto"
+                        android:layout_margin="@dimen/little_margin"
+                        android:nextFocusDown="@+id/edtCreateEmployeHiringDate"></Spinner>
+
+
+                    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/edt_general_light"
+                            android:inputType="date"
+                            android:id="@+id/edtCreateEmployeHiringDate"
+                            android:hint="@string/hint_date_embauche" />
+
+
+                    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chipFlexBoxLayout"
+                        app:flexWrap="wrap"
+                        app:alignItems="stretch"
+                        app:alignContent="stretch"></com.google.android.flexbox.FlexboxLayout>
+
+
+                    <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ajouter_un_poste"
+                        android:id="@+id/btnCreateEmployeAddPoste" />
+
+
+                </mg.etech.mobile.etechapp.presentation.customviews.ExpandableFormSection>
+
+            </android.support.v7.widget.CardView>
 
             <mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker_
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/b64CreateEmployePicker"
                 android:gravity="center"></mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker_>
-
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner_poleDto"></Spinner>
-
-            <com.google.android.flexbox.FlexboxLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/chipFlexBoxLayout"
-                app:flexWrap="wrap"
-                app:alignItems="stretch"
-                app:alignContent="stretch"></com.google.android.flexbox.FlexboxLayout>
-
-
-            <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ajouter_un_poste"
-                android:id="@+id/btnCreateEmployeAddPoste" />
 
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:layout_width="match_parent"
@@ -134,6 +226,8 @@
                 android:layout_gravity="center_horizontal"
 
                 />
+
+
         </LinearLayout>
 
     </ScrollView>

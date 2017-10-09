@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
@@ -28,32 +30,49 @@ public class UpdateEmployeCommand extends BaseEmployeCommand implements Operatio
     public void execute() throws IOException, ApiCallException {
         // suppose that there are no conflicts
         // execute update and notify for success
+        // data represente la modification finale a atteindre
         EmployeDto data = employeDtoOperationDto.getData();
+
+        // target represente l'etat actuel
         EmployeDto target = employeDtoOperationDto.getTarget();
         EmployeDto updatedEmployeDto;
 
         if (employeDtoOperationDto.getData().equalsWithoutPoste(employeDtoOperationDto.getTarget())) {
-            // seul une operation d'ajout de poste est necessaire
-            // tester pour ajout
-            HistoryPosteDto historyPosteDtoRequest = data.getPostes().get(0);
+
+            //gather all negative element from data
+            List<HistoryPosteDto> negativeHistory = new ArrayList<>();
+            for (HistoryPosteDto historyPosteDto : data.getPostes()) {
+                if (historyPosteDto.getId() < 0) {
+                    negativeHistory.add(historyPosteDto);
+                }
+            }
+
+            if (!negativeHistory.isEmpty()) {
+                // ajout necessaire
+                // prendre le premier element a ajouter
+                HistoryPosteDto historyPosteDtoRequest = negativeHistory.get(0);
 
 
-            HistoryPosteDto historyPosteResponse = historyPosteDtoFromWsDtoFactory.getInstance(
-                    employeBdl.addPoste(
-                            historyPosteWsDtoFromDtoFactory.getInstance(historyPosteDtoRequest), data.getId()
-                    )
-            );
+                HistoryPosteDto historyPosteResponse = historyPosteDtoFromWsDtoFactory.getInstance(
+                        employeBdl.addPoste(
+                                historyPosteWsDtoFromDtoFactory.getInstance(historyPosteDtoRequest), data.getId()
+                        )
+                );
 
-            Log.d("mahery-haja", "need to add " + historyPosteResponse.getName() + " " + historyPosteResponse.getDatePromotion());
-            data.getPostes().set(0, historyPosteResponse);
+                Log.d("mahery-haja", "need to add " + historyPosteResponse.getName() + " " + historyPosteResponse.getDatePromotion());
+                //data.getPostes().set(0, historyPosteResponse);
 
-            if (target.getPostes().size() > 0) {
-
-                target.getPostes().set(0, historyPosteResponse);
-            } else
+//                if (target.getPostes().size() > 0) {
+//
+//                    target.getPostes().set(0, historyPosteResponse);
+//                } else
                 target.getPostes().add(historyPosteResponse);
-            updatedEmployeDto = employeDtoOperationDto.getTarget();
+                //actualiser id
+                historyPosteDtoRequest.setId(historyPosteResponse.getId());
+                historyPosteDtoRequest.setDatePromotion(historyPosteResponse.getDatePromotion());
 
+            }
+            updatedEmployeDto = employeDtoOperationDto.getTarget();
 
             employeDtoOperationDto.setData(data);
             employeDtoOperationDto.setTarget(target);

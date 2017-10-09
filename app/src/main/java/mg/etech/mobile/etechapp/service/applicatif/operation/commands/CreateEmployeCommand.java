@@ -37,12 +37,17 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
         EmployeDto created = employeDtoFromWsDtoFactory.getInstanceWithPoleDto(employeBdl.create(employeWsDto), data.getPole());
 
 
+        // created correspond a employe cree sans les postes
         employeDtoOperationDto.setData(created);
         editPosteNecessaire = data.getPostes().size() > 0;
 //        editPosteNecessaire = false;
         if (editPosteNecessaire) {
             employeDtoOperationDto.setTarget(created);
-            employeDtoOperationDto.getTarget().setPostes(data.getPostes());
+            data.setId(created.getId());
+            data.setBirthDate(created.getBirthDate());
+            data.setHiringDate(created.getHiringDate());
+
+            employeDtoOperationDto.setData(data);
         }
     }
 
@@ -55,12 +60,9 @@ public class CreateEmployeCommand extends BaseEmployeCommand implements Operatio
         dataBaseSynchroSA.notifyForCreate(employeDtoOperationDto.getData());
 
         if (editPosteNecessaire) {
-
-            // interchanger data et target
-            EmployeDto data = employeDtoOperationDto.getData();
+            //changer operation en update
             employeDtoOperationDto.setOperationName(OperationType.UPDATE);
-            employeDtoOperationDto.setData(employeDtoOperationDto.getTarget());
-            employeDtoOperationDto.setTarget(data);
+
             operationStackSynchroSA.updateOperation(employeDtoOperationDto);
         } else {
             // operation habituel

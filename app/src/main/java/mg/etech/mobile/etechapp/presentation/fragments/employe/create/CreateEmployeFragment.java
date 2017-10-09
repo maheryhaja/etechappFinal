@@ -45,6 +45,7 @@ import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
 import mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker;
+import mg.etech.mobile.etechapp.presentation.customviews.ExpandableFormSection;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragmentWithValidator;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.CreateEmployeCommand;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.factory.OperationCommandFactory;
@@ -62,18 +63,18 @@ import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.Operat
 @EFragment(R.layout.fragment_create_employe)
 public class CreateEmployeFragment extends AbstractFragmentWithValidator implements HandleErrors {
 
-    @Required(order = 1, messageResId = R.string.required_create_employe_nom)
+    @Required(order = 2, messageResId = R.string.required_create_employe_nom)
     @ViewById(R.id.edtCreateEmployeNom)
     protected EditText edtNom;
 
-    @Required(order = 2, messageResId = R.string.required_create_employe_prenom)
+    @Required(order = 3, messageResId = R.string.required_create_employe_prenom)
     @ViewById(R.id.edtCreateEmployePrenom)
     protected EditText edtPrenom;
 
     @ViewById(R.id.edtCreateEmployeAllias)
     protected EditText edtAllias;
 
-    @Required(order = 3, messageResId = R.string.required_create_employe_matricule)
+    @Required(order = 1, messageResId = R.string.required_create_employe_matricule)
     @ViewById(R.id.edtCreateEmployeMatricule)
     protected EditText edtMatricule;
 
@@ -101,6 +102,12 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @ViewById(R.id.chipFlexBoxLayout)
     protected FlexboxLayout chipFlexBoxLayout;
+
+    @ViewById(R.id.expandableInfoPers)
+    protected ExpandableFormSection expandableInfoPers;
+
+    @ViewById(R.id.expandableInfoPro)
+    protected ExpandableFormSection expandableInfoPro;
 
     @Bean(OperationCommandFactoryImpl.class)
     protected OperationCommandFactory operationCommandFactory;
@@ -260,6 +267,8 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
         validator = new Validator(this);
         validator.setValidationListener(this);
 
+        expandableInfoPers.setTitle(getString(R.string.info_pers_title));
+        expandableInfoPro.setTitle(getString(R.string.info_pro_title));
 
         initializeDialog();
 
@@ -275,7 +284,8 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                 .subscribe(new Consumer<HistoryPosteDto>() {
                                @Override
                                public void accept(HistoryPosteDto historyPosteDto) throws Exception {
-                                   historyPosteDto.setId((long) (historyPosteDtos.size() + 1));
+                                   // give a temporary negative id
+                                   historyPosteDto.setId((long) ((historyPosteDtos.size() + 1) * -1));
                                    historyPosteDtos.add(historyPosteDto);
                                    chipCloud.addChip(chipFromHistoryDto(historyPosteDto));
                                }

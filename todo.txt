@@ -39,8 +39,9 @@
 11- Mettre en place des observable pour Invoker(Running/ Not Running)
 12- Implementer les observables dans les interfaces
 
+a- mettre en place un bouton de rotation (2)
+b- mettre en place des fonctions permettant de compresser de puis l'exterieur
+c- mettre en place un systeme d'ouverture et de fermeture automatique
 
-
-
-
-
+{"allias":"dsfdsfdsfsdf","birthDate":1507507200000,"encodedPhoto":null,"firstname":"dsfdsfdsfsdf","hiringDate":1507507200000,"id":85,"lastname":"dsfdsfds","mail":"fdsfdsfdfdsfdsf","postes":[{"datePromotion":1507507200000,"id":198,"name":"Stagiaire"},{"datePromotion":1507507200000,"id":199,"name":"Ingénieur Développeur Junior"}],"matricule":7774,"photo":null,"pole":{"id":3,"idServer":"Nelli","name":"Nelli Studio"},"male":true}
+{"allias":"dsfdsfdsfsdf","birthDate":1507507200000,"encodedPhoto":null,"firstname":"dsfdsfdsfsdf","hiringDate":1507507200000,"id":85,"lastname":"dsfdsfds","mail":"fdsfdsfdfdsfdsf","postes":[{"datePromotion":1507507200000,"id":198,"name":"Stagiaire"},{"datePromotion":1507507200000,"id":198,"name":"Stagiaire"},{"datePromotion":1507507200000,"id":199,"name":"Ingénieur Développeur Junior"}],"matricule":7774,"photo":null,"pole":{"id":3,"idServer":"Nelli","name":"Nelli Studio"},"male":true}
