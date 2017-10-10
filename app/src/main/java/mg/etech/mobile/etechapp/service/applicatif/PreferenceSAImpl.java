@@ -26,4 +26,15 @@ public class PreferenceSAImpl implements PreferenceSA {
         preferences.setBool(Session.IS_CONNECTED_PREF, isConnected);
     }
 
+
+    //default value false
+    @Override
+    public boolean isFirstTimeLaunched() {
+        return !preferences.getBool(Session.IS_FIRST_TIME_LAUNCHED);
+    }
+
+    @Override
+    public void setFirstTimeLaunched(Boolean isFirstTimeLaunched) {
+        preferences.setBool(Session.IS_FIRST_TIME_LAUNCHED, !isFirstTimeLaunched);
+    }
 }

@@ -7,4 +7,8 @@ public interface PreferenceSA {
     boolean isUserConnected();
 
     void setUserConnected(boolean isConnected);
+
+    boolean isFirstTimeLaunched();
+
+    void setFirstTimeLaunched(Boolean isFirstTimeLaunched);
 }

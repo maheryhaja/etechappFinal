@@ -15,9 +15,13 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
@@ -53,6 +57,30 @@ public class ListEmployeFragment extends AbstractFragment {
     private List<EmployeDto> employeDtos = new ArrayList<>();
 
     private List<IFlexible> items = new ArrayList<>();
+
+    private final Comparator<IFlexible> comparator = new Comparator<IFlexible>() {
+        @Override
+        public int compare(IFlexible lhs, IFlexible rhs) {
+
+            if (lhs instanceof SuperListEmployeItem && rhs instanceof SuperListEmployeItem) {
+
+                Log.d("mahery-haja", "comparator triggered");
+
+                SuperListEmployeItem left = ((SuperListEmployeItem) lhs);
+                SuperListEmployeItem right = ((SuperListEmployeItem) rhs);
+
+                int res = (int) (left.getEmployeDto().getMatricule() - right.getEmployeDto().getMatricule());
+                Log.d("mahery-haja", " comparator res " + res);
+                return res;
+            }
+
+            Log.d("mahery-haja", "comaprison failed");
+
+            return 0;
+        }
+    };
+    private SortedSet<IFlexible> sortedItem = new TreeSet<>(comparator);
+
     private EmployeDto selectedEmployeDto;
     private PoleDto poleDto;
     private int selectedId;
@@ -173,14 +201,13 @@ public class ListEmployeFragment extends AbstractFragment {
 
     @AfterViews
     void initAfterViews() {
+
         adapter = new CustomFlexibleAdapter<>(items, onClickListener);
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.mItemClickListener = onClickListener;
         adapter.mItemLongClickListener = onItemLongClickListener;
         adapter.notifyDataSetChanged();
-
-
     }
 
     @AfterInject
@@ -316,6 +343,7 @@ public class ListEmployeFragment extends AbstractFragment {
     protected void deleteItem(SuperListEmployeItem superListEmployeItem) {
         int position = items.indexOf(superListEmployeItem);
         items.remove(position);
+        adapter.updateDataSet(items, true);
         adapter.notifyDataSetChanged();
     }
 
@@ -356,19 +384,23 @@ public class ListEmployeFragment extends AbstractFragment {
             adapter.notifyDataSetChanged();
         } catch (IndexOutOfBoundsException e) {
             //changement de pole
-            items.add(superListEmployeItem);
-            adapter.notifyDataSetChanged();
+            ajouterItem(superListEmployeItem);
         }
     }
 
     protected void ajouterItem(SuperListEmployeItem superListEmployeItem) {
+
         items.add(superListEmployeItem);
+        Collections.sort(items, comparator);
+        adapter.updateDataSet(items, true);
         adapter.notifyDataSetChanged();
     }
 
     public void replace(SuperListEmployeItem oldItem, SuperListEmployeItem newItem) {
         int position = items.indexOf(oldItem);
         items.set(position, newItem);
+        Collections.sort(items, comparator);
+        adapter.updateDataSet(items, true);
         adapter.notifyDataSetChanged();
     }
 
@@ -405,6 +437,7 @@ public class ListEmployeFragment extends AbstractFragment {
 
                             }
                         }
+                        Collections.sort(unfilteredItems, comparator);
                         adapter.filterItems(unfilteredItems);
 
                     }

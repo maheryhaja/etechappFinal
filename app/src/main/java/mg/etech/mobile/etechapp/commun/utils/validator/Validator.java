@@ -131,6 +131,7 @@ public class Validator {
 
         for (Rule<?> rule : rules) {
             put(view, rule);
+
         }
     }
 

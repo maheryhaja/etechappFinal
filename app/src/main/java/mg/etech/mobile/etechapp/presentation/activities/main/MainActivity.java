@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     void initAfterViews() {
         initViewPager();
         showAddButton();
-
+        pullSynchroSA.launch();
 
     }
 
@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     private void showAddButton() {
         new SimpleReboundAnimator(addEmployeButton).bounce();
     }
+
 
     private void initViewPager() {
         MainPagerAdapterBuilder mainPagerAdapterBuilder = new MainPagerAdapterBuilderImpl()

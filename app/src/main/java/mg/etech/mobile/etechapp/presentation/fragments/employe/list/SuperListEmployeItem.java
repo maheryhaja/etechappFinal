@@ -45,6 +45,11 @@ public class SuperListEmployeItem<T extends ListEmployeViewHolder> extends Abstr
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return getItemId();
+    }
+
     public EmployeDto getEmployeDto() {
         return employeDto;
     }

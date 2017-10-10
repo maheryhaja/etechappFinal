@@ -14,6 +14,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Action;
@@ -31,6 +32,8 @@ import mg.etech.mobile.etechapp.service.applicatif.operation.OperationSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.preferences.PreferenceSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSAImpl;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.pull.PullSynchroSA;
+import mg.etech.mobile.etechapp.service.applicatif.synchro.pull.PullSynchroSAImpl;
 
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends AppCompatActivity {
@@ -50,6 +53,9 @@ public class SplashActivity extends AppCompatActivity {
     @Bean(OperationSAImpl.class)
     OperationSA operationSA;
 
+    @Bean(PullSynchroSAImpl.class)
+    PullSynchroSA pullSynchroSA;
+
     @AfterViews
     public void initAfterViews() {
         initializeIntervalObservable();
@@ -59,6 +65,53 @@ public class SplashActivity extends AppCompatActivity {
 //        backSynchronize();
 
 
+        if (preferenceSA.isFirstTimeLaunched()) {
+            // premier demarrage
+            //initialiser les pole
+
+            firstLaunch();
+
+        } else
+
+
+            launchFakeLoader();
+    }
+
+    protected void firstLaunch() {
+        Single
+                .fromCallable(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        backSynchronizerSA.synch();
+                        return true;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        preferenceSA.setFirstTimeLaunched(false);
+                        goToLoginActivity();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // erreur premier chargement
+                        finish();
+                    }
+                });
+
+        fiveSecondsObservable
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        fillableLoader.setProgress(integer);
+                    }
+                });
+    }
+
+    protected void launchFakeLoader() {
         fiveSecondsObservable
                     .subscribe(new Consumer<Integer>() {
                                    @Override
@@ -79,12 +132,13 @@ public class SplashActivity extends AppCompatActivity {
                                         goToMainActivity();
 //                                        TestAnimationActivity_.intent(SplashActivity.this).start();
                                     } else {
+                                        pullSynchroSA.launch();
                                         goToLoginActivity();
                                     }
                                 }
                             }
                     );
-        }
+    }
 
 
     private void backSynchronize() {

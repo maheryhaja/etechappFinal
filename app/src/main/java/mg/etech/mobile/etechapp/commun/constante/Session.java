@@ -5,4 +5,5 @@ package mg.etech.mobile.etechapp.commun.constante;
  */
 public interface Session {
     String IS_CONNECTED_PREF = "is_connected_preference";
+    String IS_FIRST_TIME_LAUNCHED = "is_first_time_launchED";
 }

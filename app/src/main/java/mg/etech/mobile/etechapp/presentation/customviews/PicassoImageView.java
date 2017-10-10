@@ -80,7 +80,7 @@ public class PicassoImageView extends LinearLayout{
                 .into(imageViewBack, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.d("mahery-haja", "flipping the view " + isFront);
+
                         if(isFront)flipView.flipTheView();
                         isFront = false;
                     }
@@ -89,7 +89,7 @@ public class PicassoImageView extends LinearLayout{
                     public void onError() {
                         flipView.setVisibility(GONE);
                         imageReal.setVisibility(VISIBLE);
-                        Log.d("mahery-haja", "error loading image with picasso");
+
                     }
                 });
     }
@@ -100,8 +100,14 @@ public class PicassoImageView extends LinearLayout{
 
         try {
 
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            options.inDither = true;
+            options.inSampleSize = 2;
+
             byte[] decodeString = Base64.decode(base64, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length, options);
+
 
             if (bitmap != null) {
                 imageReal.setVisibility(VISIBLE);
@@ -114,6 +120,8 @@ public class PicassoImageView extends LinearLayout{
         } catch (NullPointerException e) {
             imageViewBack.setImageDrawable(imageViewBack.getResources().getDrawable(R.drawable.ic_mahery));
             Log.d("mahery-haja", "error base 64 null pointer");
+        } catch (OutOfMemoryError error) {
+            Log.d("mahery-haja", "attention out of memory exception");
         }
     }
 
@@ -128,7 +136,7 @@ public class PicassoImageView extends LinearLayout{
     public void flip() {
         flipView.flipTheView();
         isFront = !isFront;
-        Log.d("mahery-haja", "flip function used " + isFront);
+
 
     }
 

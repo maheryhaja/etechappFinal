@@ -3,6 +3,7 @@ package mg.etech.mobile.etechapp.commun.utils.date.datepicker;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
@@ -72,5 +73,13 @@ public class SimpleDatePicker extends TypefaceEditText implements View.OnClickLi
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         datePickerDialog.show();
+    }
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        if (focused) {
+            onClick(this);
+        }
     }
 }
