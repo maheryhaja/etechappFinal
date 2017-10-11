@@ -146,6 +146,8 @@ dependencies {
     // expandable layout
     compile "net.cachapa.expandablelayout:expandablelayout:2.9.2"
 
+    // check the internet connexion
+    compile 'com.github.pwittchen:reactivenetwork-rx2:0.12.1'
 }
 
 def AAVersion = '4.3.1'

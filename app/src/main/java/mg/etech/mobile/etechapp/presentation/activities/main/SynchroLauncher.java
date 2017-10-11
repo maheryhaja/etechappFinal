@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.github.pwittchen.reactivenetwork.library.rx2.internet.observing.strategy.SocketInternetObservingStrategy;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,7 +20,11 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.Stack;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 
 /**
  * Created by mahery.haja on 11/10/2017.
@@ -47,6 +53,24 @@ public class SynchroLauncher extends LinearLayout {
     void initAfterViews() {
         rotateBack();
         flipView.setFlipOnTouch(false);
+
+        //checkConnection();
+
+
+    }
+
+    private void checkConnection() {
+        ReactiveNetwork.observeInternetConnectivity(new SocketInternetObservingStrategy(), ConfigUrl.BASE_URL)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .distinctUntilChanged()
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        launchSynchro.setImageDrawable(getResources().getDrawable(aBoolean ? R.drawable.ic_launch_synchro : R.drawable.ic_no_internet));
+                    }
+                })
+        ;
     }
 
     public void rotateBack() {
@@ -60,6 +84,8 @@ public class SynchroLauncher extends LinearLayout {
             showBack();
         }
         runningProcess.add(true);
+
+
     }
 
     public void requestStop() {
