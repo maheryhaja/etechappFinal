@@ -18,6 +18,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
 import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.contrainte.factory.dto.employe.EmployeDtoFromWsDtoFactory;
 import mg.etech.mobile.etechapp.contrainte.factory.dto.employe.EmployeDtoFromWsDtoFactoryImpl;
@@ -49,10 +50,18 @@ public class PullSynchroSAImpl implements PullSynchroSA {
     @Bean(PoleSAImpl.class)
     PoleSA poleSA;
 
+    private BehaviorSubject<Boolean> runningObservable = BehaviorSubject.create();
+
+    @Override
+    public Observable<Boolean> getRunningObservable() {
+        return runningObservable;
+    }
+
     @Override
     public void launch() {
         // retrieve all employe from database
         Log.d("mahery-haja", "pull begin");
+        runningObservable.onNext(true);
         Observable
                 .fromCallable(new Callable<List<EmployeDto>>() {
                     @Override
@@ -127,12 +136,13 @@ public class PullSynchroSAImpl implements PullSynchroSA {
                                            dataBaseSynchroSA.updateEmploye(nouveauEmployeMap.get(id), actualEmployeDtoMap.get(id));
                                        }
                                    }
-
+                                   runningObservable.onNext(false);
                                }
                            },
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
+                                runningObservable.onNext(false);
                                 if (throwable instanceof ApiCallException) {
                                     Log.d("mahery-haja", "api call exception");
                                 } else

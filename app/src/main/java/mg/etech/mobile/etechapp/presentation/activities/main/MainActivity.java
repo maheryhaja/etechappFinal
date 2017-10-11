@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -20,6 +21,9 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.animation.SimpleReboundAnimator;
@@ -30,6 +34,7 @@ import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapter;
 import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapterBuilder;
 import mg.etech.mobile.etechapp.presentation.activities.main.adapter.MainPagerAdapterBuilderImpl;
+import mg.etech.mobile.etechapp.presentation.activities.main.customtab.CustomTabProvider;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.ListEmployeFragment_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
@@ -65,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
     @ViewById(R.id.btnAddEmploye)
     FloatingActionButton addEmployeButton;
 
+    @ViewById(R.id.btnSynchroLauncher)
+    SynchroLauncher btnSynchroLauncher;
+
     private SearchView searchView;
 
     @Bean(PoleSAImpl.class)
@@ -96,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private PublishSubject<String> searchSubject = PublishSubject.create();
-
+    private PublishSubject<Boolean> isSearchingSubject = PublishSubject.create();
 
 
     @AfterViews
@@ -105,6 +113,34 @@ public class MainActivity extends AppCompatActivity {
         showAddButton();
         pullSynchroSA.launch();
 
+        Consumer<Boolean> synchroRunningConsummer = new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                btnSynchroLauncher.toggle(aBoolean);
+            }
+        };
+
+        btnSynchroLauncher
+                .getFront()
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pullSynchroSA.launch();
+                        commandInvoker.launch();
+                    }
+                });
+
+        pullSynchroSA
+                .getRunningObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(synchroRunningConsummer);
+
+        commandInvoker
+                .getRunningObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(synchroRunningConsummer);
     }
 
     @OptionsMenuItem(R.id.action_search)
@@ -119,9 +155,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 searchSubject.onNext(s);
+                isSearchingSubject.onNext(s.equals("") || s == null ? false : true);
                 return true;
             }
         });
+
+        searchView
+                .setOnCloseListener(new SearchView.OnCloseListener() {
+                    @Override
+                    public boolean onClose() {
+                        isSearchingSubject.onNext(false);
+                        searchSubject.onNext("");
+                        return true;
+                    }
+                });
+
+
     }
 
     @Override
@@ -153,8 +202,22 @@ public class MainActivity extends AppCompatActivity {
 
         MainPagerAdapter mainPagerAdapter = mainPagerAdapterBuilder.build();
 
+        final CustomTabProvider customTabProvider = new CustomTabProvider(poleDtoList);
+
         viewPager.setAdapter(mainPagerAdapter);
+        viewPagerTab.setCustomTabView(customTabProvider);
+
+        isSearchingSubject
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        customTabProvider.afficherSearch(aBoolean);
+                    }
+                });
+
+
         viewPagerTab.setViewPager(viewPager);
+
 
     }
 
@@ -168,10 +231,5 @@ public class MainActivity extends AppCompatActivity {
                 .getInitialEmployeList();
     }
 
-    @Click(R.id.btnSynchro)
-    void onSynchroClicked() {
-        pullSynchroSA.launch();
-        commandInvoker.launch();
-    }
 
 }

@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
@@ -20,8 +19,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
@@ -31,6 +28,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
@@ -79,11 +77,11 @@ public class ListEmployeFragment extends AbstractFragment {
             return 0;
         }
     };
-    private SortedSet<IFlexible> sortedItem = new TreeSet<>(comparator);
-
     private EmployeDto selectedEmployeDto;
     private PoleDto poleDto;
     private int selectedId;
+
+    private PublishSubject<Integer> itemCountSubject = PublishSubject.create();
 
     private FlexibleAdapter.OnItemClickListener onClickListener = new FlexibleAdapter.OnItemClickListener() {
         @Override
@@ -210,23 +208,11 @@ public class ListEmployeFragment extends AbstractFragment {
         adapter.notifyDataSetChanged();
     }
 
-    @AfterInject
-    void initAfterInject() {
-
-    }
 
     public void initFragment() {
 
     }
 
-
-    public List<EmployeDto> getEmployeDtos() {
-        return employeDtos;
-    }
-
-    public void setEmployeDtos(List<EmployeDto> employeDtos) {
-        this.employeDtos = employeDtos;
-    }
 
     private void onItemClicked() {
         Log.d("mahery-haja", "item clicked once for all");
@@ -439,9 +425,15 @@ public class ListEmployeFragment extends AbstractFragment {
                         }
                         Collections.sort(unfilteredItems, comparator);
                         adapter.filterItems(unfilteredItems);
+                        // after filter
+                        itemCountSubject.onNext(adapter.getItemCount());
 
                     }
                 });
+    }
+
+    public Observable<Integer> getItemCountObservable() {
+        return itemCountSubject;
     }
 
 

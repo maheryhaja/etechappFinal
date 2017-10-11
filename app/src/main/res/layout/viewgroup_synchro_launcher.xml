@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.wajahatkarim3.easyflipview.EasyFlipView
+        android:layout_width="@dimen/average_icon_size"
+        android:layout_height="@dimen/average_icon_size"
+        android:id="@+id/flipViewSynchroLauncher">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_is_synchroing"
+            android:id="@+id/imageViewIsSynchroing" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launch_synchro"
+            android:id="@+id/imageViewLaunchSynchro" />
+
+
+    </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+</LinearLayout>

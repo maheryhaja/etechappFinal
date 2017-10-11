@@ -32,16 +32,15 @@
 4- Insérer des labels flottants
 5- Redisigner ajout de poste
 6- Appliquer les changements
+
+==> Ajout achevé
 7- Differencier ajout, modification et update dans edition employe
-8- Implementer ajout
+
 9- Implementer modification
 10- Mettre en place un pull to refresh
 11- Mettre en place des observable pour Invoker(Running/ Not Running)
 12- Implementer les observables dans les interfaces
 
-a- mettre en place un bouton de rotation (2)
-b- mettre en place des fonctions permettant de compresser de puis l'exterieur
-c- mettre en place un systeme d'ouverture et de fermeture automatique
-
-{"allias":"dsfdsfdsfsdf","birthDate":1507507200000,"encodedPhoto":null,"firstname":"dsfdsfdsfsdf","hiringDate":1507507200000,"id":85,"lastname":"dsfdsfds","mail":"fdsfdsfdfdsfdsf","postes":[{"datePromotion":1507507200000,"id":198,"name":"Stagiaire"},{"datePromotion":1507507200000,"id":199,"name":"Ingénieur Développeur Junior"}],"matricule":7774,"photo":null,"pole":{"id":3,"idServer":"Nelli","name":"Nelli Studio"},"male":true}
-{"allias":"dsfdsfdsfsdf","birthDate":1507507200000,"encodedPhoto":null,"firstname":"dsfdsfdsfsdf","hiringDate":1507507200000,"id":85,"lastname":"dsfdsfds","mail":"fdsfdsfdfdsfdsf","postes":[{"datePromotion":1507507200000,"id":198,"name":"Stagiaire"},{"datePromotion":1507507200000,"id":198,"name":"Stagiaire"},{"datePromotion":1507507200000,"id":199,"name":"Ingénieur Développeur Junior"}],"matricule":7774,"photo":null,"pole":{"id":3,"idServer":"Nelli","name":"Nelli Studio"},"male":true}
+- améliorer le rendu de l'histoçrique des postes
+- mettre un compteur de recherche
+- ajouter des plus de filtre pour les recherches

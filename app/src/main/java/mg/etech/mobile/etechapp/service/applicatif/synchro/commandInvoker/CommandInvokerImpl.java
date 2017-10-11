@@ -14,6 +14,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.OperationCommand;
@@ -35,6 +36,8 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     private PublishSubject<OperationDto> processingSubject = PublishSubject.create();
     private PublishSubject<OperationDto> errorSubject = PublishSubject.create();
+    private BehaviorSubject<Boolean> runningSubject = BehaviorSubject.create();
+
 
     @Bean(OperationStackSynchroSAImpl.class)
     OperationStackSynchroSA operationStackSynchroSA;
@@ -48,6 +51,10 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     }
 
+    @Override
+    public Observable<Boolean> getRunningObservable() {
+        return runningSubject;
+    }
 
     private void processOperation(final OperationDto operationDto) {
         OperationCommand command = operationCommandFactory
@@ -76,6 +83,7 @@ public class CommandInvokerImpl implements CommandInvoker {
                                    isRunning = (stackSize != 0);
                                    if (stackSize == 0) {
                                        Log.d("mahery-haja", "all operation processed");
+                                       runningSubject.onNext(false);
                                        processQueue();
                                    }
                                }
@@ -90,6 +98,7 @@ public class CommandInvokerImpl implements CommandInvoker {
                                 isRunning = (stackSize != 0);
                                 if (stackSize == 0) {
                                     Log.d("mahery-haja", "all operation processed");
+                                    runningSubject.onNext(false);
                                     processQueue();
 
                                 }
@@ -100,19 +109,30 @@ public class CommandInvokerImpl implements CommandInvoker {
     }
 
     protected void processQueue() {
-        if (isRequestQueueing)
+        if (isRequestQueueing) {
+            isRunning = false;
             launch();
+        }
         isRequestQueueing = false;
     }
 
     @Override
     public void processStack() {
         isRunning = true;
+        runningSubject.onNext(true);
         Log.d("mahery-haja", "process Stack " + operationDtoStack.size());
         stackSize = operationDtoStack.size();
-        while (!operationDtoStack.isEmpty()) {
-            processOperation(operationDtoStack.pop());
+        if (operationDtoStack.empty()) {
+            runningSubject.onNext(false);
+            isRunning = false;
+            processQueue();
+        } else {
+            while (!operationDtoStack.isEmpty()) {
+                processOperation(operationDtoStack.pop());
+            }
         }
+
+
     }
 
     public int getStackSize() {
@@ -121,6 +141,7 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     @Override
     public void launch() {
+        Log.d("mahery-haja", "soorry is running");
         if (!isRunning) {
             operationStackSynchroSA
                     .getActualList()

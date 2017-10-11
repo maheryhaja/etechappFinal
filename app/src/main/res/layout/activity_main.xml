@@ -42,7 +42,7 @@
         app:stl_indicatorInterpolation="smart"
         app:stl_indicatorGravity="bottom"
         app:stl_indicatorColor="@color/etechBlue"
-        app:stl_indicatorThickness="4dp"
+        app:stl_indicatorThickness="10dp"
         app:stl_indicatorWidth="auto"
         app:stl_indicatorCornerRadius="2dp"
         app:stl_overlineColor="#4D000000"
@@ -50,20 +50,18 @@
         app:stl_underlineColor="#4D000000"
         app:stl_underlineThickness="1dp"
         app:stl_dividerColor="@color/darkGray"
-        app:stl_dividerThickness="1dp"
+        app:stl_dividerThickness="0dp"
         app:stl_defaultTabBackground="?attr/selectableItemBackground"
         app:stl_defaultTabTextAllCaps="true"
         app:stl_defaultTabTextColor="@color/white"
-        app:stl_defaultTabTextSize="@dimen/general_font_size1.5x"
+        app:stl_defaultTabTextSize="@dimen/general_font_size2x"
         app:stl_defaultTabTextHorizontalPadding="16dp"
         app:stl_defaultTabTextMinWidth="0dp"
         app:stl_distributeEvenly="false"
         app:stl_clickable="true"
         app:stl_titleOffset="24dp"
-        app:stl_drawDecorationAfterTab="true"
+        app:stl_drawDecorationAfterTab="false"
         android:layout_alignParentBottom="true"
-
-
         />
 
     <com.github.clans.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -80,11 +78,13 @@
         android:id="@+id/btnAddEmploye"
         android:visibility="invisible" />
 
-    <Button
+    <mg.etech.mobile.etechapp.presentation.activities.main.SynchroLauncher_
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="launch synchro"
-        android:id="@+id/btnSynchro"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:id="@+id/btnSynchroLauncher"
+        android:layout_margin="@dimen/general_margin">
+
+    </mg.etech.mobile.etechapp.presentation.activities.main.SynchroLauncher_>
 
 </RelativeLayout>

@@ -16,4 +16,6 @@ public interface CommandInvoker {
     Observable<OperationDto> onProceessingObservable();
 
     Observable<OperationDto> onErrorObservable();
+
+    Observable<Boolean> getRunningObservable();
 }

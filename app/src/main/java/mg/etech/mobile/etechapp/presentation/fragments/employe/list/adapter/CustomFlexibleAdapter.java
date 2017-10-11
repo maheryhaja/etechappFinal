@@ -19,7 +19,6 @@ import mg.etech.mobile.etechapp.presentation.fragments.employe.list.SuperListEmp
 
 public class CustomFlexibleAdapter<T extends IFlexible> extends FlexibleAdapter<T> {
 
-
     public CustomFlexibleAdapter(@NonNull List<T> items) {
         super(items);
     }
@@ -57,7 +56,9 @@ public class CustomFlexibleAdapter<T extends IFlexible> extends FlexibleAdapter<
 
     }
 
-
-
+    @Override
+    public synchronized void filterItems(@NonNull List<T> unfilteredItems) {
+        super.filterItems(unfilteredItems);
+    }
 
 }
