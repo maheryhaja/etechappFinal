@@ -2,6 +2,7 @@ package mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,13 +20,14 @@ public class DetailEmployeActivity extends AppCompatActivity {
 
     @Extra("itemId")
     int itemId;
+    private DetailEmployeFragment detailEmployeFragment;
 
     @AfterViews
     void initAfterView() {
 
         Log.d("mahery-haja", "received employe Id " + employeId);
 
-        DetailEmployeFragment detailEmployeFragment = DetailEmployeFragment_
+        detailEmployeFragment = DetailEmployeFragment_
                 .builder()
                 .employeId(employeId)
                 .itemId(itemId)
@@ -36,5 +38,22 @@ public class DetailEmployeActivity extends AppCompatActivity {
                 .add(R.id.fragmentDetailEmploye, detailEmployeFragment)
                 .commit()
         ;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (detailEmployeFragment.processBack()) {
+            super.onBackPressed();
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return false;
     }
 }

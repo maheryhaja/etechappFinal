@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -353,5 +354,6 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
         addPosteDialog.show();
     }
+
 
 }

@@ -11,10 +11,10 @@
 
     <com.github.florent37.diagonallayout.DiagonalLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="170dp"
         app:diagonal_position="bottom"
         android:id="@+id/diagonalLoginHeader"
-        app:diagonal_angle="10"
+        app:diagonal_angle="7"
         app:diagonal_direction="left"
         android:background="@color/etechBlack"
 

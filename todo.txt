@@ -24,23 +24,21 @@
 1- Dessiner le nouveau design sur papier
    Tester les animations
    Voir si transclude est possible
-   Mettre en place le bouton updow
    Mettre en place la gestion des titres
 
 2- Trouver un bon jeu de couleur
 3- Réarranger les elements
-4- Insérer des labels flottants
 5- Redisigner ajout de poste
 6- Appliquer les changements
 
 ==> Ajout achevé
 7- Differencier ajout, modification et update dans edition employe
 
+
 9- Implementer modification
-10- Mettre en place un pull to refresh
-11- Mettre en place des observable pour Invoker(Running/ Not Running)
-12- Implementer les observables dans les interfaces
+10- Mettre en place un pull to refresh&
 
 - améliorer le rendu de l'histoçrique des postes
-- mettre un compteur de recherche
 - ajouter des plus de filtre pour les recherches
+
+6- Mettre en place un systeme qui permettrait de stocker des bases 64 dans des fichiers temporaire et de les retrouver ( >2 Mb)

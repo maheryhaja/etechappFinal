@@ -48,12 +48,15 @@ public class CommandInvokerImpl implements CommandInvoker {
 
     @Override
     public void initialize() {
-
+        runningSubject.onNext(false);
     }
 
     @Override
     public Observable<Boolean> getRunningObservable() {
-        return runningSubject;
+        return runningSubject
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                ;
     }
 
     private void processOperation(final OperationDto operationDto) {
@@ -70,15 +73,19 @@ public class CommandInvokerImpl implements CommandInvoker {
                         return operationCommand;
                     }
                 })
+                .map(new Function<OperationCommand, Boolean>() {
+                    @Override
+                    public Boolean apply(@NonNull OperationCommand operationCommand) throws Exception {
+                        operationCommand.onSuccess();
+                        return true;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<OperationCommand>() {
+                .subscribe(new Consumer<Boolean>() {
                                // on success
                                @Override
-                               public void accept(OperationCommand operationCommand) throws Exception {
-                                   operationCommand.onSuccess();
-
-
+                               public void accept(Boolean done) throws Exception {
                                    stackSize--;
                                    isRunning = (stackSize != 0);
                                    if (stackSize == 0) {
@@ -109,8 +116,9 @@ public class CommandInvokerImpl implements CommandInvoker {
     }
 
     protected void processQueue() {
+        isRunning = false;
         if (isRequestQueueing) {
-            isRunning = false;
+
             launch();
         }
         isRequestQueueing = false;
@@ -167,6 +175,7 @@ public class CommandInvokerImpl implements CommandInvoker {
                             }
                     );
         } else {
+            //if running
             isRequestQueueing = true;
         }
     }

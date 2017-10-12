@@ -3,6 +3,7 @@ package mg.etech.mobile.etechapp.presentation.activities.main;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +22,9 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.animation.SimpleReboundAnimator;
@@ -130,17 +131,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        pullSynchroSA
-                .getRunningObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        Observable
+                .combineLatest(
+                        pullSynchroSA.getRunningObservable(),
+                        commandInvoker.getRunningObservable(),
+                        new BiFunction<Boolean, Boolean, Boolean>() {
+                            @Override
+                            public Boolean apply(@NonNull Boolean pullBoolean, @NonNull Boolean invokerBoolean) throws Exception {
+
+                                Log.d("mahery-haja", "emitting pull:" + pullBoolean + " invoker:" + invokerBoolean + " miodine:" + (pullBoolean || invokerBoolean));
+
+                                return pullBoolean || invokerBoolean;
+
+                            }
+                        }
+                )
                 .subscribe(synchroRunningConsummer);
 
-        commandInvoker
-                .getRunningObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(synchroRunningConsummer);
+//
+//        pullSynchroSA
+//                .getRunningObservable()
+//                .subscribe(synchroRunningConsummer);
+//
+//        commandInvoker
+//                .getRunningObservable()
+//                .subscribe(synchroRunningConsummer);
     }
 
     @OptionsMenuItem(R.id.action_search)

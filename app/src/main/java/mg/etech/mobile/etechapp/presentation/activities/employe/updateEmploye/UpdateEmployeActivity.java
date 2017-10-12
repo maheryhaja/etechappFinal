@@ -1,6 +1,7 @@
 package mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye;
 
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -30,6 +31,15 @@ public class UpdateEmployeActivity extends AppCompatActivity {
     protected void initAfterViews() {
         EmployeDto employeDto = centralEmployeSynchroSA.findByitemId(itemId);
         updateEmployeFragment.initEmployeDto(employeDto);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return false;
     }
 
 }

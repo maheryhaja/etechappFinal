@@ -1,6 +1,7 @@
 package mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye;
 
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -33,6 +34,15 @@ public class UpdateEmployeTempActivity extends AppCompatActivity {
         updateEmployeTempFragment.initEmployeDto(employeDto);
         updateEmployeTempFragment.setOperationName(centralEmployeSynchroSA.findOperationNameById(itemId));
         updateEmployeTempFragment.setOperationId((long) (itemId * -1));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return false;
     }
 
 

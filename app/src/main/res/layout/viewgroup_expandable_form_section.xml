@@ -3,25 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/etechBlue"
+        android:background="@color/etechBlack"
         android:padding="@dimen/little_padding">
 
         <mg.etech.mobile.etechapp.commun.utils.TypefaceTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:text="header"
-            android:id="@+id/txtFormSectionTitle" />
+            android:textColor="@color/etechGreen"
+            android:id="@+id/txtFormSectionTitle"
+            app:customTypeface="@string/font_crimson"
+            android:textSize="18sp" />
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_icon_collapse"
+            android:src="@drawable/ic_icon_collapse_white"
             android:layout_alignParentRight="true"
             android:id="@+id/btnFormSectionToggle" />
     </RelativeLayout>

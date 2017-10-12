@@ -19,7 +19,9 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -54,16 +56,16 @@ public class SynchroLauncher extends LinearLayout {
         rotateBack();
         flipView.setFlipOnTouch(false);
 
-        //checkConnection();
+        checkConnection();
 
 
     }
 
     private void checkConnection() {
         ReactiveNetwork.observeInternetConnectivity(new SocketInternetObservingStrategy(), ConfigUrl.BASE_URL)
+                .distinctUntilChanged()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .distinctUntilChanged()
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
@@ -101,26 +103,44 @@ public class SynchroLauncher extends LinearLayout {
     }
 
     public void showBack() {
-        Log.d("mahery-haja", "showing back");
-        if (isFront) {
-            flipView.flipTheView();
+        Log.d("mahery-haja", "showing back " + flipView.isFrontSide());
+        if (isFront && flipView.isFrontSide()) {
+            flipView.flipTheView(true);
+            Log.d("mahery-haja", " showing and flipping back");
         }
         isFront = false;
     }
 
     public void showFront() {
-        Log.d("mahery-haja", "showing front");
-        if (!isFront) {
-            flipView.flipTheView();
-        }
+        Log.d("mahery-haja", "showing front" + flipView.isBackSide());
+        if (!isFront && flipView.isBackSide()) {
+            flipView.flipTheView(true);
+            Log.d("mahery-haja", " showing and flipping front " + flipView.isFrontSide());
+            if (!flipView.isFrontSide()) {
+                // flip echoue retry after 200 ms
+                isFront = false;
+                Observable
+                        .timer(200, TimeUnit.MILLISECONDS)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) throws Exception {
+                                showFront();
+                            }
+                        });
+            } else
+                isFront = true;
+        } else
+
         isFront = true;
     }
 
     public void toggle(boolean status) {
         if (status) {
-            requestProcess();
+            showBack();
         } else {
-            requestStop();
+            showFront();
         }
     }
 

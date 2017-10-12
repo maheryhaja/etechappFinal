@@ -24,6 +24,8 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -108,7 +110,11 @@ public class DetailEmployeFragment extends Fragment {
     @ViewById(R.id.pImageViewDetailPhoto)
     PicassoImageView pPhotoImageView;
 
+    @ViewById(R.id.txtPosteActuel)
+    TextView txtPosteActuel;
+
     private EmployeDto employeDto;
+    private boolean isBack = false;
 
     public DetailEmployeFragment() {
         // Required empty public constructor
@@ -121,6 +127,7 @@ public class DetailEmployeFragment extends Fragment {
         //retrieveEmploye();
 
         easyFlipView.setVisibility(View.VISIBLE);
+        easyFlipView.setFlipOnTouch(false);
         retrieveEmployeFromItemId();
         actualiserAffichage();
 
@@ -133,20 +140,39 @@ public class DetailEmployeFragment extends Fragment {
         List<HistoryPosteDto> historyPosteDtos = employeDto.getPostes();
 
         if (historyPosteDtos != null) {
-            for (HistoryPosteDto historyPosteDto : employeDto.getPostes()) {
-                Log.d("mahery-haja", "initialisation poste " + historyPosteDto.getName());
+
+            // trier par date
+            Collections.sort(historyPosteDtos, new Comparator<HistoryPosteDto>() {
+                @Override
+                public int compare(HistoryPosteDto lhs, HistoryPosteDto rhs) {
+                    long differenceTime = lhs.getDatePromotion().getTime() - rhs.getDatePromotion().getTime();
+                    return differenceTime < 0 ? -1 : (differenceTime == 0) ? 0 : 1;
+                }
+            });
+
+            for (int i = 0; i < historyPosteDtos.size(); i++) {
+                HistoryPosteDto historyPosteDto = historyPosteDtos.get(i);
+                historyPosteDto.setId((long) (i + 1));
                 items.add(new PosteHistoryFlexibleItem(historyPosteDto));
             }
+
+
         }
 
         if (historyPosteDtos.size() == 0) {
             txtHistoryNoPoste.setVisibility(View.VISIBLE);
+        } else {
+            definirPosteActuel(historyPosteDtos.get(historyPosteDtos.size() - 1).getName());
         }
-
 
         FlexibleAdapter<IFlexible> adapter = new FlexibleAdapter<IFlexible>(items);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+    }
+
+    private void definirPosteActuel(String poste) {
+        txtPosteActuel.setText(poste);
+
     }
 
     private void actualiserAffichage() {
@@ -294,7 +320,16 @@ public class DetailEmployeFragment extends Fragment {
     @Click(R.id.btnDetailEmployeFlipToHistorique)
     void onShowHistoryClicked() {
         easyFlipView.flipTheView();
+        isBack = true;
+    }
 
+    public boolean processBack() {
+        if (isBack) {
+            easyFlipView.flipTheView();
+            isBack = false;
+            return false;
+        }
+        return true;
     }
 
 }
