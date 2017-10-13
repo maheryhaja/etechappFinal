@@ -148,6 +148,7 @@ dependencies {
 
     // check the internet connexion
     compile 'com.github.pwittchen:reactivenetwork-rx2:0.12.1'
+
 }
 
 def AAVersion = '4.3.1'

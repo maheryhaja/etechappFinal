@@ -60,6 +60,8 @@
     <!--fonts-->
     <string name="font_crimson">Crimson-Roman.otf</string>
     <string name="font_organic">Organic_fruit.woff</string>
+    <string name="action_logout">Se déconnecter</string>
+    <string name="email_incorrect">email incorrect</string>
 
 
 </resources>

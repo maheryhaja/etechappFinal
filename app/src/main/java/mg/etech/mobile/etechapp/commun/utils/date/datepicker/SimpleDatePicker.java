@@ -62,6 +62,9 @@ public class SimpleDatePicker extends TypefaceEditText implements View.OnClickLi
 
     public void setDate(Date date) {
         this.date = date;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        datePickerDialog = new DatePickerDialog(context, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         setText(SimpleDateUtils.format(date, SimpleDate.GENERAL_DATE_PATTERN));
     }
 

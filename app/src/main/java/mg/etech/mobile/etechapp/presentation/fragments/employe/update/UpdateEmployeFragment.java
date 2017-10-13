@@ -27,7 +27,7 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
         this.edtNom.setText(emp.getLastName());
         this.edtPrenom.setText(emp.getFirstName());
         this.edtAllias.setText(emp.getAlias());
-        this.edtBirthDate.setDate(emp.getHiringDate());
+        this.edtBirthDate.setDate(emp.getBirthDate());
         this.edtHiringDate.setDate(emp.getHiringDate());
         this.edtMail.setText(emp.getMail());
         this.edtMatricule.setText(emp.getMatricule() + "");
@@ -42,6 +42,10 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
         for (HistoryPosteDto historyPosteDto : emp.getPostes()) {
             chipCloud.addChip(chipFromHistoryDto(historyPosteDto));
             historyPosteDtos.add(historyPosteDto);
+        }
+
+        if (!emp.isMale()) {
+            rGroupMale.check(R.id.rBtnCreateEmployeFemme);
         }
 
     }

@@ -15,6 +15,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
@@ -54,6 +55,10 @@ public class PicassoImageView extends LinearLayout{
         super(context, attrs);
     }
 
+    @AfterViews
+    void initAfterView() {
+        flipView.setFlipOnTouch(false);
+    }
 
     public void setFrontImage(int id) {
 

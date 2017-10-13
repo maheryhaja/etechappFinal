@@ -6,8 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +20,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +40,7 @@ import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
 import mg.etech.mobile.etechapp.commun.utils.date.datepicker.SimpleDatePicker;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
+import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Email;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
@@ -85,10 +87,13 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @Required(order = 5, messageResId = R.string.required_create_employe_hiringdate)
     @ViewById(R.id.edtCreateEmployeHiringDate)
-
     protected SimpleDatePicker edtHiringDate;
 
+    @ViewById(R.id.rGroupMale)
+    protected RadioGroup rGroupMale;
+
     @Required(order = 6, messageResId = R.string.required_mail)
+    @Email(order = 6, messageResId = R.string.email_incorrect)
     @ViewById(R.id.edtCreateEmployeMail)
     protected EditText edtMail;
 
@@ -139,9 +144,12 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     protected PoleSpinnerAdapter spinnerAdapter;
 
+    final Calendar calendar = Calendar.getInstance();
+
     public CreateEmployeFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void validationSucceeded() {

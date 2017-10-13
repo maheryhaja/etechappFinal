@@ -97,11 +97,20 @@ public class MainActivity extends AppCompatActivity {
     @Bean(PullSynchroSAImpl.class)
     PullSynchroSA pullSynchroSA;
 
-    @Click(R.id.btnLogout)
-    void logoutClicked() {
-        preferenceSA.setUserConnected(false);
-        LoginActivity_.intent(this).start();
-        finish();
+    @OptionsMenuItem(R.id.action_logout)
+    void logoutClicked(MenuItem logoutItem) {
+
+        logoutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                preferenceSA.setUserConnected(false);
+                LoginActivity_.intent(MainActivity.this).start();
+                finish();
+                return true;
+            }
+        });
+
     }
 
     private PublishSubject<String> searchSubject = PublishSubject.create();
@@ -157,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 //                .getRunningObservable()
 //                .subscribe(synchroRunningConsummer);
     }
+
 
     @OptionsMenuItem(R.id.action_search)
     void searchInjected(MenuItem searchItem) {
