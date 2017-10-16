@@ -3,9 +3,11 @@ package mg.etech.mobile.etechapp.presentation.fragments.user;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
@@ -25,6 +27,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.commun.customsnackbuilder.CustomSnackBarBuilder;
 import mg.etech.mobile.etechapp.commun.exception.HandleErrors;
 import mg.etech.mobile.etechapp.commun.exception.user.CreateUserFailedException;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
@@ -41,6 +44,10 @@ import mg.etech.mobile.etechapp.service.applicatif.UserSAImpl;
  */
 @EFragment(R.layout.fragment_inscrire_user)
 public class InscrireUserFragment extends AbstractFragmentWithValidator implements HandleErrors {
+
+
+    @ViewById(R.id.layoutInscrireRoot)
+    LinearLayout rootLayout;
 
     @Required(order = 1, messageResId = R.string.required_mail)
     @Email(order = 1, messageResId = R.string.email_incorrect)
@@ -164,19 +171,23 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
 
         if (error instanceof CreateUserFailedException) {
 
-            Log.d("mahery-haja","Create User Failed");
+            afficherErreur("La creation d'utilisateur a echoué, veuillez reessayer ultérieurement");
 
         } else if (error instanceof SSLException) {
-            Toast.makeText(InscrireUserFragment.this.getContext(), "Probleme de connexion, veuillez reessayer", Toast.LENGTH_SHORT).show();
+            afficherErreur("Probleme de connexion, veuillez reessayer");
         } else {
 
 
-            Log.d("mahery-haja", "Another exception " + error.getMessage());
+            afficherErreur("Not implemented error");
             error.printStackTrace();
         }
     }
 
     protected void afficherErreur(String message) {
-
+        CustomSnackBarBuilder
+                .make(rootLayout, message, Snackbar.LENGTH_LONG)
+                .withColor(R.color.etechWhiteGray)
+                .createSnackBar()
+                .show();
     }
 }

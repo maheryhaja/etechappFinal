@@ -3,6 +3,7 @@ package mg.etech.mobile.etechapp.presentation.fragments.employe.detail;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +40,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.animation.SimpleReboundAnimator;
+import mg.etech.mobile.etechapp.commun.base64.Base64Utils;
 import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 import mg.etech.mobile.etechapp.commun.constante.SimpleDate;
 import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
@@ -218,13 +221,19 @@ public class DetailEmployeFragment extends Fragment {
             } else {
 
 //                 case from temp
-                byte[] decodeString = Base64.decode(imageURL, Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+                try {
+                    byte[] decodeString = Base64.decode(Base64Utils.convertToBase64(Uri.parse(imageURL), getContext()), Base64.DEFAULT);
 
-                if (bitmap != null) {
-                    this.photoImageView.setImageBitmap(bitmap);
-                } else {
-                    Log.d("mahery-haja", "erreur de transformation bitmap");
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+
+                    if (bitmap != null) {
+                        this.photoImageView.setImageBitmap(bitmap);
+                    } else {
+                        Log.d("mahery-haja", "erreur de transformation bitmap");
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -236,7 +245,7 @@ public class DetailEmployeFragment extends Fragment {
 
     public void setPicassoImage(EmployeDto employeDto) {
         if (employeDto.getEncodedPhoto() != null) {
-            pPhotoImageView.setPhotoWithBase64(employeDto.getEncodedPhoto());
+            pPhotoImageView.setPhotoWithUri(Uri.parse(employeDto.getEncodedPhoto()));
         } else if (employeDto.getPhoto() != null) {
             pPhotoImageView.setPhotoWithUrl(employeDto.getPhoto());
         } else {

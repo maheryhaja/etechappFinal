@@ -1,10 +1,16 @@
 package mg.etech.mobile.etechapp.contrainte.factory.wsdto.employe;
 
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
+import java.io.IOException;
+
+import mg.etech.mobile.etechapp.commun.base64.Base64Utils;
 import mg.etech.mobile.etechapp.contrainte.factory.BaseFactory;
 import mg.etech.mobile.etechapp.contrainte.factory.wsdto.poste.HistoryPosteWsDtoFromDtoFactory;
 import mg.etech.mobile.etechapp.contrainte.factory.wsdto.poste.HistoryPosteWsDtoFromDtoFactoryImpl;
@@ -20,6 +26,9 @@ EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, EmployeWsDto> imp
 
     @Bean(HistoryPosteWsDtoFromDtoFactoryImpl.class)
     HistoryPosteWsDtoFromDtoFactory historyPosteWsDtoFromDtoFactory;
+
+    @RootContext
+    Context context;
 
     @Override
     public EmployeWsDto getInstance(EmployeDto employeDto) {
@@ -39,7 +48,13 @@ EmployeWsDtoFromDtoFactoryImpl extends BaseFactory<EmployeDto, EmployeWsDto> imp
         employeWsDto.setHiringDate(employeDto.getHiringDate());
         employeWsDto.setPostes(historyPosteWsDtoFromDtoFactory.getInstance(employeDto.getPostes()));
         employeWsDto.setPole(employeDto.getPole().getId());
-        employeWsDto.setEncodedPhoto(employeDto.getEncodedPhoto());
+        try {
+            employeWsDto.setEncodedPhoto(Base64Utils.convertToBase64(Uri.parse(employeDto.getEncodedPhoto()), context));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+
+        }
         Log.d("mahery-haja", "transformation " + employeWsDto.getPole());
         return employeWsDto;
     }

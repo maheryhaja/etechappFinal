@@ -1,5 +1,6 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.list;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,7 +58,8 @@ public class ListEmployeViewHolder extends FlexibleViewHolder {
 
     public void setEncodedPhoto(String base64) {
         if (base64 != null && !base64.equals("") && !base64.isEmpty()) {
-            pImageViewPhoto.setPhotoWithBase64(base64);
+//            pImageViewPhoto.setPhotoWithBase64(base64);
+            pImageViewPhoto.setPhotoWithUri(Uri.parse(base64));
         }
     }
 

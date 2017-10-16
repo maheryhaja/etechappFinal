@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Base64;
@@ -19,7 +21,11 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.annotations.NonNull;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 
@@ -46,6 +52,7 @@ public class PicassoImageView extends LinearLayout{
     private String photoUrl;
     private String photoEncoded;
     private boolean isFront = true;
+    private Callback afterLoadCallBack;
 
     public PicassoImageView(Context context) {
         super(context);
@@ -53,6 +60,22 @@ public class PicassoImageView extends LinearLayout{
 
     public PicassoImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        afterLoadCallBack = new Callback() {
+            @Override
+            public void onSuccess() {
+
+                if (isFront) flipView.flipTheView();
+                isFront = false;
+            }
+
+            @Override
+            public void onError() {
+                flipView.setVisibility(GONE);
+                imageReal.setVisibility(VISIBLE);
+                Log.d("mahery-haja", "picasso error loading");
+
+            }
+        };
     }
 
     @AfterViews
@@ -79,24 +102,11 @@ public class PicassoImageView extends LinearLayout{
         photoUrl = url;
         imageReal.setVisibility(GONE);
         flipView.setVisibility(VISIBLE);
+
         Picasso
                 .with(getContext())
                 .load(ConfigUrl.BASE_URL + "/" + url)
-                .into(imageViewBack, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                        if(isFront)flipView.flipTheView();
-                        isFront = false;
-                    }
-
-                    @Override
-                    public void onError() {
-                        flipView.setVisibility(GONE);
-                        imageReal.setVisibility(VISIBLE);
-
-                    }
-                });
+                .into(imageViewBack, afterLoadCallBack);
     }
 
     public void setPhotoWithBase64(String base64) {
@@ -128,6 +138,26 @@ public class PicassoImageView extends LinearLayout{
         } catch (OutOfMemoryError error) {
             Log.d("mahery-haja", "attention out of memory exception");
         }
+    }
+
+    public void setPhotoWithUri(Uri uri) {
+//            setPhotoWithBase64(convertToBase64(uri));
+        imageReal.setVisibility(GONE);
+        flipView.setVisibility(VISIBLE);
+        Picasso
+                .with(getContext())
+                .load(uri)
+                .into(imageViewBack, afterLoadCallBack);
+
+    }
+
+    private String convertToBase64(@NonNull Uri uri) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+        Log.d("mahery-haja", "concersion de " + uri);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] image = stream.toByteArray();
+        return Base64.encodeToString(image, Base64.DEFAULT);
     }
 
     public boolean isFront() {

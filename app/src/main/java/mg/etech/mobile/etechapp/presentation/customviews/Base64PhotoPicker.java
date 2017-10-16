@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.AttributeSet;
 import android.util.Base64;
@@ -88,7 +91,7 @@ public class Base64PhotoPicker extends LinearLayout {
             public void accept(String s) throws Exception {
                 isSet = true;
                 value = s;
-                picassoImageView.setPhotoWithBase64(s);
+                picassoImageView.setPhotoWithUri(Uri.parse(s));
                 afficherImpage();
 
             }
@@ -117,6 +120,7 @@ public class Base64PhotoPicker extends LinearLayout {
                 storageDir      /* directory */
         );
 
+
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
@@ -129,8 +133,18 @@ public class Base64PhotoPicker extends LinearLayout {
 
     @Click(R.id.btnUploadPhoto)
     void onUploadPhotoClicked() {
-        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        galleryIntent.setType("image/*");
+        Intent galleryIntent;
+
+
+        if (Build.VERSION.SDK_INT < 19) {
+            galleryIntent = new Intent();
+            galleryIntent.setType("image/jpeg");
+            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        } else {
+            galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            galleryIntent.setType("image/jpeg");
+        }
 
         RxActivityResult
                 .on((Activity) getContext())
@@ -152,8 +166,9 @@ public class Base64PhotoPicker extends LinearLayout {
                     @Override
                     public String apply(@NonNull Uri uri) throws Exception {
                         //convert uri to bitmap
-                        String encodedImage = convertToBase64(uri);
-                        return encodedImage;
+//                        String encodedImage = convertToBase64(uri);
+//                        return encodedImage;
+                        return uri.toString();
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -168,12 +183,21 @@ public class Base64PhotoPicker extends LinearLayout {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] image = stream.toByteArray();
-
         return Base64.encodeToString(image, Base64.DEFAULT);
     }
 
     @Click(R.id.btnTakePhoto)
     void onTakePhotoClicked() {
+
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            //request more permission
+            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{android.Manifest.permission.CAMERA},
+                    5);
+
+            return;
+        }
+
 
         //Create intent for taking photo
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -226,7 +250,8 @@ public class Base64PhotoPicker extends LinearLayout {
                         .map(new Function<Uri, String>() {
                             @Override
                             public String apply(@NonNull Uri uri) throws Exception {
-                                return convertToBase64(uri);
+//                                return convertToBase64(uri);
+                                return uri.toString();
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
@@ -280,6 +305,13 @@ public class Base64PhotoPicker extends LinearLayout {
     public void setPhotoWithBase64(String base64) {
         value = base64;
         picassoImageView.setPhotoWithBase64(base64);
+        isSet = true;
+        afficherImpage();
+    }
+
+    public void setPhotowithUri(Uri uri) {
+        value = uri.toString();
+        picassoImageView.setPhotoWithUri(uri);
         isSet = true;
         afficherImpage();
     }
