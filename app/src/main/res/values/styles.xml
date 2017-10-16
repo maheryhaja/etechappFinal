@@ -27,6 +27,10 @@
         <item name="android:layout_margin">@dimen/general_margin</item>
     </style>
 
+    <style name="general_float_edit">
+        <item name="android:textColor">@color/etechBlue</item>
+    </style>
+
     <style name="image_button_dimens">
         <item name="android:width">50dp</item>
         <item name="android:height">50dp</item>

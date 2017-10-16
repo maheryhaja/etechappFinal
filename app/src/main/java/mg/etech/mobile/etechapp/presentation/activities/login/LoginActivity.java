@@ -21,6 +21,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.commun.customsnackbuilder.CustomSnackBarBuilder;
+import mg.etech.mobile.etechapp.commun.exception.commun.ApiCallException;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
@@ -122,14 +124,27 @@ public class LoginActivity extends AbstractActivity {
         // handle error
 
         if (throwable instanceof LoginFailedException) {
-            Snackbar
-                    .make(layoutLoginRoot, "Login failde sorry", Snackbar.LENGTH_LONG)
-                    .show();
+
+            afficherSnackBar("Votre identifiant ou votre mot de passe est incorrect");
+
+        } else if (throwable instanceof ApiCallException) {
+
+            afficherSnackBar("Erreur API");
         } else {
 
+            afficherSnackBar("Connexion vers serveur impossible. Verifiez votre connexion internet ");
         }
 
     }
+
+    public void afficherSnackBar(String texte) {
+        CustomSnackBarBuilder
+                .make(layoutLoginRoot, texte, Snackbar.LENGTH_LONG)
+                .withColor(R.color.etechWhiteGray)
+                .createSnackBar()
+                .show();
+    }
+
 
     private void onLoginSuccessFull(UserDto userDto) {
         //handle login successfull

@@ -28,6 +28,7 @@ import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.exception.HandleErrors;
 import mg.etech.mobile.etechapp.commun.exception.user.CreateUserFailedException;
 import mg.etech.mobile.etechapp.commun.utils.validator.Validator;
+import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Email;
 import mg.etech.mobile.etechapp.commun.utils.validator.annotation.Required;
 import mg.etech.mobile.etechapp.donnee.dto.UserDto;
 import mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker;
@@ -42,6 +43,7 @@ import mg.etech.mobile.etechapp.service.applicatif.UserSAImpl;
 public class InscrireUserFragment extends AbstractFragmentWithValidator implements HandleErrors {
 
     @Required(order = 1, messageResId = R.string.required_mail)
+    @Email(order = 1, messageResId = R.string.email_incorrect)
     @ViewById(R.id.edtCreateUserIdentifaint)
     EditText edtLogin;
 
@@ -172,5 +174,9 @@ public class InscrireUserFragment extends AbstractFragmentWithValidator implemen
             Log.d("mahery-haja", "Another exception " + error.getMessage());
             error.printStackTrace();
         }
+    }
+
+    protected void afficherErreur(String message) {
+
     }
 }

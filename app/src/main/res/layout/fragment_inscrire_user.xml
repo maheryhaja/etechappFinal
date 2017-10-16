@@ -12,6 +12,11 @@
         >
 
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:fletTextAppearance="@style/general_float_edit">
         <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
             android:id="@+id/edtCreateUserIdentifaint"
             android:layout_width="match_parent"
@@ -19,7 +24,14 @@
             android:hint="@string/hint_votre_identifiant"
             style="@style/edt_general_style"
             />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:fletTextAppearance="@style/general_float_edit">
         <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +39,14 @@
             android:id="@+id/edtCreateUserNom"
             style="@style/edt_general_style"
             />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:fletTextAppearance="@style/general_float_edit">
         <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +54,14 @@
             style="@style/edt_general_style"
             android:id="@+id/edtCreateUserPrenom"
             />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:fletTextAppearance="@style/general_float_edit">
         <mg.etech.mobile.etechapp.commun.utils.TypefaceEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,6 +70,7 @@
             android:id="@+id/edtCreateUserPassword"
             android:inputType="textPassword"
             />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker_
             android:layout_width="match_parent"
