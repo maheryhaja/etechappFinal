@@ -15,8 +15,8 @@
         android:padding="@dimen/general_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/average_icon_size"
+            android:layout_height="@dimen/average_icon_size"
             android:src="@drawable/ic_mahery"
             android:id="@+id/imageViewItemPhoto"
             android:layout_marginLeft="@dimen/little_margin"
@@ -24,8 +24,8 @@
             />
 
         <mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView_
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/average_icon_size"
+            android:layout_height="@dimen/average_icon_size"
             android:id="@+id/pImageViewItemPhoto"
             >
 

@@ -41,4 +41,11 @@
 - améliorer le rendu de l'histoçrique des postes
 - ajouter des plus de filtre pour les recherches
 
+
+ask:
+1- type de ressource a prendre en compte
+2- dimension (when to up / down)
+3- when there is no ressource, which to use
+
+
 6- Mettre en place un systeme qui permettrait de stocker des bases 64 dans des fichiers temporaire et de les retrouver ( >2 Mb)

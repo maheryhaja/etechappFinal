@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <!-- dimens for generall activity -->
+    <dimen name="activity_vertical_margin">10dp</dimen>
+    <dimen name="activity_horizontal_margin">10dp</dimen>
+    <dimen name="average_icon_size">42dp</dimen>
+    <dimen name="image_button_dimens">42dp</dimen>
+    <dimen name="fab_button_size">27dp</dimen>
+
+    <!-- dimens for splash -->
+    <dimen name="cicrular_border_width">5dp</dimen>
+
+    <!-- dimens for padding -->
+    <dimen name="general_padding">10dp</dimen>
+    <dimen name="padding_for_general_edt">8dp</dimen>
+    <dimen name="little_padding">5dp</dimen>
+    <dimen name="general_padding1_5x">14dp</dimen>
+    <dimen name="general_padding2x">20dp</dimen>
+
+    <!-- dimens for margin -->
+    <dimen name="little_margin">2dp</dimen>
+    <dimen name="general_margin">10dp</dimen>
+
+
+    <!-- dimens for font  -->
+    <dimen name="general_font_size">14sp</dimen>
+    <dimen name="general_font_size1.5x">18sp</dimen>
+    <dimen name="general_font_size2x">24sp</dimen>
+    <dimen name="little_font_size">11sp</dimen>
+
+
+    <!-- dimens for activity detail -->
+    <dimen name="detail_employe_photo_size">100dp</dimen>
+    <dimen name="detail_employe_photo_size_half">50dp</dimen>
+    <dimen name="photo_detail_size">67dp</dimen>
+    <dimen name="detail_photo_margin_top">17dp</dimen>
+
+
+</resources>

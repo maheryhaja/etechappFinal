@@ -1,5 +1,4 @@
 package mg.etech.mobile.etechapp.presentation.activities.employe.createEmloye;
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -24,7 +23,6 @@ public class CreateEmployeActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
 
 }

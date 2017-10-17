@@ -52,8 +52,8 @@
         />
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/image_button_dimens"
+            android:layout_height="@dimen/image_button_dimens"
             android:src="@drawable/ic_revert"
             android:id="@+id/btnRevertPhoto"
             android:layout_gravity="center_vertical"
