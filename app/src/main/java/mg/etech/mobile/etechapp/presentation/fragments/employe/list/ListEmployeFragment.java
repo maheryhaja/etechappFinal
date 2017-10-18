@@ -37,6 +37,7 @@ import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 import mg.etech.mobile.etechapp.presentation.activities.employe.detailemploye.DetailEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.employe.updateEmploye.UpdateEmployeTempActivity_;
+import mg.etech.mobile.etechapp.presentation.customviews.ListEmployeHeader;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragment;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.adapter.CustomFlexibleAdapter;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.list.dialog.ContextMenuDialog;
@@ -181,6 +182,9 @@ public class ListEmployeFragment extends AbstractFragment {
     @ViewById(R.id.RVListEmploye)
     RecyclerView listEmployeView;
 
+    @ViewById(R.id.listEmployeHeader)
+    ListEmployeHeader listEmployeHeader;
+
     @Bean(OperationStackSynchroSAImpl.class)
     OperationStackSynchroSA operationStackSynchroSA;
 
@@ -200,6 +204,7 @@ public class ListEmployeFragment extends AbstractFragment {
     @AfterViews
     void initAfterViews() {
 
+        listEmployeHeader.setTitre(poleDto.getName());
         adapter = new CustomFlexibleAdapter<>(items, onClickListener);
         listEmployeView.setAdapter(adapter);
         listEmployeView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -222,6 +227,11 @@ public class ListEmployeFragment extends AbstractFragment {
     }
 
     public void setListInitialEmployeObservable(CentralEmployeSynchroSA centralEmployeSynchroSA, PoleDto poleDtoIn) {
+        /***
+         * set header title
+         */
+
+
         this.centralEmployeSynchroSA = centralEmployeSynchroSA;
         this.poleDto = poleDtoIn;
 

@@ -50,9 +50,6 @@
                     android:layout_centerHorizontal="true"
                     android:visibility="invisible"></mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView_>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
 
             </RelativeLayout>
 

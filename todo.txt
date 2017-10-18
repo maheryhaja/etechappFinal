@@ -49,3 +49,7 @@ ask:
 
 
 6- Mettre en place un systeme qui permettrait de stocker des bases 64 dans des fichiers temporaire et de les retrouver ( >2 Mb)
+
+1- Creer un view group de type header
+2- inserer header au debut de chaque fradgment list
+

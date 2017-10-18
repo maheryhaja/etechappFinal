@@ -24,5 +24,4 @@ public class CreateEmployeActivity extends AppCompatActivity {
         return false;
     }
 
-
 }
