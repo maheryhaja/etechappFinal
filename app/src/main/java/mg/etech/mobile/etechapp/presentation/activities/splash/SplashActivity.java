@@ -141,36 +141,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    private void backSynchronize() {
-        Observable
-                .fromCallable(new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-
-                        backSynchronizerSA.synch();
-
-                        return true;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                               @Override
-                               public void accept(Boolean aBoolean) throws Exception {
-                                   Log.d("mahery-haja", "synchronisation success");
-                                   goToMainActivity();
-                               }
-                           },
-                        new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                Log.d("mahery-haja", "synchronisation error");
-                                throwable.printStackTrace();
-                            }
-                        }
-                );
-    }
-
 
     private void initializeIntervalObservable() {
         fiveSecondsObservable = Observable
@@ -206,7 +176,9 @@ public class SplashActivity extends AppCompatActivity {
     //vers Main Activity
     private void goToMainActivity() {
         MainActivity_.intent(this).start();
+
         finish();
     }
+
 
 }

@@ -413,6 +413,7 @@ public class ListEmployeFragment extends AbstractFragment {
         return integerSet;
     }
 
+
     // set Query Listener pour les recherches
     public void setQueryListener(Observable<String> queryObservable) {
         queryObservable
