@@ -38,6 +38,39 @@
 9- Implementer modification
 10- Mettre en place un pull to refresh&
 
+
+
+1- eviter les leak de contexte
+2- Isoler ce qui est variable de ce qui est statique (vue, model, service, content provider)
+3- Evider de surcharger des services en background (CentralSA a remodeler totalement)
+4- Repenser a une methode de nommage:
+    - Factory
+    - Service metiers
+    - Business Delegates
+    - des elements des views
+5- Mettre en place les differents couleurs en premier + sketch des differents ecrans
+6- Mettre glide en premier lieu [ chargement des bitmaps et des ressources ] + better load
+8- Mettre en place les Exceptions en premier lieu et un bon moyen de les afficher
+9- Mettre plus de flexibilite dans l'interface + gestion de la rotKation de l'ecran
+10- Si offline: mettre un system de ressource qui consomme moins
+11- Faire attention au souscriptions de Rx ---> Toujours coupler avec RxAndroid et RxLifeCycle
+12- Surveiller la memoire des les premiere etapes
+13- isoler ce qui peut etre mis en module ( les differents pickers, les nouveau vue ) ---> Mettre dans Mahery GitHub
+14- Prevoir comment les packages vont etre reparti!
+15- ne pas garder d super reference static
+16- Se preparer a tous les NullPointers
+17- Documenter parceque toi m9eme tu n'y comprendras rien a la fin :p
+18- Prevoir l'utiliKsation de plusieurs sortes d'appareil des le debut
+19- Prevoir une bonne structuration des dimensions et des strings
+
+a) how to create library
+b) how to test unit with android
+c) how to use fragment
+d) how to better use recycle view
+d) how to uml before coding
+e) prepare yourself for change: ANTICIPATE
+
+
 - améliorer le rendu de l'histoçrique des postes
 - ajouter des plus de filtre pour les recherches
 
