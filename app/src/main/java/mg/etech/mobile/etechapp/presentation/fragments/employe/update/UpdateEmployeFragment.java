@@ -8,7 +8,6 @@ import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
 import mg.etech.mobile.etechapp.presentation.fragments.employe.create.CreateEmployeFragment;
-import mg.etech.mobile.etechapp.service.applicatif.operation.commands.CreateEmployeCommand;
 
 /**
  * Created by mahery.haja on 26/09/2017.
@@ -21,7 +20,7 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
 
     public void initEmployeDto(EmployeDto emp) {
         //set all field in the fragment
-        this.btnCreateEmploye.setText(getResources().getText(R.string.btn_text_update_employe));
+       // this.btnCreateEmploye.setText(getResources().getText(R.string.btn_text_update_employe));
 
         savedEmployeDto = emp;
         this.edtNom.setText(emp.getLastName());
@@ -53,7 +52,6 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
 
     @Override
     protected EmployeDto performOperation(EmployeDto employeDto) {
-        CreateEmployeCommand command;
         employeDto.setId(savedEmployeDto.getId());
         OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
         employeDtoOperationDto.setOperationName(OperationType.UPDATE);

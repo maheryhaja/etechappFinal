@@ -36,14 +36,12 @@ public class BaseEmployeCommand {
     protected HistoryPosteWsDtoFromDtoFactory historyPosteWsDtoFromDtoFactory;
     protected HistoryPosteDtoFromWsDtoFactory historyPosteDtoFromWsDtoFactory;
 
-    protected Context context;
     protected OperationDto<EmployeDto> employeDtoOperationDto;
     protected DataBaseSynchroSA dataBaseSynchroSA;
     protected PoleSA poleSA;
     protected OperationStackSynchroSA operationStackSynchroSA;
 
     public BaseEmployeCommand(Context context) {
-        this.context = context;
         employeBdl = EmployeBdlImpl_.getInstance_(context);
         employeWsDtoFromDtoFactory = EmployeWsDtoFromDtoFactoryImpl_.getInstance_(context);
         employeDtoFromWsDtoFactory = EmployeDtoFromWsDtoFactoryImpl_.getInstance_(context);

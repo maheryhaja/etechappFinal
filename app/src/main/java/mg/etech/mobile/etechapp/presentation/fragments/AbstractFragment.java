@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -23,16 +22,8 @@ import mg.etech.mobile.etechapp.commun.utils.IBackCallback;
 
 public abstract class AbstractFragment extends Fragment {
 
-	protected AppCompatActivity pActivity;
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		pActivity = (AppCompatActivity) activity;
-		
-	}
 
-	/**
+    /**
 	 * Equivalent of {@link Activity#findViewById(int)}, but the search is only
 	 * in the fragment's view
 	 * 
@@ -43,6 +34,7 @@ public abstract class AbstractFragment extends Fragment {
 	public View findViewById(int id) {
 		// We find the selected id inside the fragment's view
 		return getView().findViewById(id);
+
 	}
 
 	/**
@@ -57,7 +49,8 @@ public abstract class AbstractFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	/**
+
+    /**
 	 * @return Context of the fragment
 	 */
 	public Context getContext() {
@@ -284,8 +277,8 @@ public abstract class AbstractFragment extends Fragment {
 	// Send an Intent with an action .
 	protected void sendMessage(String action) {
 		Intent intent = new Intent(action);
-		LocalBroadcastManager.getInstance(pActivity).sendBroadcast(intent);
-	}
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+    }
 	
 	public AbstractFragment getChildFragment(){
 		return null;

@@ -34,7 +34,9 @@ import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.Operat
  * Created by mahery.haja on 22/09/2017.
  */
 @EBean(scope = EBean.Scope.Singleton)
-public class CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
+public class
+
+CentralEmployeSynchroSAImpl implements CentralEmployeSynchroSA {
 
     private List<SuperListEmployeItem> itemList = new ArrayList<>();
     private Map<Integer, SuperListEmployeItem> itemMap = new HashMap<>();

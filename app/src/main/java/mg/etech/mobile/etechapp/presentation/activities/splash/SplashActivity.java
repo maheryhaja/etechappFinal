@@ -1,7 +1,6 @@
 package mg.etech.mobile.etechapp.presentation.activities.splash;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
@@ -17,6 +16,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
@@ -24,6 +24,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.presentation.activities.error.ErrorActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.login.LoginActivity_;
 import mg.etech.mobile.etechapp.presentation.activities.main.MainActivity_;
 import mg.etech.mobile.etechapp.service.applicatif.PreferenceSAImpl;
@@ -78,6 +79,15 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     protected void firstLaunch() {
+
+        final Disposable subscription = fiveSecondsObservable
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        fillableLoader.setProgress(integer);
+                    }
+                });
+
         Single
                 .fromCallable(new Callable<Boolean>() {
                     @Override
@@ -98,17 +108,12 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         // erreur premier chargement
-                        finish();
+                        subscription.dispose();
+                        goToErrorActivity();
                     }
                 });
 
-        fiveSecondsObservable
-                .subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(Integer integer) throws Exception {
-                        fillableLoader.setProgress(integer);
-                    }
-                });
+
     }
 
     protected void launchFakeLoader() {
@@ -169,6 +174,7 @@ public class SplashActivity extends AppCompatActivity {
     // go to Login Activity
     private void goToLoginActivity() {
         LoginActivity_.intent(this).start();
+        fillableLoader = null;
         finish();
     }
 
@@ -176,7 +182,13 @@ public class SplashActivity extends AppCompatActivity {
     //vers Main Activity
     private void goToMainActivity() {
         MainActivity_.intent(this).start();
+        fillableLoader = null;
+        finish();
+    }
 
+    private void goToErrorActivity() {
+        ErrorActivity_.intent(this).start();
+        fillableLoader = null;
         finish();
     }
 

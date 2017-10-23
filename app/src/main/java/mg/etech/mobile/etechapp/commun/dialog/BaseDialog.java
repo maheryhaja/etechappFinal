@@ -18,7 +18,7 @@ import mg.etech.mobile.etechapp.R;
 public abstract class BaseDialog {
 
     protected AlertDialog.Builder builder;
-    protected Context context;
+    //    protected Context context;
     protected LayoutInflater inflater;
     protected LinearLayout baseLayout;
     protected TextView txtDialogTitle;
@@ -28,7 +28,7 @@ public abstract class BaseDialog {
     protected LinearLayout content;
 
     public BaseDialog(Context ctx, LayoutInflater inf) {
-        this.context = ctx;
+//        this.context = ctx;
         builder = new AlertDialog.Builder(ctx);
         inflater = inf;
         initViews();
@@ -39,7 +39,12 @@ public abstract class BaseDialog {
        content = (LinearLayout) baseLayout.findViewById(R.id.dialogContent);
 
         txtDialogTitle = (TextView) baseLayout.findViewById(R.id.txtDialogTitle);
+
+        if (getTitle() == null) {
+            txtDialogTitle.setVisibility(View.GONE);
+        } else {
         txtDialogTitle.setText(getTitle());
+        }
 
         btnAnnuler = (Button) baseLayout.findViewById(R.id.btnDialogAnnuler);
         btnValider = (Button) baseLayout.findViewById(R.id.btnDialogValider);

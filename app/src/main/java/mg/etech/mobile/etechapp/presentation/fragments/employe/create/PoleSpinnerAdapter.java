@@ -21,7 +21,6 @@ import mg.etech.mobile.etechapp.donnee.dto.PoleDto;
 public class PoleSpinnerAdapter extends ArrayAdapter<String> {
 
     private List<PoleDto> poleDtos;
-    private Context context;
 
     public List<PoleDto> getPoleDtos() {
         return poleDtos;
@@ -33,13 +32,11 @@ public class PoleSpinnerAdapter extends ArrayAdapter<String> {
 
     public PoleSpinnerAdapter(@NonNull Context ctx, @LayoutRes int resource) {
         super(ctx, resource);
-        context = ctx;
     }
 
     public PoleSpinnerAdapter(@NonNull Context ctx, @LayoutRes int resource, List<PoleDto> poleDtos) {
         super(ctx, resource);
         this.poleDtos = poleDtos;
-        context = ctx;
     }
 
     @Override
@@ -50,9 +47,10 @@ public class PoleSpinnerAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        TextView textView = new TextView(context);
+
+        TextView textView = new TextView(getContext());
         textView.setText(poleDtos.get(position).getName());
-        textView.setTextColor(context.getResources().getColor(R.color.black));
+        textView.setTextColor(getContext().getResources().getColor(R.color.black));
         return textView;
     }
 

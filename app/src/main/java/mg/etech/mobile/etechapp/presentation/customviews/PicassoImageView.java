@@ -102,7 +102,6 @@ public class PicassoImageView extends LinearLayout{
         photoUrl = url;
         imageReal.setVisibility(GONE);
         flipView.setVisibility(VISIBLE);
-
         Picasso
                 .with(getContext())
                 .load(ConfigUrl.BASE_URL + "/" + url)

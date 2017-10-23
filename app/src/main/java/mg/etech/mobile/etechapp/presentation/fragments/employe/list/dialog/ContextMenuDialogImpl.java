@@ -27,7 +27,6 @@ public class ContextMenuDialogImpl implements ContextMenuDialog {
     private PublishSubject<Boolean> deleteSubject = PublishSubject.create();
     private PublishSubject<Boolean> revertSubject = PublishSubject.create();
 
-    private Activity activity;
     private Dialog dialog;
     private LayoutInflater inflater;
     private LinearLayout modifierLayout;
@@ -37,9 +36,8 @@ public class ContextMenuDialogImpl implements ContextMenuDialog {
     private SuperListEmployeItem item;
 
     public ContextMenuDialogImpl(Activity activity, SuperListEmployeItem item) {
-        this.activity = activity;
         this.item = item;
-        dialog = create();
+        dialog = create(activity);
         modifierLayout = (LinearLayout) rootViewLayout.findViewById(R.id.layoutContextModifier);
         supprimerLayout = (LinearLayout) rootViewLayout.findViewById(R.id.layoutContextSupprimer);
         revertLayout = (LinearLayout) rootViewLayout.findViewById(R.id.layoutContextRevert);
@@ -71,17 +69,10 @@ public class ContextMenuDialogImpl implements ContextMenuDialog {
 
     }
 
-    public Activity getActivity() {
-        return activity;
-    }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
-    public Dialog create() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        inflater = getActivity().getLayoutInflater();
+    public Dialog create(Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        inflater = activity.getLayoutInflater();
         rootViewLayout = (LinearLayout) inflater.inflate(R.layout.dialog_context_menu, null);
 
         if (item instanceof ListEmployeItemTemp) {
@@ -115,6 +106,7 @@ public class ContextMenuDialogImpl implements ContextMenuDialog {
     @Override
     public void dissmiss() {
         dialog.dismiss();
+
     }
 
     @Override

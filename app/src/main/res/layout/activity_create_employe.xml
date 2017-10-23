@@ -8,13 +8,11 @@
     android:orientation="vertical"
     android:background="@color/etechWhiteGray">
 
-    <fragment
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="mg.etech.mobile.etechapp.presentation.fragments.employe.create.CreateEmployeFragment_"
-        tools:layout="@layout/fragment_create_employe"
-        android:id="@+id/fragmenCreateEmploye">
+        android:layout_height="wrap_content"
+        android:id="@+id/placeFragmentCreateEmploye">
 
-    </fragment>
+    </FrameLayout>
 
 </LinearLayout>

@@ -49,7 +49,7 @@ public class AddPosteDialog extends BaseDialog {
     }
 
     private void init() {
-        posteSpinner.setAdapter(new PosteSpinnerAdapter(context, android.R.layout.simple_dropdown_item_1line, posteDtos));
+        posteSpinner.setAdapter(new PosteSpinnerAdapter(inflater.getContext(), android.R.layout.simple_dropdown_item_1line, posteDtos));
         datePromotionPicker.setDate(new Date());
         content.addView(contenu);
     }

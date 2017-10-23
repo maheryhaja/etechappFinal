@@ -19,13 +19,11 @@ import mg.etech.mobile.etechapp.donnee.dto.PosteDto;
 
 public class PosteSpinnerAdapter extends ArrayAdapter<String>{
 
-    private Context context;
     private List<PosteDto> posteDtos;
 
 
     public PosteSpinnerAdapter(@NonNull Context ctx, @LayoutRes int resource) {
         super(ctx, resource);
-        this.context = ctx;
     }
 
     public PosteSpinnerAdapter(@NonNull Context context, @LayoutRes int resource, List<PosteDto> posteDtos) {

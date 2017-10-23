@@ -30,6 +30,7 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import mg.etech.mobile.etechapp.R;
+import mg.etech.mobile.etechapp.commun.dialog.confirmation.ConfirmationDialog;
 import mg.etech.mobile.etechapp.commun.simpleserializer.OperationType;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.OperationDto;
@@ -101,7 +102,7 @@ public class ListEmployeFragment extends AbstractFragment {
 
             //differencier operation et affichage normal
             final SuperListEmployeItem selectedItem = (SuperListEmployeItem) items.get(position);
-            final ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(pActivity, selectedItem);
+            final ContextMenuDialog contextMenuDialog = new ContextMenuDialogImpl(getActivity(), selectedItem);
             /***
              * A mettre dans une factory
              */
@@ -115,7 +116,7 @@ public class ListEmployeFragment extends AbstractFragment {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
                                 UpdateEmployeActivity_
-                                        .intent(pActivity)
+                                        .intent(getContext())
                                         .itemId(selectedItem.getItemId())
                                         .start();
                             }
@@ -126,11 +127,24 @@ public class ListEmployeFragment extends AbstractFragment {
                         .subscribe(new Consumer<Boolean>() {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
-                                OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
-                                employeDtoOperationDto.setOperationName(OperationType.DELETE);
-                                employeDtoOperationDto.setData(selectedItem.getEmployeDto());
-                                employeDtoOperationDto.setClassName(EmployeDto.class.getName());
-                                operationStackSynchroSA.addOperation(employeDtoOperationDto);
+
+
+                                ConfirmationDialog confirmationDialog = new ConfirmationDialog(getContext(), getLayoutInflater(null),
+                                        "Voulez-vous vraiment supprimer cet employe?"
+                                );
+                                confirmationDialog
+                                        .setAfterConfirmListener(new ConfirmationDialog.AfterConfirmListener() {
+                                            @Override
+                                            public void run() {
+
+                                                OperationDto<EmployeDto> employeDtoOperationDto = new OperationDto<EmployeDto>();
+                                                employeDtoOperationDto.setOperationName(OperationType.DELETE);
+                                                employeDtoOperationDto.setData(selectedItem.getEmployeDto());
+                                                employeDtoOperationDto.setClassName(EmployeDto.class.getName());
+                                                operationStackSynchroSA.addOperation(employeDtoOperationDto);
+                                            }
+                                        });
+                                confirmationDialog.show();
 
                             }
                         });
@@ -151,7 +165,7 @@ public class ListEmployeFragment extends AbstractFragment {
                                 @Override
                                 public void accept(Boolean aBoolean) throws Exception {
                                     UpdateEmployeTempActivity_
-                                            .intent(pActivity)
+                                            .intent(getContext())
                                             .itemId(selectedItem.getItemId())
                                             .start();
                                 }
@@ -163,7 +177,9 @@ public class ListEmployeFragment extends AbstractFragment {
                                 @Override
                                 public void accept(Boolean aBoolean) throws Exception {
                                     contextMenuDialog.dissmiss();
+
                                     centralEmployeSynchroSA.requestDeleteItemById(selectedItem.getItemId());
+
                                 }
                             });
 
@@ -176,7 +192,6 @@ public class ListEmployeFragment extends AbstractFragment {
 
 
     private CustomFlexibleAdapter adapter = new CustomFlexibleAdapter<>(items, onClickListener);
-    ;
 
 
     @ViewById(R.id.RVListEmploye)

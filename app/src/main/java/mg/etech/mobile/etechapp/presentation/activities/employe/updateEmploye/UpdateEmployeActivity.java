@@ -19,19 +19,21 @@ import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmploy
 public class UpdateEmployeActivity extends AppCompatActivity {
 
     @FragmentById(R.id.fragmentUpdateEmploye)
-    UpdateEmployeFragment updateEmployeFragment;
+    protected UpdateEmployeFragment updateEmployeFragment;
 
     @Extra("itemId")
     int itemId;
 
     @Bean(CentralEmployeSynchroSAImpl.class)
-    CentralEmployeSynchroSA centralEmployeSynchroSA;
+    protected CentralEmployeSynchroSA centralEmployeSynchroSA;
 
     @AfterViews
     protected void initAfterViews() {
         EmployeDto employeDto = centralEmployeSynchroSA.findByitemId(itemId);
         updateEmployeFragment.initEmployeDto(employeDto);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -42,4 +44,14 @@ public class UpdateEmployeActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .detach(updateEmployeFragment)
+                .remove(updateEmployeFragment)
+                .commit();
+        updateEmployeFragment = null;
+        finish();
+    }
 }

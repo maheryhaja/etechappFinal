@@ -51,14 +51,10 @@ import mg.etech.mobile.etechapp.presentation.customviews.Base64PhotoPicker;
 import mg.etech.mobile.etechapp.presentation.customviews.ExpandableFormSection;
 import mg.etech.mobile.etechapp.presentation.fragments.AbstractFragmentWithValidator;
 import mg.etech.mobile.etechapp.service.applicatif.operation.commands.CreateEmployeCommand;
-import mg.etech.mobile.etechapp.service.applicatif.operation.commands.factory.OperationCommandFactory;
-import mg.etech.mobile.etechapp.service.applicatif.operation.commands.factory.OperationCommandFactoryImpl;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSA;
 import mg.etech.mobile.etechapp.service.applicatif.pole.PoleSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.poste.PosteSA;
 import mg.etech.mobile.etechapp.service.applicatif.poste.PosteSAImpl;
-import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSA;
-import mg.etech.mobile.etechapp.service.applicatif.synchro.back.BackSynchronizerSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.operationStack.OperationStackSynchroSAImpl;
 
@@ -112,11 +108,10 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     @ViewById(R.id.expandableInfoPers)
     protected ExpandableFormSection expandableInfoPers;
 
+
     @ViewById(R.id.expandableInfoPro)
     protected ExpandableFormSection expandableInfoPro;
 
-    @Bean(OperationCommandFactoryImpl.class)
-    protected OperationCommandFactory operationCommandFactory;
 
     protected AddPosteDialog addPosteDialog;
 
@@ -135,9 +130,6 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @Bean(PosteSAImpl.class)
     protected PosteSA posteSA;
-
-    @Bean(BackSynchronizerSAImpl.class)
-    protected BackSynchronizerSA backSynchronizerSA;
 
     @Bean(OperationStackSynchroSAImpl.class)
     protected OperationStackSynchroSA operationStackSynchroSA;
@@ -176,7 +168,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
     }
 
     protected void onPhotoPickerNotSet() {
-        Toast.makeText(pActivity, "Veuillez choisir une photo", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Veuillez choisir une photo", Toast.LENGTH_SHORT).show();
     }
 
     protected void getEmployeDtofromForm() {
@@ -260,7 +252,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        pActivity.finish();
+                        getActivity().onBackPressed();
                     }
                 });
     }
@@ -353,7 +345,7 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
     @Override
     public void handleError(Throwable error) {
-        Toast.makeText(pActivity, "Une erreur vient de survenir", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Une erreur vient de survenir", Toast.LENGTH_SHORT).show();
         error.printStackTrace();
     }
 
@@ -362,6 +354,5 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
         addPosteDialog.show();
     }
-
 
 }

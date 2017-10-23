@@ -1,20 +1,15 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.detail;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,31 +19,21 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.animation.SimpleReboundAnimator;
-import mg.etech.mobile.etechapp.commun.base64.Base64Utils;
-import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 import mg.etech.mobile.etechapp.commun.constante.SimpleDate;
 import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
 import mg.etech.mobile.etechapp.donnee.dto.EmployeDto;
 import mg.etech.mobile.etechapp.donnee.dto.HistoryPosteDto;
 import mg.etech.mobile.etechapp.presentation.customviews.PicassoImageView;
-import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSA;
-import mg.etech.mobile.etechapp.service.applicatif.employe.EmployeSAImpl;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSA;
 import mg.etech.mobile.etechapp.service.applicatif.synchro.central.CentralEmployeSynchroSAImpl;
 
@@ -91,8 +76,6 @@ public class DetailEmployeFragment extends Fragment {
     @ViewById(R.id.imageView_detailIsMale)
     ImageView isMaleImageView;
 
-    @Bean(EmployeSAImpl.class)
-    EmployeSA employeSA;
 
     @Bean(CentralEmployeSynchroSAImpl.class)
     CentralEmployeSynchroSA centralEmployeSynchroSA;
@@ -207,41 +190,6 @@ public class DetailEmployeFragment extends Fragment {
         setPicassoImage(employeDto);
     }
 
-    private void setImage(String imageURL) {
-
-        if (imageURL != null && !imageURL.equals("") && !imageURL.isEmpty()) {
-
-
-            if (itemId > 0) {
-
-                Picasso
-                        .with(getContext())
-                        .load(ConfigUrl.BASE_URL + "/" + imageURL)
-                        .into(photoImageView);
-            } else {
-
-//                 case from temp
-                try {
-                    byte[] decodeString = Base64.decode(Base64Utils.convertToBase64(Uri.parse(imageURL), getContext()), Base64.DEFAULT);
-
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
-
-                    if (bitmap != null) {
-                        this.photoImageView.setImageBitmap(bitmap);
-                    } else {
-                        Log.d("mahery-haja", "erreur de transformation bitmap");
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        new SimpleReboundAnimator(photoImageView).bounce();
-
-
-    }
 
     public void setPicassoImage(EmployeDto employeDto) {
         if (employeDto.getEncodedPhoto() != null) {
@@ -290,35 +238,6 @@ public class DetailEmployeFragment extends Fragment {
     }
 
 
-    private void retrieveEmploye() {
-        Observable
-                .fromCallable(new Callable<EmployeDto>() {
-                    @Override
-                    public EmployeDto call() throws Exception {
-                        return employeSA.findById(employeId);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<EmployeDto>() {
-                               @Override
-                               public void accept(EmployeDto emp) throws Exception {
-                                   employeDto = emp;
-
-                                   Log.d("mahery-haja", "emloye found");
-
-                                   actualiserAffichage();
-                               }
-                           },
-                        new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                Log.d("mahery-haja", "base de donnees inaccessible pour " + employeId);
-
-                            }
-                        }
-                );
-    }
 
     private void retrieveEmployeFromItemId() {
         employeDto = centralEmployeSynchroSA

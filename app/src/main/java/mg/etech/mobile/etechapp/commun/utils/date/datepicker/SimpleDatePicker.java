@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -26,19 +24,15 @@ import mg.etech.mobile.etechapp.commun.utils.date.SimpleDateUtils;
 //doit etre utilisé dans une activity support
 public class SimpleDatePicker extends TypefaceEditText implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private FragmentManager fragmentManager;
     final Calendar calendar = Calendar.getInstance();
-    private Context context;
     private Date date;
 
     private DatePickerDialog datePickerDialog;
 
     public SimpleDatePicker(Context ctx, AttributeSet attrs) {
         super(ctx, attrs);
-        context = ctx;
-        this.fragmentManager = ((AppCompatActivity) ctx).getSupportFragmentManager();
         this.setOnClickListener(this);
-        datePickerDialog = new DatePickerDialog(context, this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog = new DatePickerDialog(getContext(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     private void showDatePickerDialog() {
@@ -64,14 +58,14 @@ public class SimpleDatePicker extends TypefaceEditText implements View.OnClickLi
         this.date = date;
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        datePickerDialog = new DatePickerDialog(context, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog = new DatePickerDialog(getContext(), this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         setText(SimpleDateUtils.format(date, SimpleDate.GENERAL_DATE_PATTERN));
     }
 
     @Override
     public void onClick(View view) {
 
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
 
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
