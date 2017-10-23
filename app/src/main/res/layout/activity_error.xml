@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mg.etech.mobile.etechapp.presentation.activities.error.ErrorActivity"
+    android:background="@color/etechBlack"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/general_padding1_5x"
+        android:paddingRight="@dimen/general_padding1_5x"
+        >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_error"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Une erreur est survenue lors du premier démarrage. Assurez vous d'avoir une connexion internet"
+                android:textSize="@dimen/general_font_size1.5x"
+                android:textColor="@color/etechBlue"
+                android:padding="@dimen/little_padding"
+                />
+
+            <mg.etech.mobile.etechapp.commun.utils.TypefaceButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Réessayer"
+                android:id="@+id/btnErrorReessayer"
+                android:background="@drawable/round_shape_numeric_green"
+                android:layout_marginTop="@dimen/general_margin"
+                />
+
+    </LinearLayout>
+
+
+</LinearLayout>
