@@ -249,6 +249,8 @@ public class CreateEmployeFragment extends AbstractFragmentWithValidator impleme
 
         Observable
                 .timer(1000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {

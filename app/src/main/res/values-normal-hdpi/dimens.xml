@@ -3,39 +3,72 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <!-- dimens for generall activity -->
-    <dimen name="activity_vertical_margin">10dp</dimen>
-    <dimen name="activity_horizontal_margin">10dp</dimen>
-    <dimen name="average_icon_size">42dp</dimen>
-    <dimen name="image_button_dimens">42dp</dimen>
-    <dimen name="fab_button_size">27dp</dimen>
+    <!--<dimen name="activity_vertical_margin">10dp</dimen>-->
+    <!--<dimen name="activity_horizontal_margin">10dp</dimen>-->
+    <!--<dimen name="average_icon_size">42dp</dimen>-->
+    <!--<dimen name="image_button_dimens">42dp</dimen>-->
+    <!--<dimen name="fab_button_size">27dp</dimen>-->
+
+    <!--&lt;!&ndash; dimens for splash &ndash;&gt;-->
+    <!--<dimen name="cicrular_border_width">5dp</dimen>-->
+
+    <!--&lt;!&ndash; dimens for padding &ndash;&gt;-->
+    <!--<dimen name="general_padding">10dp</dimen>-->
+    <!--<dimen name="padding_for_general_edt">8dp</dimen>-->
+    <!--<dimen name="little_padding">5dp</dimen>-->
+    <!--<dimen name="general_padding1_5x">14dp</dimen>-->
+    <!--<dimen name="general_padding2x">20dp</dimen>-->
+
+    <!--&lt;!&ndash; dimens for margin &ndash;&gt;-->
+    <!--<dimen name="little_margin">2dp</dimen>-->
+    <!--<dimen name="general_margin">10dp</dimen>-->
+
+
+    <!--&lt;!&ndash; dimens for font  &ndash;&gt;-->
+    <!--<dimen name="general_font_size">14sp</dimen>-->
+    <!--<dimen name="general_font_size1.5x">18sp</dimen>-->
+    <!--<dimen name="general_font_size2x">24sp</dimen>-->
+    <!--<dimen name="little_font_size">11sp</dimen>-->
+
+
+    <!--&lt;!&ndash; dimens for activity detail &ndash;&gt;-->
+    <!--<dimen name="detail_employe_photo_size">100dp</dimen>-->
+    <!--<dimen name="detail_employe_photo_size_half">50dp</dimen>-->
+    <!--<dimen name="photo_detail_size">67dp</dimen>-->
+    <!--<dimen name="detail_photo_margin_top">17dp</dimen>-->
+
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="average_icon_size">64dp</dimen>
+    <dimen name="image_button_dimens">64dp</dimen>
+    <dimen name="fab_button_size">40dp</dimen>
 
     <!-- dimens for splash -->
-    <dimen name="cicrular_border_width">5dp</dimen>
+    <dimen name="cicrular_border_width">7dp</dimen>
 
     <!-- dimens for padding -->
-    <dimen name="general_padding">10dp</dimen>
-    <dimen name="padding_for_general_edt">8dp</dimen>
-    <dimen name="little_padding">5dp</dimen>
-    <dimen name="general_padding1_5x">14dp</dimen>
-    <dimen name="general_padding2x">20dp</dimen>
+    <dimen name="general_padding">15dp</dimen>
+    <dimen name="padding_for_general_edt">12dp</dimen>
+    <dimen name="little_padding">7dp</dimen>
+    <dimen name="general_padding1_5x">22dp</dimen>
+    <dimen name="general_padding2x">30dp</dimen>
 
     <!-- dimens for margin -->
     <dimen name="little_margin">2dp</dimen>
-    <dimen name="general_margin">10dp</dimen>
-
+    <dimen name="general_margin">15dp</dimen>
 
     <!-- dimens for font  -->
-    <dimen name="general_font_size">14sp</dimen>
-    <dimen name="general_font_size1.5x">18sp</dimen>
-    <dimen name="general_font_size2x">24sp</dimen>
-    <dimen name="little_font_size">11sp</dimen>
+    <dimen name="general_font_size">21sp</dimen>
+    <dimen name="general_font_size1.5x">27sp</dimen>
+    <dimen name="general_font_size2x">36sp</dimen>
+    <dimen name="little_font_size">17sp</dimen>
 
 
     <!-- dimens for activity detail -->
-    <dimen name="detail_employe_photo_size">100dp</dimen>
-    <dimen name="detail_employe_photo_size_half">50dp</dimen>
-    <dimen name="photo_detail_size">67dp</dimen>
-    <dimen name="detail_photo_margin_top">17dp</dimen>
+    <dimen name="detail_employe_photo_size">150dp</dimen>
+    <dimen name="detail_employe_photo_size_half">75dp</dimen>
+    <dimen name="photo_detail_size">100dp</dimen>
+    <dimen name="detail_photo_margin_top">25dp</dimen>
 
 
 </resources>

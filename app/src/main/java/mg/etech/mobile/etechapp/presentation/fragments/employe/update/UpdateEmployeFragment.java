@@ -1,5 +1,7 @@
 package mg.etech.mobile.etechapp.presentation.fragments.employe.update;
 
+import android.net.Uri;
+
 import org.androidannotations.annotations.EFragment;
 
 import mg.etech.mobile.etechapp.R;
@@ -20,7 +22,7 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
 
     public void initEmployeDto(EmployeDto emp) {
         //set all field in the fragment
-       // this.btnCreateEmploye.setText(getResources().getText(R.string.btn_text_update_employe));
+        this.btnCreateEmploye.setText(getResources().getText(R.string.btn_text_update_employe));
 
         savedEmployeDto = emp;
         this.edtNom.setText(emp.getLastName());
@@ -33,7 +35,7 @@ public class UpdateEmployeFragment extends CreateEmployeFragment {
         this.spinnerPoleDto.setSelection((int) (emp.getPole().getId() - 1));
 
         if (emp.getEncodedPhoto() != null) {
-            base64PhotoPicker.setPhotoWithBase64(emp.getEncodedPhoto());
+            base64PhotoPicker.setPhotowithUri(Uri.parse(emp.getEncodedPhoto()));
         } else if (emp.getPhoto() != null) {
             base64PhotoPicker.setPhotoWithUrl(emp.getPhoto());
         }
