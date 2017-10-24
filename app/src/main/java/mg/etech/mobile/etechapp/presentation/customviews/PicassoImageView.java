@@ -29,6 +29,9 @@ import io.reactivex.annotations.NonNull;
 import mg.etech.mobile.etechapp.R;
 import mg.etech.mobile.etechapp.commun.config.ConfigUrl;
 
+import static mg.etech.mobile.etechapp.commun.constante.PicassoSize.MAX_HEIGHT;
+import static mg.etech.mobile.etechapp.commun.constante.PicassoSize.MAX_WIDTH;
+
 /**
  * Created by maheryHaja on 10/1/2017.
  */
@@ -53,6 +56,7 @@ public class PicassoImageView extends LinearLayout{
     private String photoEncoded;
     private boolean isFront = true;
     private Callback afterLoadCallBack;
+    private static final int size  = (int) Math.ceil(Math.sqrt(MAX_WIDTH * MAX_HEIGHT));
 
     public PicassoImageView(Context context) {
         super(context);
@@ -105,6 +109,9 @@ public class PicassoImageView extends LinearLayout{
         Picasso
                 .with(getContext())
                 .load(ConfigUrl.BASE_URL + "/" + url)
+                .transform(new BitMapTransformation(MAX_WIDTH, MAX_HEIGHT))
+                .resize(size, size)
+                .centerInside()
                 .into(imageViewBack, afterLoadCallBack);
     }
 
@@ -146,6 +153,9 @@ public class PicassoImageView extends LinearLayout{
         Picasso
                 .with(getContext())
                 .load(uri)
+                .transform(new BitMapTransformation(MAX_WIDTH, MAX_HEIGHT))
+                .resize(size, size)
+                .centerInside()
                 .into(imageViewBack, afterLoadCallBack);
 
     }
