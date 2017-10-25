@@ -150,11 +150,15 @@ public class PicassoImageView extends LinearLayout{
 //            setPhotoWithBase64(convertToBase64(uri));
         imageReal.setVisibility(GONE);
         flipView.setVisibility(VISIBLE);
+
+        Log.d("mahery-haja","set photo with uri "+uri.toString());
+
         Picasso
                 .with(getContext())
                 .load(uri)
                 .transform(new BitMapTransformation(MAX_WIDTH, MAX_HEIGHT))
                 .resize(size, size)
+                .rotate(uri.toString().contains("mg.etech.mobile.fileprovider")?90f:0f)
                 .centerInside()
                 .into(imageViewBack, afterLoadCallBack);
 

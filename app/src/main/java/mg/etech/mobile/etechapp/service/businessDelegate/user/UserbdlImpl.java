@@ -1,13 +1,17 @@
 package mg.etech.mobile.etechapp.service.businessDelegate.user;
 
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
 import java.io.IOException;
 
+import mg.etech.mobile.etechapp.commun.base64.Base64Utils;
 import mg.etech.mobile.etechapp.commun.exception.user.CreateUserFailedException;
 import mg.etech.mobile.etechapp.commun.exception.user.LoginFailedException;
 import mg.etech.mobile.etechapp.contrainte.singleton.RetrofitSingleton;
@@ -29,6 +33,9 @@ public class UserbdlImpl implements Userbdl{
 
     @Bean(RetrofitSingletonImpl.class)
     RetrofitSingleton retrofitSingleton;
+
+    @RootContext
+    Context context;
 
     public UserbdlImpl() {
 
@@ -64,7 +71,7 @@ public class UserbdlImpl implements Userbdl{
                             userDto.getLastname(),
                             userDto.getPassword(),
                             userDto.getLogin(),
-                            userDto.getPhoto()
+                            Base64Utils.convertToBase64(Uri.parse( userDto.getPhoto()), context)
                     )
             ).execute().body();
         } catch (IOException e) {
